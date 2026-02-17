@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebForge · admin sees all student activities</title>
+    <title>WebForge portal login</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- jsPDF for PDF generation -->
@@ -722,12 +722,12 @@
             <div class="header-top">
                 <div class="logo">
                     <h1>WEBFORGE<span> INSTITUTE</span></h1>
-                    <span class="subtitle">est. 2025 · accredited · remote-first</span>
+                    <span class="subtitle">est. 2023 · accredited · remote-first</span>
                 </div>
                 <div class="contact-info">
                     <span><i class="fas fa-phone-alt"></i> +234 815 327 9248</span>
                     <span><i class="fas fa-envelope"></i> teamwebforge@gmail.com</span>
-                    <span><i class="fas fa-map-marker-alt"></i> Ogbomoso, Nigeria</span>
+                    <span><i class="fas fa-map-marker-alt"></i> 100 Innovation Drive</span>
                 </div>
             </div>
             <div class="header-divider"></div>
@@ -776,6 +776,13 @@
                 </div>
                 <p id="loginError" style="color:#c62828; margin-top:0.8rem; text-align:center;"></p>
                 
+                <!-- Demo credentials -->
+                <div style="margin-top:1.5rem; padding:0.8rem; background:#f0f7ff; border-radius:16px; font-size:0.9rem;">
+                    <p><strong>Demo credentials:</strong></p>
+                    <p>👨‍🎓 Student: james@webforge.edu / james123</p>
+                    <p>👔 Staff: Use any staff name (e.g., "Ayanlude Evans Abayomi") / staffpass</p>
+                    <p>👑 Admin: admin / Evans2006</p>
+                </div>
             </div>
         </div>
 
@@ -823,7 +830,7 @@
                         <div class="detail-item"><i class="fas fa-venus-mars"></i> <strong>Gender:</strong> <span id="detailGender">Not set</span></div>
                         <div class="detail-item"><i class="fas fa-id-card"></i> <strong>Student ID:</strong> <span id="detailId">-</span></div>
                         <div class="detail-item"><i class="fas fa-envelope"></i> <strong>Email:</strong> <span id="detailEmail">-</span></div>
-                        <div class="detail-item"><i class="fas fa-calendar-alt"></i> <strong>Admission:</strong> 2026 Web development training</div>
+                        <div class="detail-item"><i class="fas fa-calendar-alt"></i> <strong>Admission:</strong> Fall 2026</div>
                         <div class="detail-item"><i class="fas fa-book"></i> <strong>Department:</strong> <span id="detailDept">Not selected</span></div>
                     </div>
 
@@ -940,8 +947,15 @@
                 }
             ];
 
+            // Staff accounts with all provided names
             let staffAccounts = [
-                { email: 'staff1@webforge.edu', password: 'staffpass', name: 'Dr. Smith' }
+                { email: 'Ayanlude Evans Abayomi', password: 'staffpass', name: 'Ayanlude Evans Abayomi' },
+                { email: 'Ajayi Victory Ayomide', password: 'staffpass', name: 'Ajayi Victory Ayomide' },
+                { email: 'Ishola Samuel Odunayo', password: 'staffpass', name: 'Ishola Samuel Odunayo' },
+                { email: 'Alao Richard Olaoluwa', password: 'staffpass', name: 'Alao Richard Olaoluwa' },
+                { email: 'Ajani Shukuroh Olamide', password: 'staffpass', name: 'Ajani Shukuroh Olamide' },
+                { email: 'Lawalson Ayomide Esther', password: 'staffpass', name: 'Lawalson Ayomide Esther' },
+                { email: 'Olabiyi Christopher Iyanuoluwa', password: 'staffpass', name: 'Olabiyi Christopher Iyanuoluwa' }
             ];
 
             let adminAccounts = [
@@ -1114,8 +1128,8 @@
                 selectStudent.classList.remove('selected');
                 selectAdmin.classList.remove('selected');
                 selectedRole = 'staff';
-                document.getElementById('loginLabel').innerText = 'Staff Email';
-                loginUsername.placeholder = 'staff@webforge.edu';
+                document.getElementById('loginLabel').innerText = 'Staff Name';
+                loginUsername.placeholder = 'Enter your full name';
             });
             
             selectAdmin.addEventListener('click', () => {
@@ -1252,6 +1266,7 @@
                     addActivity(student.name, 'logged in', 'login');
                     
                 } else if (selectedRole === 'staff') {
+                    // Staff can login using their full name
                     const staff = staffAccounts.find(s => s.email === username && s.password === password);
                     if (!staff) {
                         loginError.innerText = 'Invalid staff credentials';
