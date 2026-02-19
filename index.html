@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebForge portal login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>WebForge · Student Portal</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- jsPDF for PDF generation -->
@@ -50,6 +50,7 @@
             justify-content: space-between;
             flex-wrap: wrap;
             margin-bottom: 0.5rem;
+            gap: 1rem;
         }
 
         .logo h1 {
@@ -95,6 +96,8 @@
             align-items: center;
             color: #cbd6e6;
             font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .remote-badge {
@@ -313,12 +316,14 @@
             align-items: center;
             color: white;
             flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .user-info {
             display: flex;
             align-items: center;
             gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .user-badge {
@@ -451,6 +456,13 @@
             margin-bottom: 0.8rem;
             border-left: 4px solid #ff9f2f;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .activity-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
 
         .activity-time {
@@ -609,6 +621,17 @@
             cursor: pointer;
         }
 
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            border: none;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         /* COURSE REGISTRATION */
         .course-registration-section {
             background: #f0f7ff;
@@ -702,6 +725,35 @@
             border: 2px solid #7b4dff;
         }
 
+        .student-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 1rem 0;
+        }
+
+        .student-list-item {
+            background: white;
+            border: 1px solid #c1daf5;
+            border-radius: 16px;
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .student-list-item:hover {
+            background: #f0f7ff;
+            transform: translateX(5px);
+        }
+
+        .student-list-item.selected {
+            background: #ffb85c;
+            border-color: #1e3a5f;
+        }
+
         .toast-message {
             background: #d0e6c0;
             border-radius: 60px;
@@ -711,6 +763,35 @@
             align-items: center;
             gap: 12px;
             border-left: 6px solid #2e7d32;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast-message.warning {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .header-top, .header-bottom, .dashboard-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .id-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .id-photo {
+                margin: 0 auto;
+            }
         }
     </style>
 </head>
@@ -722,7 +803,7 @@
             <div class="header-top">
                 <div class="logo">
                     <h1>WEBFORGE<span> INSTITUTE</span></h1>
-                    <span class="subtitle">est. 2025 · accredited · remote-first</span>
+                    <span class="subtitle">est. 2026 · accredited · remote-first</span>
                 </div>
                 <div class="contact-info">
                     <span><i class="fas fa-phone-alt"></i> +234 815 327 9248</span>
@@ -733,7 +814,9 @@
             <div class="header-divider"></div>
             <div class="header-bottom">
                 <span><i class="fas fa-calendar-check"></i> Spring Semester 2026</span>
-                <span class="remote-badge"><i class="fas fa-globe-americas"></i> globally accessible</span>
+                <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                    <span class="remote-badge"><i class="fas fa-globe-americas"></i> globally accessible</span>
+                </div>
             </div>
         </div>
 
@@ -776,7 +859,7 @@
                 </div>
                 <p id="loginError" style="color:#c62828; margin-top:0.8rem; text-align:center;"></p>
                 
-              
+               
             </div>
         </div>
 
@@ -810,7 +893,9 @@
                     <span class="user-badge" id="roleBadge">Student</span>
                     <span id="displayName"></span>
                 </div>
-                <div class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> logout</div>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <div class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> logout</div>
+                </div>
             </div>
 
             <div class="dashboard-grid">
@@ -826,6 +911,8 @@
                         <div class="detail-item"><i class="fas fa-envelope"></i> <strong>Email:</strong> <span id="detailEmail">-</span></div>
                         <div class="detail-item"><i class="fas fa-calendar-alt"></i> <strong>Admission:</strong> Fall 2026</div>
                         <div class="detail-item"><i class="fas fa-book"></i> <strong>Department:</strong> <span id="detailDept">Not selected</span></div>
+                        <div class="detail-item"><i class="fas fa-phone"></i> <strong>Phone:</strong> <span id="detailPhone">-</span></div>
+                        <div class="detail-item"><i class="fas fa-university"></i> <strong>Institution:</strong> <span id="detailInstitution">-</span></div>
                     </div>
 
                     <!-- GENDER SELECTION -->
@@ -852,10 +939,10 @@
                             </div>
                             <div class="id-details">
                                 <h3>WEBFORGE INSTITUTE</h3>
-                                <p><i class="fas fa-user"></i> <strong>Name:</strong> <span id="idName">James Webb</span></p>
-                                <p><i class="fas fa-venus-mars"></i> <strong>Gender:</strong> <span id="idGender">Male</span></p>
-                                <p><i class="fas fa-id-card"></i> <strong>ID:</strong> <span id="idNumber">WF23091</span></p>
-                                <p><i class="fas fa-book"></i> <strong>Department:</strong> <span id="idDept">Computer Science</span></p>
+                                <p><i class="fas fa-user"></i> <strong>Name:</strong> <span id="idName">-</span></p>
+                                <p><i class="fas fa-venus-mars"></i> <strong>Gender:</strong> <span id="idGender">Not set</span></p>
+                                <p><i class="fas fa-id-card"></i> <strong>ID:</strong> <span id="idNumber">-</span></p>
+                                <p><i class="fas fa-book"></i> <strong>Department:</strong> <span id="idDept">-</span></p>
                                 <p><i class="fas fa-calendar"></i> <strong>Valid Until:</strong> Dec 2026</p>
                                 <div style="margin-top: 0.5rem; padding: 0.3rem; background: #ffb85c; color: #1e3a5f; border-radius: 20px; text-align: center; font-weight: bold;">
                                     <i class="fas fa-check-circle"></i> ACTIVE STUDENT
@@ -890,10 +977,13 @@
                         <h3>🎓 WEBFORGE ADMISSION LETTER</h3>
                         <p><strong>WEBFORGE INSTITUTE OF TECHNOLOGY</strong></p>
                         <p>Dear <span id="studentNameLetter">Student</span>,</p>
-                        <p>We are pleased to inform you that you have been officially admitted to <strong>WebForge Institute</strong> for the <strong>Fall 2026</strong> semester.</p>
+                        <p>We are pleased to inform you that you have been officially admitted to <strong>WebForge Institute</strong> for the <strong>WEBFORGE TEAM WEB DEVELOPMENT TRAINING 2026</strong> program.</p>
                         <p><strong>Gender:</strong> <span id="letterGender">Not specified</span></p>
-                        <p><strong>Department:</strong> <span id="letterDept">Computer Science</span></p>
-                        <p><strong>Student ID:</strong> <span id="letterId">WF23091</span></p>
+                        <p><strong>Department:</strong> <span id="letterDept">-</span></p>
+                        <p><strong>Student ID:</strong> <span id="letterId">-</span></p>
+                        <p><strong>Institution:</strong> <span id="letterInstitution">-</span></p>
+                        <p><strong>Phone:</strong> <span id="letterPhone">-</span></p>
+                        <p><strong>Interested Course:</strong> <span id="letterCourse">-</span></p>
                         <p><strong>Registered Courses:</strong> <span id="letterCourses">None</span></p>
                         <p>Your admission is confirmed. Please complete your registration.</p>
                         <div class="letter-signature">
@@ -901,9 +991,9 @@
                         </div>
                     </div>
 
-                    <!-- Download button -->
-                    <div class="flex-row" style="justify-content: center;">
-                        <button class="btn btn-warning" id="downloadPDFBtn"><i class="fas fa-file-pdf"></i> download admission letter</button>
+                    <!-- Download button - Only visible to admin -->
+                    <div class="flex-row" style="justify-content: center;" id="downloadButtonContainer">
+                        <!-- This will be populated by JavaScript based on role -->
                     </div>
 
                     <div id="registrationToast" class="toast-message hidden">
@@ -919,24 +1009,163 @@
 
     <script>
         (function() {
-            // ---------- DATA STORAGE ----------
+            // ========== STUDENT DATA FROM PDF ==========
+            // All students with password = "1234"
             let students = [
                 { 
-                    name: 'James Webb', 
-                    email: 'james@webforge.edu', 
-                    id: 'WF23091', 
-                    password: 'james123', 
-                    gender: 'male',
-                    department: 'Computer Science', 
+                    name: 'Sharon Samson', 
+                    email: 'samshazon@gmail.com', 
+                    phone: '09169315036',
+                    institution: 'Ladoke Akintola University of Technology',
+                    department: 'Cyber security',
+                    interestedCourse: 'Frontend',
+                    hasExperience: 'Yes',
+                    id: 'WF001', 
+                    password: '1234', 
+                    gender: '',
                     courseRequests: []
                 },
                 { 
-                    name: 'Maria Santos', 
-                    email: 'maria@webforge.edu', 
-                    id: 'WF23092', 
-                    password: 'maria456', 
+                    name: 'Fikayomi Christopher Ojo', 
+                    email: 'metacourier1@gmail.com', 
+                    phone: '08077549692',
+                    institution: 'Lautech',
+                    department: 'Cybersecurity science',
+                    interestedCourse: 'Frontend',
+                    hasExperience: 'Yes',
+                    id: 'WF002', 
+                    password: '1234', 
+                    gender: '',
+                    courseRequests: []
+                },
+                { 
+                    name: 'Ogundare Bowofoluwa', 
+                    email: 'ogundarebowofoluwa2007@gmail.com', 
+                    phone: '09063737072',
+                    institution: 'Lautech',
+                    department: 'Cyber security',
+                    interestedCourse: 'Frontend',
+                    hasExperience: 'Yes',
+                    id: 'WF003', 
+                    password: '1234', 
+                    gender: '',
+                    courseRequests: []
+                },
+                { 
+                    name: 'Yusuff Muizah', 
+                    email: 'yussuffmuizah@gmail.com', 
+                    phone: '09129386133',
+                    institution: 'Ladoke Akintola University Of Technology',
+                    department: 'Cyber Security Science',
+                    interestedCourse: 'Frontend',
+                    hasExperience: 'Yes',
+                    id: 'WF004', 
+                    password: '1234', 
                     gender: 'female',
-                    department: 'Data Science', 
+                    courseRequests: []
+                },
+                { 
+                    name: 'Akeem Bashit', 
+                    email: 'hakeembasit272@gmail.com', 
+                    phone: '09075903833',
+                    institution: 'Lautech',
+                    department: 'CSS',
+                    interestedCourse: 'Frontend',
+                    hasExperience: 'Yes',
+                    id: 'WF005', 
+                    password: '1234', 
+                    gender: '',
+                    courseRequests: []
+                },
+                { 
+                    name: 'Ajani Shukuroh', 
+                    email: 'ajanishukuroholamide@gmail.com', 
+                    phone: '09068566420',
+                    institution: 'LAUTECH',
+                    department: 'Cybersecurity science',
+                    interestedCourse: 'Frontend',
+                    hasExperience: 'Yes',
+                    id: 'WF006', 
+                    password: '1234', 
+                    gender: 'female',
+                    courseRequests: []
+                },
+                { 
+                    name: 'Ayomide Jayeona', 
+                    email: 'jayeonaayomide@gmail.com', 
+                    phone: '09036518761',
+                    institution: 'Atiba',
+                    department: 'Computer science',
+                    interestedCourse: 'Frontend',
+                    hasExperience: 'Yes',
+                    id: 'WF007', 
+                    password: '1234', 
+                    gender: '',
+                    courseRequests: []
+                },
+                { 
+                    name: 'Adesina Peace', 
+                    email: 'graceadunola633@gmail.com', 
+                    phone: '08135510780',
+                    institution: 'Lautech',
+                    department: 'Cyber security',
+                    interestedCourse: 'Frontend',
+                    hasExperience: 'Yes',
+                    id: 'WF008', 
+                    password: '1234', 
+                    gender: 'female',
+                    courseRequests: []
+                },
+                { 
+                    name: 'Jeremiah Oluwanifemi', 
+                    email: 'jacinthjerry@gmail.com', 
+                    phone: '09162544363',
+                    institution: 'Lautech',
+                    department: 'CSS',
+                    interestedCourse: 'Frontend',
+                    hasExperience: 'Yes',
+                    id: 'WF009', 
+                    password: '1234', 
+                    gender: '',
+                    courseRequests: []
+                },
+                { 
+                    name: 'Olagunju Adeyemi Samuel', 
+                    email: 'adeyemiolagunju001@gmail.com', 
+                    phone: '09151066962',
+                    institution: 'Ladoke Akintola University of Technology',
+                    department: 'Cybersecurity',
+                    interestedCourse: 'Frontend',
+                    hasExperience: 'Yes',
+                    id: 'WF010', 
+                    password: '1234', 
+                    gender: '',
+                    courseRequests: []
+                },
+                { 
+                    name: 'Abdulaziz Aliyah Ayomide', 
+                    email: 'abdulazizaliyah06@gmail.com', 
+                    phone: '00867733494',
+                    institution: 'Ladoke Akintola University of Technology',
+                    department: 'Cyber security science',
+                    interestedCourse: 'Frontend',
+                    hasExperience: 'Yes',
+                    id: 'WF011', 
+                    password: '1234', 
+                    gender: 'female',
+                    courseRequests: []
+                },
+                { 
+                    name: 'Adekunle Abdulhameed Ademola', 
+                    email: 'adekunleabdulhameed15@gmail.com', 
+                    phone: '09160419462',
+                    institution: 'Lautech',
+                    department: 'Cybersecurity',
+                    interestedCourse: 'Frontend',
+                    hasExperience: 'Yes',
+                    id: 'WF012', 
+                    password: '1234', 
+                    gender: '',
                     courseRequests: []
                 }
             ];
@@ -956,28 +1185,24 @@
                 { username: 'admin', password: 'Evans2006', name: 'Administrator' }
             ];
             
-            // Activity log - all student actions appear here
-            let activityLog = [
-                { time: new Date().toLocaleString(), student: 'System', action: 'Portal initialized', type: 'system' }
-            ];
+            // Activity log
+            let activityLog = [];
             
             const courseCatalog = [
-                'Introduction to Programming',
-                'Web Development Fundamentals',
-                'Database Design',
-                'Frontend Development',
-                'Backend Development',
+                'Frontend Development (HTML, CSS, JavaScript)',
+                'Backend Development (Node.js)',
                 'Full Stack Development',
-                'Cloud Computing Basics',
-                'Cybersecurity Fundamentals',
-                'Mobile App Development',
-                'Data Science Essentials'
+                'Database Design',
+                'Web Development Fundamentals',
+                'Cybersecurity Basics',
+                'Cloud Computing',
+                'UI/UX Design'
             ];
             
             const departments = [
-                'Computer Science', 'Data Science', 'Cybersecurity', 'Software Engineering',
-                'Information Technology', 'Artificial Intelligence', 'Cloud Computing',
-                'Network Administration', 'Web Development', 'Database Management'
+                'Computer Science', 'Cyber Security', 'Cyber Security Science', 'CSS', 
+                'Cybersecurity science', 'Computer science', 'Cybersecurity',
+                'Information Technology', 'Software Engineering', 'Data Science'
             ];
             
             let currentUser = null;
@@ -985,6 +1210,7 @@
             let loggedInEmail = null;
             let selectedDepartment = '';
             let selectedGender = '';
+            let selectedStudentForAdmin = null;
 
             // DOM elements
             const loginSection = document.getElementById('loginSection');
@@ -1000,6 +1226,7 @@
             const displayName = document.getElementById('displayName');
             const logoutBtn = document.getElementById('logoutBtn');
             const dynamicPanel = document.getElementById('dynamicPanel');
+            const downloadButtonContainer = document.getElementById('downloadButtonContainer');
             
             // Gender elements
             const selectMale = document.getElementById('selectMale');
@@ -1010,6 +1237,13 @@
             const idGender = document.getElementById('idGender');
             const letterGender = document.getElementById('letterGender');
             const idPhotoIcon = document.getElementById('idPhotoIcon');
+            
+            // Student details extended
+            const detailPhone = document.getElementById('detailPhone');
+            const detailInstitution = document.getElementById('detailInstitution');
+            const letterInstitution = document.getElementById('letterInstitution');
+            const letterPhone = document.getElementById('letterPhone');
+            const letterCourse = document.getElementById('letterCourse');
             
             // Reset modal
             const resetModal = document.getElementById('resetModal');
@@ -1037,7 +1271,6 @@
             const idDept = document.getElementById('idDept');
             const downloadIdCardBtn = document.getElementById('downloadIdCardBtn');
             
-            const downloadPDFBtn = document.getElementById('downloadPDFBtn');
             const saveDeptBtn = document.getElementById('saveDeptBtn');
             const deptMessage = document.getElementById('deptMessage');
             const departmentGrid = document.getElementById('departmentGrid');
@@ -1048,39 +1281,51 @@
             const toggleLoginPass = document.getElementById('toggleLoginPass');
             const toggleReset = document.getElementById('toggleResetPass');
 
-            // Helper function to add to activity log
+            // ========== ACTIVITY FUNCTIONS ==========
             function addActivity(studentName, action, type = 'info') {
-                activityLog.unshift({
+                const activity = {
                     time: new Date().toLocaleString(),
+                    timestamp: Date.now(),
                     student: studentName,
                     action: action,
                     type: type
-                });
+                };
+                
+                activityLog.unshift(activity);
                 
                 // Keep log at reasonable size
                 if (activityLog.length > 50) activityLog.pop();
                 
-                // If admin is logged in, refresh their view
-                if (currentRole === 'admin') {
-                    refreshAdminPanel();
-                }
+                refreshActivityDisplays();
+            }
+
+            function refreshActivityDisplays() {
+                const activityDisplays = document.querySelectorAll('.activity-log');
+                activityDisplays.forEach(display => {
+                    if (display) {
+                        display.innerHTML = activityLog.map(log => 
+                            `<div class="activity-item">
+                                <div class="activity-time">${log.time}</div>
+                                <div class="activity-text">
+                                    <span class="activity-student">${log.student}</span> ${log.action}
+                                </div>
+                            </div>`
+                        ).join('');
+                    }
+                });
             }
 
             // Refresh admin panel
             function refreshAdminPanel() {
                 if (currentRole !== 'admin') return;
                 
-                const adminPanel = document.querySelector('.admin-zone');
-                if (!adminPanel) return;
-                
-                // Update pending approvals
                 const pendingDiv = document.getElementById('pendingApprovals');
                 if (pendingDiv) {
                     const pendingStudents = students.filter(s => s.courseRequests && s.courseRequests.some(r => r.status === 'pending'));
                     if (pendingStudents.length > 0) {
                         pendingDiv.innerHTML = pendingStudents.map(s => 
                             `<div style="padding:0.5rem; border-bottom:1px solid #ccc;">
-                                <strong>${s.name}</strong> (${s.gender || 'No gender'}) requests: 
+                                <strong>${s.name}</strong> (${s.email}) requests: 
                                 ${s.courseRequests.filter(r => r.status === 'pending').map(r => r.courseName).join(', ')}
                                 <button class="btn-small" onclick="approveCourses('${s.email}')">Approve</button>
                             </div>`
@@ -1090,19 +1335,55 @@
                     }
                 }
                 
-                // Update activity log
-                const activityDiv = document.getElementById('activityLogDisplay');
-                if (activityDiv) {
-                    activityDiv.innerHTML = activityLog.map(log => 
-                        `<div class="activity-item">
-                            <div class="activity-time">${log.time}</div>
-                            <div class="activity-text">
-                                <span class="activity-student">${log.student}</span> ${log.action}
-                            </div>
+                // Update student list for admin
+                const studentListDiv = document.getElementById('adminStudentList');
+                if (studentListDiv) {
+                    studentListDiv.innerHTML = students.map(s => 
+                        `<div class="student-list-item ${selectedStudentForAdmin === s.email ? 'selected' : ''}" 
+                              onclick="selectStudentForAdmin('${s.email}')">
+                            <div><strong>${s.name}</strong><br><small>${s.email}</small></div>
+                            <div><i class="fas fa-chevron-right"></i></div>
                         </div>`
                     ).join('');
                 }
             }
+
+            // Global function to select student for admin view
+            window.selectStudentForAdmin = function(email) {
+                selectedStudentForAdmin = email;
+                const student = students.find(s => s.email === email);
+                if (student) {
+                    updateStudentUI(student);
+                    refreshAdminPanel();
+                    
+                    // Show toast
+                    const toast = document.getElementById('registrationToast');
+                    const msg = document.getElementById('regMsg');
+                    msg.innerText = `Viewing ${student.name}'s record`;
+                    toast.classList.remove('hidden');
+                    toast.classList.add('toast-message');
+                    setTimeout(() => toast.classList.add('hidden'), 3000);
+                }
+            };
+
+            // Global approve function
+            window.approveCourses = function(studentEmail) {
+                const student = students.find(s => s.email === studentEmail);
+                if (student && student.courseRequests) {
+                    const pending = student.courseRequests.filter(r => r.status === 'pending');
+                    pending.forEach(r => {
+                        r.status = 'approved';
+                        addActivity(student.name, `course approved: ${r.courseName}`, 'approval');
+                    });
+                    
+                    alert(`${pending.length} courses approved for ${student.name}`);
+                    refreshAdminPanel();
+                    
+                    if (selectedStudentForAdmin === studentEmail) {
+                        updateStudentUI(student);
+                    }
+                }
+            };
 
             // Role selection
             let selectedRole = 'student';
@@ -1114,7 +1395,7 @@
                 selectAdmin.classList.remove('selected');
                 selectedRole = 'student';
                 document.getElementById('loginLabel').innerText = 'Email';
-                loginUsername.placeholder = 'student@webforge.edu';
+                loginUsername.placeholder = 'student@example.com';
             });
             
             selectStaff.addEventListener('click', () => {
@@ -1159,7 +1440,8 @@
             function renderDepartmentGrid(selected = '') {
                 if (!departmentGrid) return;
                 departmentGrid.innerHTML = '';
-                departments.forEach(dept => {
+                const uniqueDepts = [...new Set(departments)];
+                uniqueDepts.forEach(dept => {
                     const div = document.createElement('div');
                     div.className = `dept-card ${dept === selected ? 'selected' : ''}`;
                     div.textContent = dept;
@@ -1196,23 +1478,28 @@
                 detailEmail.innerText = student.email;
                 detailGender.innerText = student.gender === 'male' ? 'Male' : student.gender === 'female' ? 'Female' : 'Not set';
                 detailDept.innerText = student.department || 'Not selected';
+                detailPhone.innerText = student.phone || 'Not provided';
+                detailInstitution.innerText = student.institution || 'Not provided';
                 
                 // Update ID card
                 idName.innerText = student.name;
                 idNumber.innerText = student.id;
                 idGender.innerText = student.gender === 'male' ? 'Male' : student.gender === 'female' ? 'Female' : 'Not set';
-                idDept.innerText = student.department || 'Not selected';
+                idDept.innerText = student.department || student.department || 'Not selected';
                 
                 // Update letter
                 studentNameLetter.innerText = student.name;
                 letterGender.innerText = student.gender === 'male' ? 'Male' : student.gender === 'female' ? 'Female' : 'Not specified';
-                letterDept.innerText = student.department || 'Computer Science';
+                letterDept.innerText = student.department || student.department || 'Not selected';
                 letterId.innerText = student.id;
+                letterInstitution.innerText = student.institution || 'Not provided';
+                letterPhone.innerText = student.phone || 'Not provided';
+                letterCourse.innerText = student.interestedCourse || 'Not specified';
                 
-                // Update photo icon
+                // Update photo icon based on gender
                 if (student.gender === 'male') {
                     idPhotoIcon.className = 'fas fa-user-graduate';
-                } else {
+                } else if (student.gender === 'female') {
                     idPhotoIcon.className = 'fas fa-user-graduate';
                 }
                 
@@ -1252,15 +1539,24 @@
                     roleBadge.innerText = 'Student';
                     displayName.innerText = student.name;
                     updateStudentUI(student);
-                    dynamicPanel.innerHTML = '';
                     
-                    // Show gender section for students
+                    // Hide gender section for students (can be shown if needed)
                     document.getElementById('genderSection').style.display = 'block';
+                    
+                    // Hide download button for students (only admin can print)
+                    downloadButtonContainer.innerHTML = '';
+                    
+                    // Show message that only admin can print
+                    const msgDiv = document.createElement('div');
+                    msgDiv.className = 'toast-message warning';
+                    msgDiv.innerHTML = '<i class="fas fa-info-circle"></i> Only Admin can download admission letters';
+                    downloadButtonContainer.appendChild(msgDiv);
+                    
+                    dynamicPanel.innerHTML = '';
                     
                     addActivity(student.name, 'logged in', 'login');
                     
                 } else if (selectedRole === 'staff') {
-                    // Staff can login using their full name
                     const staff = staffAccounts.find(s => s.email === username && s.password === password);
                     if (!staff) {
                         loginError.innerText = 'Invalid staff credentials';
@@ -1277,6 +1573,9 @@
                     // Hide gender section for non-students
                     document.getElementById('genderSection').style.display = 'none';
                     
+                    // Hide download button for staff
+                    downloadButtonContainer.innerHTML = '';
+                    
                     dynamicPanel.innerHTML = `
                         <div class="staff-zone">
                             <div class="section-title"><i class="fas fa-users"></i> Staff Portal</div>
@@ -1286,13 +1585,13 @@
                             
                             <div style="background:#e9f0f9; border-radius:24px; padding:1.2rem; margin-bottom:1.5rem;">
                                 <h3><i class="fas fa-list"></i> Student Roster</h3>
-                                <div style="max-height:200px; overflow-y:auto;">
-                                    ${students.map(s => `<div style="padding:4px 0;"><i class="fas fa-user"></i> ${s.name} (${s.gender || 'No gender'}) - ${s.department || 'No dept'}</div>`).join('')}
+                                <div style="max-height:300px; overflow-y:auto;">
+                                    ${students.map(s => `<div style="padding:4px 0;"><i class="fas fa-user"></i> ${s.name} - ${s.email} - ${s.interestedCourse}</div>`).join('')}
                                 </div>
                             </div>
                             
                             <div class="activity-monitor">
-                                <h3><i class="fas fa-history"></i> Recent Student Activity</h3>
+                                <h3><i class="fas fa-history"></i> Recent Activity</h3>
                                 <div class="activity-log" id="activityLogDisplay">
                                     ${activityLog.slice(0, 10).map(log => 
                                         `<div class="activity-item">
@@ -1312,6 +1611,10 @@
                                     <button class="btn btn-warning" id="shareUpdateBtn"><i class="fas fa-share"></i> send</button>
                                 </div>
                                 <p id="shareFeedback"></p>
+                            </div>
+                            
+                            <div style="margin-top:1rem; padding:1rem; background:#fff3cd; border-radius:16px;">
+                                <i class="fas fa-info-circle"></i> Staff can view student data but cannot print admission letters.
                             </div>
                         </div>
                     `;
@@ -1337,78 +1640,46 @@
                     roleBadge.innerText = 'Admin';
                     displayName.innerText = admin.name;
                     
-                    if (students.length > 0) updateStudentUI(students[0]);
+                    if (students.length > 0) {
+                        selectedStudentForAdmin = students[0].email;
+                        updateStudentUI(students[0]);
+                    }
                     
                     // Hide gender section for non-students
                     document.getElementById('genderSection').style.display = 'none';
+                    
+                    // Show download button for admin
+                    downloadButtonContainer.innerHTML = `
+                        <button class="btn btn-warning" id="downloadPDFBtn"><i class="fas fa-file-pdf"></i> download admission letter (PDF)</button>
+                    `;
+                    
+                    // Add event listener for download
+                    document.getElementById('downloadPDFBtn')?.addEventListener('click', downloadPDF);
                     
                     dynamicPanel.innerHTML = `
                         <div class="admin-zone">
                             <div class="section-title"><i class="fas fa-crown"></i> Admin Control Panel</div>
                             
                             <div class="activity-monitor">
-                                <h3><i class="fas fa-history"></i> Live Student Activity Feed</h3>
-                                <div class="activity-log" id="activityLogDisplay" style="max-height:400px;">
-                                    ${activityLog.map(log => 
-                                        `<div class="activity-item">
-                                            <div class="activity-time">${log.time}</div>
-                                            <div class="activity-text">
-                                                <span class="activity-student">${log.student}</span> ${log.action}
-                                            </div>
+                                <h3><i class="fas fa-history"></i> Student List</h3>
+                                <div class="student-list" id="adminStudentList">
+                                    ${students.map(s => 
+                                        `<div class="student-list-item ${selectedStudentForAdmin === s.email ? 'selected' : ''}" 
+                                              onclick="selectStudentForAdmin('${s.email}')">
+                                            <div><strong>${s.name}</strong><br><small>${s.email}</small></div>
+                                            <div><i class="fas fa-chevron-right"></i></div>
                                         </div>`
                                     ).join('')}
                                 </div>
                             </div>
                             
-                            <div class="create-student">
-                                <h3><i class="fas fa-user-plus"></i> Create Student</h3>
-                                <div style="margin-bottom:0.8rem;">
-                                    <input type="text" id="newFullName" class="input-field" placeholder="full name">
-                                </div>
-                                <div style="margin-bottom:0.8rem;">
-                                    <input type="email" id="newEmail" class="input-field" placeholder="email">
-                                </div>
-                                <div style="margin-bottom:0.8rem;">
-                                    <input type="text" id="newStudentId" class="input-field" placeholder="student ID">
-                                </div>
-                                <div style="margin-bottom:0.8rem;" class="password-wrapper">
-                                    <input type="password" id="newStudentPassword" class="input-field" placeholder="password">
-                                    <i class="far fa-eye toggle-password" id="toggleNewPass"></i>
-                                </div>
-                                <select id="newStudentGender" class="input-field" style="margin-bottom:0.8rem;">
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                                <select id="newStudentDept" class="input-field" style="margin-bottom:0.8rem;">
-                                    ${departments.map(d => `<option value="${d}">${d}</option>`).join('')}
-                                </select>
-                                <button class="btn" id="createStudentBtn"><i class="fas fa-save"></i> create</button>
-                                <p id="accountCreatedMsg" style="margin-top:8px;"></p>
-                            </div>
-                            
-                            <div class="create-staff">
-                                <h3><i class="fas fa-user-tie"></i> Create Staff</h3>
-                                <div style="margin-bottom:0.8rem;">
-                                    <input type="text" id="newStaffName" class="input-field" placeholder="staff name">
-                                </div>
-                                <div style="margin-bottom:0.8rem;">
-                                    <input type="email" id="newStaffEmail" class="input-field" placeholder="email">
-                                </div>
-                                <div style="margin-bottom:0.8rem;" class="password-wrapper">
-                                    <input type="password" id="newStaffPassword" class="input-field" placeholder="password">
-                                    <i class="far fa-eye toggle-password" id="toggleStaffNewPass"></i>
-                                </div>
-                                <button class="btn" id="createStaffBtn"><i class="fas fa-save"></i> create</button>
-                                <p id="staffCreatedMsg" style="margin-top:8px;"></p>
-                            </div>
-                            
                             <div class="approval-section">
-                                <h3><i class="fas fa-check-circle"></i> Pending Registrations</h3>
+                                <h3><i class="fas fa-check-circle"></i> Pending Course Registrations</h3>
                                 <div id="pendingApprovals">
                                     ${students.filter(s => s.courseRequests && s.courseRequests.some(r => r.status === 'pending')).length > 0 
                                         ? students.filter(s => s.courseRequests && s.courseRequests.some(r => r.status === 'pending')).map(s => 
                                             `<div style="padding:0.5rem; border-bottom:1px solid #ccc;">
-                                                <strong>${s.name}</strong> (${s.gender || 'No gender'}) requests: 
+                                                <strong>${s.name}</strong> (${s.email}) requests: 
                                                 ${s.courseRequests.filter(r => r.status === 'pending').map(r => r.courseName).join(', ')}
                                                 <button class="btn-small" onclick="approveCourses('${s.email}')">Approve</button>
                                             </div>`
@@ -1418,92 +1689,111 @@
                                 </div>
                             </div>
                             
+                            <div class="create-student">
+                                <h3><i class="fas fa-user-plus"></i> Create New Student</h3>
+                                <div style="margin-bottom:0.8rem;">
+                                    <input type="text" id="newFullName" class="input-field" placeholder="full name">
+                                </div>
+                                <div style="margin-bottom:0.8rem;">
+                                    <input type="email" id="newEmail" class="input-field" placeholder="email">
+                                </div>
+                                <div style="margin-bottom:0.8rem;">
+                                    <input type="text" id="newPhone" class="input-field" placeholder="phone">
+                                </div>
+                                <div style="margin-bottom:0.8rem;">
+                                    <input type="text" id="newInstitution" class="input-field" placeholder="institution">
+                                </div>
+                                <div style="margin-bottom:0.8rem;">
+                                    <input type="text" id="newStudentId" class="input-field" placeholder="student ID">
+                                </div>
+                                <div style="margin-bottom:0.8rem;" class="password-wrapper">
+                                    <input type="password" id="newStudentPassword" class="input-field" placeholder="password" value="1234">
+                                    <i class="far fa-eye toggle-password" id="toggleNewPass"></i>
+                                </div>
+                                <select id="newStudentGender" class="input-field" style="margin-bottom:0.8rem;">
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                                <select id="newStudentDept" class="input-field" style="margin-bottom:0.8rem;">
+                                    <option value="">Select Department</option>
+                                    ${[...new Set(departments)].map(d => `<option value="${d}">${d}</option>`).join('')}
+                                </select>
+                                <select id="newStudentCourse" class="input-field" style="margin-bottom:0.8rem;">
+                                    <option value="Frontend">Frontend</option>
+                                    <option value="Backend">Backend</option>
+                                    <option value="Full Stack">Full Stack</option>
+                                </select>
+                                <button class="btn" id="createStudentBtn"><i class="fas fa-save"></i> create student</button>
+                                <p id="accountCreatedMsg" style="margin-top:8px;"></p>
+                            </div>
+                            
                             <div style="margin-top:1.5rem; background:#f0e6ff; padding:1rem; border-radius:20px;">
                                 <h3><i class="fas fa-database"></i> System Stats</h3>
                                 <p>Total students: ${students.length}</p>
                                 <p>Total staff: ${staffAccounts.length}</p>
                                 <p>Total activities: ${activityLog.length}</p>
+                                <p><i class="fas fa-print"></i> Only Admin can print admission letters</p>
                             </div>
                         </div>
                     `;
 
+                    // Add toggle for new password
                     document.getElementById('toggleNewPass')?.addEventListener('click', function() {
                         const field = document.getElementById('newStudentPassword');
                         field.type = field.type === 'password' ? 'text' : 'password';
                         this.classList.toggle('fa-eye-slash');
                     });
 
-                    document.getElementById('toggleStaffNewPass')?.addEventListener('click', function() {
-                        const field = document.getElementById('newStaffPassword');
-                        field.type = field.type === 'password' ? 'text' : 'password';
-                        this.classList.toggle('fa-eye-slash');
-                    });
-
+                    // Create student button
                     document.getElementById('createStudentBtn')?.addEventListener('click', function() {
                         const name = document.getElementById('newFullName')?.value.trim();
                         const email = document.getElementById('newEmail')?.value.trim();
+                        const phone = document.getElementById('newPhone')?.value.trim();
+                        const institution = document.getElementById('newInstitution')?.value.trim();
                         const id = document.getElementById('newStudentId')?.value.trim();
-                        const pass = document.getElementById('newStudentPassword')?.value.trim();
+                        const pass = document.getElementById('newStudentPassword')?.value.trim() || '1234';
                         const gender = document.getElementById('newStudentGender')?.value;
                         const dept = document.getElementById('newStudentDept')?.value;
+                        const course = document.getElementById('newStudentCourse')?.value;
                         const msg = document.getElementById('accountCreatedMsg');
 
-                        if (!name || !email || !id || !pass) {
-                            msg.innerText = '❌ All fields required';
+                        if (!name || !email || !id) {
+                            msg.innerText = '❌ Name, Email and ID are required';
                             msg.style.color = 'red';
                             return;
                         }
 
                         if (students.some(s => s.email === email)) {
-                            msg.innerText = '❌ Email exists';
+                            msg.innerText = '❌ Email already exists';
                             msg.style.color = 'red';
                             return;
                         }
 
-                        students.push({
-                            name, email, id, password: pass,
+                        const newStudent = {
+                            name, email, phone, institution,
+                            id, password: pass,
                             gender, department: dept,
+                            interestedCourse: course,
+                            hasExperience: 'No',
                             courseRequests: []
-                        });
+                        };
 
+                        students.push(newStudent);
+                        
                         addActivity('Admin', `created student: ${name}`, 'admin');
-                        msg.innerText = `✅ ${name} created`;
+                        msg.innerText = `✅ ${name} created with password: ${pass}`;
                         msg.style.color = 'green';
                         
+                        // Clear form
                         document.getElementById('newFullName').value = '';
                         document.getElementById('newEmail').value = '';
+                        document.getElementById('newPhone').value = '';
+                        document.getElementById('newInstitution').value = '';
                         document.getElementById('newStudentId').value = '';
-                        document.getElementById('newStudentPassword').value = '';
-                        
-                        refreshAdminPanel();
-                    });
-
-                    document.getElementById('createStaffBtn')?.addEventListener('click', function() {
-                        const name = document.getElementById('newStaffName')?.value.trim();
-                        const email = document.getElementById('newStaffEmail')?.value.trim();
-                        const pass = document.getElementById('newStaffPassword')?.value.trim();
-                        const msg = document.getElementById('staffCreatedMsg');
-
-                        if (!name || !email || !pass) {
-                            msg.innerText = '❌ All fields required';
-                            msg.style.color = 'red';
-                            return;
-                        }
-
-                        if (staffAccounts.some(s => s.email === email)) {
-                            msg.innerText = '❌ Email exists';
-                            msg.style.color = 'red';
-                            return;
-                        }
-
-                        staffAccounts.push({ email, password: pass, name });
-                        addActivity('Admin', `created staff: ${name}`, 'admin');
-                        msg.innerText = `✅ Staff ${name} created`;
-                        msg.style.color = 'green';
-                        
-                        document.getElementById('newStaffName').value = '';
-                        document.getElementById('newStaffEmail').value = '';
-                        document.getElementById('newStaffPassword').value = '';
+                        document.getElementById('newStudentPassword').value = '1234';
+                        document.getElementById('newStudentGender').value = '';
+                        document.getElementById('newStudentDept').value = '';
                         
                         refreshAdminPanel();
                     });
@@ -1513,19 +1803,29 @@
                 dashboardSection.classList.remove('hidden');
             });
 
-            // Global approve function
-            window.approveCourses = function(studentEmail) {
-                const student = students.find(s => s.email === studentEmail);
-                if (student && student.courseRequests) {
-                    const pending = student.courseRequests.filter(r => r.status === 'pending');
-                    pending.forEach(r => {
-                        r.status = 'approved';
-                        addActivity(student.name, `course approved: ${r.courseName}`, 'approval');
-                    });
-                    alert(`${pending.length} courses approved for ${student.name}`);
-                    refreshAdminPanel();
+            // Download PDF function (only for admin)
+            function downloadPDF() {
+                if (currentRole !== 'admin') {
+                    alert('Only Admin can download admission letters');
+                    return;
                 }
-            };
+                
+                const { jsPDF } = window.jspdf;
+                const letterElement = document.getElementById('admissionLetterDiv');
+                
+                html2canvas(letterElement, { scale: 2 }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF({
+                        orientation: 'portrait',
+                        unit: 'px',
+                        format: [canvas.width * 0.75, canvas.height * 0.75]
+                    });
+                    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width * 0.75, canvas.height * 0.75);
+                    pdf.save(`WebForge_Admission_${studentNameLetter.innerText}.pdf`);
+                    
+                    addActivity('Admin', `downloaded admission letter for ${studentNameLetter.innerText}`, 'download');
+                });
+            }
 
             // Save gender
             saveGenderBtn.addEventListener('click', () => {
@@ -1569,12 +1869,61 @@
                         
                         addActivity(student.name, `changed department from ${oldDept} to ${selectedDepartment}`, 'update');
                     }
+                } else if (currentRole === 'admin' && selectedStudentForAdmin) {
+                    const student = students.find(s => s.email === selectedStudentForAdmin);
+                    if (student) {
+                        student.department = selectedDepartment;
+                        detailDept.innerText = selectedDepartment;
+                        letterDept.innerText = selectedDepartment;
+                        idDept.innerText = selectedDepartment;
+                        deptMessage.innerText = `✅ Department updated for ${student.name}`;
+                        
+                        addActivity('Admin', `updated department for ${student.name} to ${selectedDepartment}`, 'admin');
+                    }
                 }
             });
 
             // Request course registration
             requestRegistrationBtn.addEventListener('click', () => {
                 if (currentUser !== 'student' || !loggedInEmail) {
+                    if (currentRole === 'admin' && selectedStudentForAdmin) {
+                        // Admin can register courses for selected student
+                        const checkboxes = document.querySelectorAll('.course-checkbox:checked');
+                        if (checkboxes.length === 0) {
+                            registrationRequestMessage.innerText = 'Select at least one course';
+                            return;
+                        }
+
+                        const student = students.find(s => s.email === selectedStudentForAdmin);
+                        if (!student) return;
+
+                        if (!student.courseRequests) student.courseRequests = [];
+
+                        const requestedCourses = [];
+                        checkboxes.forEach(cb => {
+                            const courseName = cb.value;
+                            if (!student.courseRequests.some(r => r.courseName === courseName)) {
+                                student.courseRequests.push({
+                                    courseName: courseName,
+                                    status: 'pending',
+                                    requestDate: new Date().toLocaleString()
+                                });
+                                requestedCourses.push(courseName);
+                            }
+                        });
+
+                        if (requestedCourses.length > 0) {
+                            addActivity('Admin', `registered courses for ${student.name}: ${requestedCourses.join(', ')}`, 'admin');
+                            registrationRequestMessage.innerText = `✅ Courses registered for ${student.name}`;
+                        } else {
+                            registrationRequestMessage.innerText = 'Courses already requested';
+                        }
+                        
+                        registrationRequestMessage.style.color = 'green';
+                        checkboxes.forEach(cb => cb.checked = false);
+                        return;
+                    }
+                    
                     registrationRequestMessage.innerText = 'Please login as student';
                     return;
                 }
@@ -1614,31 +1963,7 @@
                 checkboxes.forEach(cb => cb.checked = false);
             });
 
-            // Download PDF
-            downloadPDFBtn.addEventListener('click', function() {
-                const { jsPDF } = window.jspdf;
-                const letterElement = document.getElementById('admissionLetterDiv');
-                
-                html2canvas(letterElement, { scale: 2 }).then(canvas => {
-                    const imgData = canvas.toDataURL('image/png');
-                    const pdf = new jsPDF({
-                        orientation: 'portrait',
-                        unit: 'px',
-                        format: [canvas.width * 0.75, canvas.height * 0.75]
-                    });
-                    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width * 0.75, canvas.height * 0.75);
-                    pdf.save(`WebForge_Admission_${studentNameLetter.innerText}.pdf`);
-                    
-                    if (currentUser === 'student' && loggedInEmail) {
-                        const student = students.find(s => s.email === loggedInEmail);
-                        if (student) {
-                            addActivity(student.name, 'downloaded admission letter PDF', 'download');
-                        }
-                    }
-                });
-            });
-
-            // Download ID card
+            // Download ID card (available to all logged in users)
             downloadIdCardBtn.addEventListener('click', function() {
                 const { jsPDF } = window.jspdf;
                 const idCardElement = document.getElementById('studentIdCard');
@@ -1657,6 +1982,11 @@
                         const student = students.find(s => s.email === loggedInEmail);
                         if (student) {
                             addActivity(student.name, 'downloaded ID card PDF', 'download');
+                        }
+                    } else if (currentRole === 'admin' && selectedStudentForAdmin) {
+                        const student = students.find(s => s.email === selectedStudentForAdmin);
+                        if (student) {
+                            addActivity('Admin', `downloaded ID card for ${student.name}`, 'admin');
                         }
                     }
                 });
@@ -1748,6 +2078,7 @@
                 currentUser = null;
                 currentRole = null;
                 loggedInEmail = null;
+                selectedStudentForAdmin = null;
                 loginUsername.value = '';
                 loginPassword.value = '';
                 loginPassword.type = 'password';
