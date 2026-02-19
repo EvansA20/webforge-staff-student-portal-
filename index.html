@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>WebForge · Student Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>WebForge · Staff and students portal</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- jsPDF for PDF generation -->
@@ -11,37 +11,58 @@
     <!-- html2canvas for PDF rendering -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
+        /* ===== BASE STYLES ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        :root {
+            --primary-dark: #0b1e33;
+            --primary: #1e3a5f;
+            --primary-light: #2a4a77;
+            --accent: #ffb347;
+            --accent-light: #ffb85c;
+            --accent-dark: #ff9f2f;
+            --light-bg: #f9fcff;
+            --card-bg: #ffffff;
+            --text-dark: #0f2a41;
+            --text-light: #5f7d9c;
+            --border-color: #c1daf5;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         body {
-            background: #eef3f8;
+            background: linear-gradient(135deg, #eef3f8 0%, #d9e6f2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1.2rem;
+            padding: clamp(0.5rem, 2vw, 1.5rem);
         }
 
+        /* ===== MAIN CONTAINER ===== */
         .webforge-portal {
-            max-width: 1500px;
+            max-width: 1600px;
             width: 100%;
-            background: white;
-            border-radius: 2rem;
+            background: var(--card-bg);
+            border-radius: clamp(1rem, 3vw, 2rem);
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3);
             overflow: hidden;
-            border: 1px solid #b0c4de;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
         }
 
-        /* INSTITUTIONAL HEADER */
+        /* ===== HEADER ===== */
         .institutional-header {
-            background: linear-gradient(98deg, #0b1e33 0%, #1a3650 100%);
-            padding: 1.2rem 2.2rem;
-            border-bottom: 4px solid #ffb347;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            padding: clamp(1rem, 3vw, 1.5rem) clamp(1rem, 4vw, 2.5rem);
+            border-bottom: 4px solid var(--accent);
         }
 
         .header-top {
@@ -49,39 +70,41 @@
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            margin-bottom: 0.5rem;
             gap: 1rem;
+            margin-bottom: 0.8rem;
         }
 
         .logo h1 {
             color: white;
-            font-size: 2.2rem;
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
             font-weight: 600;
             letter-spacing: -0.5px;
+            line-height: 1.2;
         }
 
         .logo h1 span {
-            color: #ffb85c;
+            color: var(--accent-light);
             font-weight: 700;
         }
 
         .logo .subtitle {
-            color: #ffb85c;
-            font-size: 1rem;
+            color: var(--accent-light);
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
             display: block;
+            margin-top: 0.2rem;
         }
 
         .contact-info {
             display: flex;
-            gap: 2rem;
+            gap: clamp(0.8rem, 2vw, 2rem);
             color: #e0e9f5;
-            font-size: 0.95rem;
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
             flex-wrap: wrap;
         }
 
         .contact-info i {
-            color: #ffb85c;
-            margin-right: 6px;
+            color: var(--accent-light);
+            margin-right: 0.3rem;
         }
 
         .header-divider {
@@ -95,7 +118,7 @@
             justify-content: space-between;
             align-items: center;
             color: #cbd6e6;
-            font-size: 0.9rem;
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
             flex-wrap: wrap;
             gap: 1rem;
         }
@@ -105,39 +128,40 @@
             backdrop-filter: blur(8px);
             padding: 0.4rem 1.2rem;
             border-radius: 40px;
-            border: 1px solid #ffb347;
+            border: 1px solid var(--accent);
+            white-space: nowrap;
         }
 
-        /* UNIFIED LOGIN SECTION */
+        /* ===== LOGIN SECTION ===== */
         .login-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 3rem 2rem;
-            background: #f9fcff;
+            padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 4vw, 2rem);
+            background: var(--light-bg);
         }
 
         .unified-login-card {
-            background: white;
-            border-radius: 32px;
-            padding: 2.5rem 2.8rem;
-            box-shadow: 0 20px 30px -10px #afc9e0;
+            background: var(--card-bg);
+            border-radius: clamp(1.5rem, 4vw, 2.5rem);
+            padding: clamp(1.5rem, 4vw, 2.5rem);
+            box-shadow: var(--shadow);
             width: 100%;
             max-width: 500px;
-            border: 1px solid #d9e6f2;
+            border: 1px solid var(--border-color);
         }
 
         .unified-login-card h2 {
-            font-size: 2rem;
-            color: #0b2b44;
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            color: var(--primary);
             margin-bottom: 1.5rem;
             text-align: center;
         }
 
         .role-selector {
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
             margin-bottom: 2rem;
             justify-content: center;
             flex-wrap: wrap;
@@ -145,32 +169,33 @@
 
         .role-option {
             flex: 1;
-            min-width: 100px;
+            min-width: 80px;
             background: #f0f7ff;
-            border: 2px solid #c1daf5;
+            border: 2px solid var(--border-color);
             border-radius: 40px;
-            padding: 0.8rem 1rem;
+            padding: 0.8rem 0.5rem;
             text-align: center;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.2s;
             font-weight: 500;
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
         }
 
         .role-option i {
             display: block;
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
             margin-bottom: 0.3rem;
-            color: #1e3a5f;
+            color: var(--primary);
         }
 
         .role-option.selected {
-            background: #ffb85c;
-            border-color: #1e3a5f;
-            color: #1e3a5f;
+            background: var(--accent-light);
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
         .role-option.selected i {
-            color: #1e3a5f;
+            color: var(--primary);
         }
 
         .input-group {
@@ -181,25 +206,26 @@
         .input-group label {
             display: block;
             font-weight: 500;
-            color: #1e3a5f;
-            margin-bottom: 6px;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
         }
 
         .input-field {
             width: 100%;
             background: #f2f8ff;
-            border: 2px solid #bdd3e8;
+            border: 2px solid var(--border-color);
             border-radius: 40px;
             padding: 0.9rem 1.4rem;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2vw, 1rem);
             outline: none;
-            transition: 0.2s;
+            transition: all 0.2s;
             padding-right: 3rem;
         }
 
         .input-field:focus {
-            border-color: #ff9f2f;
-            box-shadow: 0 0 0 4px #ffe4bc;
+            border-color: var(--accent-dark);
+            box-shadow: 0 0 0 4px rgba(255, 180, 71, 0.2);
         }
 
         .password-wrapper {
@@ -212,7 +238,7 @@
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
-            color: #5f7d9c;
+            color: var(--text-light);
             font-size: 1.3rem;
             background: white;
             border-radius: 50%;
@@ -224,11 +250,11 @@
         }
 
         .login-btn {
-            background: #1e3a5f;
+            background: var(--primary);
             border: none;
             border-radius: 60px;
             padding: 1rem 2rem;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             font-weight: 600;
             color: white;
             width: 100%;
@@ -238,32 +264,28 @@
             justify-content: center;
             gap: 12px;
             margin-top: 1rem;
-            transition: 0.2s;
+            transition: all 0.2s;
         }
 
         .login-btn:hover {
-            background: #234b77;
+            background: var(--primary-light);
             transform: scale(1.02);
         }
 
-        /* RESET PASSWORD LINK */
         .reset-link {
             text-align: center;
             margin-top: 1rem;
         }
         
         .reset-link a {
-            color: #ff9f2f;
+            color: var(--accent-dark);
             text-decoration: none;
             font-weight: 500;
             cursor: pointer;
-        }
-        
-        .reset-link a:hover {
-            text-decoration: underline;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
         }
 
-        /* RESET PASSWORD MODAL */
+        /* ===== RESET MODAL ===== */
         .reset-modal {
             position: fixed;
             top: 0;
@@ -275,42 +297,41 @@
             align-items: center;
             justify-content: center;
             z-index: 1000;
+            padding: 1rem;
         }
         
         .reset-card {
             background: white;
             border-radius: 32px;
-            padding: 2.5rem;
+            padding: clamp(1.5rem, 4vw, 2.5rem);
             max-width: 450px;
-            width: 90%;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
             box-shadow: 0 25px 50px -12px black;
         }
         
         .reset-card h3 {
-            font-size: 1.8rem;
-            color: #1e3a5f;
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            color: var(--primary);
             margin-bottom: 1.5rem;
         }
         
         .close-btn {
             float: right;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             color: #666;
         }
 
-        .hidden {
-            display: none !important;
-        }
-
-        /* DASHBOARD */
+        /* ===== DASHBOARD ===== */
         .dashboard {
             background: #edf3f9;
         }
 
         .dashboard-bar {
-            background: #1e3a5f;
-            padding: 0.9rem 2.2rem;
+            background: var(--primary);
+            padding: 0.9rem clamp(1rem, 3vw, 2.2rem);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -322,7 +343,7 @@
         .user-info {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
             flex-wrap: wrap;
         }
 
@@ -331,214 +352,164 @@
             padding: 0.3rem 1rem;
             border-radius: 30px;
             font-size: 0.9rem;
-            border: 1px solid #ffb85c;
+            border: 1px solid var(--accent-light);
+            white-space: nowrap;
         }
 
         .logout-btn {
             background: rgba(255,255,255,0.1);
-            border: 1px solid #ffb347;
+            border: 1px solid var(--accent);
             border-radius: 30px;
             padding: 0.5rem 1.5rem;
             color: white;
             cursor: pointer;
             transition: 0.2s;
+            white-space: nowrap;
         }
 
         .dashboard-grid {
             display: grid;
             grid-template-columns: 2.2fr 1.3fr;
-            gap: 1.8rem;
-            padding: 2.2rem;
+            gap: clamp(1rem, 3vw, 1.8rem);
+            padding: clamp(1rem, 3vw, 2.2rem);
         }
 
-        /* STUDENT ZONE */
+        /* ===== STUDENT ZONE ===== */
         .student-zone {
             background: white;
             border-radius: 28px;
-            padding: 2rem;
+            padding: clamp(1.2rem, 3vw, 2rem);
             box-shadow: 0 8px 18px #cdddec;
         }
 
         .section-title {
-            font-size: 1.6rem;
-            color: #0f2a41;
-            border-left: 8px solid #ffb347;
-            padding-left: 1.2rem;
-            margin-bottom: 2rem;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            color: var(--text-dark);
+            border-left: 8px solid var(--accent);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .student-details-card {
             background: #f0f7ff;
             border-radius: 24px;
-            padding: 1.8rem;
-            margin-bottom: 2rem;
-            border: 2px solid #c1daf5;
+            padding: clamp(1rem, 3vw, 1.8rem);
+            margin-bottom: 1.5rem;
+            border: 2px solid var(--border-color);
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.2rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
         }
 
         .detail-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 1rem;
+            gap: 10px;
+            font-size: clamp(0.8rem, 2vw, 0.95rem);
+            word-break: break-word;
         }
 
         .detail-item i {
-            width: 32px;
-            color: #ff9f2f;
-            font-size: 1.4rem;
+            width: 28px;
+            color: var(--accent-dark);
+            font-size: 1.2rem;
+            flex-shrink: 0;
         }
 
-        /* GENDER SELECTION */
+        /* ===== GENDER SELECTOR ===== */
         .gender-selector {
             display: flex;
             gap: 1rem;
             margin: 1rem 0;
+            flex-wrap: wrap;
         }
 
         .gender-option {
             flex: 1;
+            min-width: 100px;
             background: white;
-            border: 2px solid #c1daf5;
+            border: 2px solid var(--border-color);
             border-radius: 40px;
             padding: 0.8rem;
             text-align: center;
             cursor: pointer;
             transition: 0.2s;
+            font-size: clamp(0.8rem, 2vw, 0.95rem);
         }
 
         .gender-option.selected {
-            background: #ffb85c;
-            border-color: #1e3a5f;
+            background: var(--accent-light);
+            border-color: var(--primary);
             font-weight: 600;
         }
 
         .gender-option i {
-            margin-right: 8px;
-            color: #1e3a5f;
+            margin-right: 0.5rem;
+            color: var(--primary);
         }
 
-        .badge {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .badge-pending {
-            background: #ffc107;
-            color: #000;
-        }
-
-        .badge-approved {
-            background: #28a745;
-            color: white;
-        }
-
-        /* ACTIVITY LOG */
-        .activity-log {
-            background: #f0f7ff;
-            border-radius: 24px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            max-height: 300px;
-            overflow-y: auto;
-            border: 2px solid #ffb347;
-        }
-
-        .activity-item {
-            background: white;
-            border-radius: 16px;
-            padding: 1rem;
-            margin-bottom: 0.8rem;
-            border-left: 4px solid #ff9f2f;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .activity-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-
-        .activity-time {
-            font-size: 0.8rem;
-            color: #666;
-            margin-bottom: 0.3rem;
-        }
-
-        .activity-text {
-            font-weight: 500;
-        }
-
-        .activity-student {
-            color: #1e3a5f;
-            font-weight: 600;
-        }
-
-        /* ID CARD SECTION */
+        /* ===== ID CARD ===== */
         .id-card-section {
-            background: linear-gradient(135deg, #1e3a5f 0%, #2a4a77 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             border-radius: 24px;
-            padding: 2rem;
-            margin: 2rem 0;
+            padding: clamp(1.2rem, 3vw, 2rem);
+            margin: 1.5rem 0;
             color: white;
-            border: 3px solid #ffb85c;
+            border: 3px solid var(--accent);
         }
 
         .id-card {
             background: white;
             border-radius: 20px;
-            padding: 1.5rem;
-            color: #1e3a5f;
+            padding: clamp(1rem, 3vw, 1.5rem);
+            color: var(--primary);
             display: flex;
             flex-wrap: wrap;
             gap: 1.5rem;
             align-items: center;
-            border: 2px solid #ffb85c;
+            border: 2px solid var(--accent);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
         .id-photo {
-            width: 100px;
-            height: 100px;
+            width: clamp(70px, 15vw, 100px);
+            height: clamp(70px, 15vw, 100px);
             background: #f0f7ff;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 3px solid #ffb85c;
+            border: 3px solid var(--accent);
+            margin: 0 auto;
         }
 
         .id-photo i {
-            font-size: 4rem;
-            color: #1e3a5f;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: var(--primary);
         }
 
         .id-details {
             flex: 1;
+            min-width: 200px;
         }
 
         .id-details h3 {
-            color: #1e3a5f;
-            font-size: 1.5rem;
-            border-bottom: 2px solid #ffb85c;
+            color: var(--primary);
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            border-bottom: 2px solid var(--accent);
             padding-bottom: 0.5rem;
             margin-bottom: 0.8rem;
         }
 
         .id-details p {
             margin: 0.5rem 0;
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 2vw, 1rem);
             color: #333;
+            word-break: break-word;
         }
 
         .id-details i {
-            color: #ff9f2f;
+            color: var(--accent-dark);
             width: 24px;
         }
 
@@ -547,72 +518,203 @@
             gap: 1rem;
             margin-top: 1rem;
             justify-content: flex-end;
+            flex-wrap: wrap;
         }
 
-        /* DEPARTMENT SELECTION */
+        /* ===== DEPARTMENT GRID ===== */
         .department-section {
             background: #f2f2fc;
-            border-radius: 28px;
-            padding: 1.8rem;
-            margin: 1.8rem 0;
-            border: 2px dashed #ffb347;
+            border-radius: 24px;
+            padding: clamp(1rem, 3vw, 1.8rem);
+            margin: 1.5rem 0;
+            border: 2px dashed var(--accent);
         }
 
         .department-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 1.2rem 0;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.8rem;
+            margin: 1rem 0;
         }
 
         .dept-card {
             background: white;
-            border: 2px solid #c1daf5;
+            border: 2px solid var(--border-color);
             border-radius: 16px;
-            padding: 1rem;
+            padding: 0.8rem;
             cursor: pointer;
             transition: 0.2s;
             text-align: center;
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
+            word-break: break-word;
         }
 
         .dept-card.selected {
-            background: #ffb85c;
-            border-color: #1e3a5f;
-            color: #1e3a5f;
+            background: var(--accent-light);
+            border-color: var(--primary);
+            color: var(--primary);
             font-weight: 600;
         }
 
+        /* ===== COURSE LIST ===== */
+        .course-registration-section {
+            background: #f0f7ff;
+            border-radius: 24px;
+            padding: clamp(1rem, 3vw, 1.8rem);
+            margin: 1.5rem 0;
+            border: 2px solid var(--accent);
+        }
+
+        .course-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 1rem 0;
+            border-radius: 16px;
+        }
+
+        .course-item {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            font-size: clamp(0.8rem, 2vw, 0.95rem);
+        }
+
+        /* ===== ADMISSION LETTER - A4 CENTERED ===== */
+        .letter-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+
+        .letter-preview {
+            background: white;
+            border: 3px solid var(--accent);
+            border-radius: 20px;
+            padding: clamp(2rem, 5vw, 3rem);
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .letter-preview h3 {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .letter-preview p {
+            margin: 1rem 0;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .letter-preview strong {
+            color: var(--primary);
+        }
+
+        .letter-signature {
+            margin-top: 2.5rem;
+            font-style: italic;
+            border-top: 2px dashed #ccc;
+            padding-top: 1.5rem;
+        }
+
+        .letter-signature p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            margin: 0.3rem 0;
+        }
+
+        /* ===== PRINT STYLES - A4 FORMAT ===== */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #admissionLetterDiv, #admissionLetterDiv * {
+                visibility: visible;
+            }
+            #admissionLetterDiv {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                margin: 0;
+                background: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: none;
+                box-shadow: none;
+            }
+            .letter-preview {
+                max-width: 100%;
+                border: none;
+                box-shadow: none;
+                padding: 2.5cm;
+            }
+            .letter-preview h3 {
+                font-size: 28pt;
+                margin-bottom: 20pt;
+            }
+            .letter-preview p {
+                font-size: 14pt;
+                margin: 12pt 0;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        /* ===== BUTTONS ===== */
         .flex-row {
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
             align-items: center;
             flex-wrap: wrap;
             margin: 1rem 0;
         }
 
         .btn {
-            background: #1e3a5f;
+            background: var(--primary);
             border: none;
             border-radius: 40px;
-            padding: 0.9rem 2rem;
+            padding: 0.8rem 1.5rem;
             color: white;
             font-weight: 600;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            border: 1px solid #ffb347;
-            transition: 0.2s;
+            border: 1px solid var(--accent);
+            transition: all 0.2s;
+            font-size: clamp(0.8rem, 2vw, 0.95rem);
+            white-space: nowrap;
         }
 
         .btn-warning {
-            background: #ffb85c;
-            color: #1e3a5f;
+            background: var(--accent-light);
+            color: var(--primary);
             border: none;
         }
 
         .btn-small {
-            background: #1e3a5f;
+            background: var(--primary);
             color: white;
             border: none;
             border-radius: 20px;
@@ -621,73 +723,15 @@
             cursor: pointer;
         }
 
-        .btn-danger {
-            background: #dc3545;
-            color: white;
-            border: none;
+        .btn:hover:not(:disabled) {
+            transform: scale(1.02);
         }
 
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* COURSE REGISTRATION */
-        .course-registration-section {
-            background: #f0f7ff;
-            border-radius: 28px;
-            padding: 1.8rem;
-            margin: 1.8rem 0;
-            border: 2px solid #ffb347;
-        }
-
-        .course-list {
-            max-height: 300px;
-            overflow-y: auto;
-            margin: 1rem 0;
-        }
-
-        .course-item {
-            background: white;
-            border: 2px solid #c1daf5;
-            border-radius: 16px;
-            padding: 1rem;
-            margin-bottom: 0.8rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* ADMISSION LETTER */
-        .letter-preview {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            border: 3px solid #ffb85c;
-            margin: 1.8rem 0;
-            text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        .letter-preview h3 {
-            font-size: 2rem;
-            color: #1e3a5f;
-            margin-bottom: 1rem;
-            border-bottom: 2px solid #ffb85c;
-            padding-bottom: 0.5rem;
-        }
-
-        .letter-signature {
-            margin-top: 2rem;
-            font-style: italic;
-            border-top: 1px dashed #ccc;
-            padding-top: 1rem;
-        }
-
+        /* ===== STAFF/ADMIN PANELS ===== */
         .staff-zone, .admin-zone {
             background: white;
-            border-radius: 28px;
-            padding: 2rem;
+            border-radius: 24px;
+            padding: clamp(1.2rem, 3vw, 2rem);
             box-shadow: 0 8px 18px #cdddec;
         }
 
@@ -697,44 +741,38 @@
         }
 
         .email-indicator {
-            background: #1e2e44;
-            color: #ffd89c;
+            background: var(--primary);
+            color: var(--accent-light);
             border-radius: 50px;
             padding: 0.8rem 1.2rem;
             margin-bottom: 1rem;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            word-break: break-word;
         }
 
         .create-student, .create-staff, .approval-section, .activity-monitor {
             background: #ffe6c9;
-            border-radius: 24px;
-            padding: 1.5rem;
+            border-radius: 20px;
+            padding: clamp(1rem, 3vw, 1.5rem);
             margin-bottom: 1.5rem;
         }
 
         .activity-monitor {
             background: #e6f0ff;
-            border: 2px solid #1e3a5f;
-        }
-
-        .approval-section {
-            background: #e0f0ff;
-        }
-
-        .create-staff {
-            background: #e0d7ff;
-            border: 2px solid #7b4dff;
+            border: 2px solid var(--primary);
         }
 
         .student-list {
             max-height: 300px;
             overflow-y: auto;
             margin: 1rem 0;
+            border-radius: 16px;
         }
 
         .student-list-item {
             background: white;
-            border: 1px solid #c1daf5;
-            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             padding: 0.8rem;
             margin-bottom: 0.5rem;
             display: flex;
@@ -742,6 +780,8 @@
             align-items: center;
             cursor: pointer;
             transition: 0.2s;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            word-break: break-word;
         }
 
         .student-list-item:hover {
@@ -750,25 +790,54 @@
         }
 
         .student-list-item.selected {
-            background: #ffb85c;
-            border-color: #1e3a5f;
+            background: var(--accent-light);
+            border-color: var(--primary);
         }
 
+        /* ===== ACTIVITY LOG ===== */
+        .activity-log {
+            background: #f0f7ff;
+            border-radius: 20px;
+            padding: 1.2rem;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 2px solid var(--accent);
+        }
+
+        .activity-item {
+            background: white;
+            border-radius: 12px;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            border-left: 4px solid var(--accent-dark);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: clamp(0.75rem, 2vw, 0.85rem);
+        }
+
+        .activity-time {
+            font-size: 0.7rem;
+            color: #666;
+            margin-bottom: 0.2rem;
+        }
+
+        /* ===== TOAST MESSAGES ===== */
         .toast-message {
             background: #d0e6c0;
             border-radius: 60px;
-            padding: 0.9rem 1.5rem;
+            padding: 0.8rem 1.2rem;
             margin: 1rem 0;
             display: flex;
             align-items: center;
-            gap: 12px;
-            border-left: 6px solid #2e7d32;
+            gap: 10px;
+            border-left: 6px solid var(--success);
             animation: slideIn 0.3s ease;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            word-break: break-word;
         }
 
         .toast-message.warning {
             background: #fff3cd;
-            border-left-color: #ffc107;
+            border-left-color: var(--warning);
         }
 
         @keyframes slideIn {
@@ -776,21 +845,54 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 900px) {
+        .hidden {
+            display: none !important;
+        }
+
+        /* ===== RESPONSIVE BREAKPOINTS ===== */
+        @media (max-width: 1024px) {
             .dashboard-grid {
                 grid-template-columns: 1fr;
             }
-            .header-top, .header-bottom, .dashboard-bar {
+        }
+
+        @media (max-width: 768px) {
+            .header-top, .header-bottom {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+            .contact-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .role-selector {
+                flex-direction: column;
+            }
+            .student-details-card {
+                grid-template-columns: 1fr;
             }
             .id-card {
                 flex-direction: column;
                 text-align: center;
             }
-            .id-photo {
-                margin: 0 auto;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 0.5rem;
+            }
+            .letter-preview {
+                padding: 1.5rem;
+            }
+        }
+
+        /* ===== TOUCH OPTIMIZATIONS ===== */
+        @media (hover: none) and (pointer: coarse) {
+            .btn, .role-option, .dept-card, .gender-option, .student-list-item {
+                min-height: 44px;
+            }
+            .input-field {
+                font-size: 16px;
             }
         }
     </style>
@@ -803,12 +905,12 @@
             <div class="header-top">
                 <div class="logo">
                     <h1>WEBFORGE<span> INSTITUTE</span></h1>
-                    <span class="subtitle">est. 2026 · accredited · remote-first</span>
+                    <span class="subtitle">est. 2025 · accredited · remote-first</span>
                 </div>
                 <div class="contact-info">
                     <span><i class="fas fa-phone-alt"></i> +234 815 327 9248</span>
                     <span><i class="fas fa-envelope"></i> teamwebforge@gmail.com</span>
-                    <span><i class="fas fa-map-marker-alt"></i> Ogbomoso, Nigeria</span>
+                    <span><i class="fas fa-map-marker-alt"></i>Ogbomoso, Nigeria</span>
                 </div>
             </div>
             <div class="header-divider"></div>
@@ -859,8 +961,7 @@
                 </div>
                 <p id="loginError" style="color:#c62828; margin-top:0.8rem; text-align:center;"></p>
                 
-               
-            </div>
+                           </div>
         </div>
 
         <!-- RESET PASSWORD MODAL -->
@@ -903,7 +1004,7 @@
                 <div class="student-zone" id="studentZone">
                     <div class="section-title"><i class="fas fa-regular fa-id-card"></i> WebForge student record</div>
 
-                    <!-- Student details with GENDER -->
+                    <!-- Student details -->
                     <div class="student-details-card" id="studentDetailsCard">
                         <div class="detail-item"><i class="fas fa-user-graduate"></i> <strong>Name:</strong> <span id="detailName">-</span></div>
                         <div class="detail-item"><i class="fas fa-venus-mars"></i> <strong>Gender:</strong> <span id="detailGender">Not set</span></div>
@@ -972,29 +1073,29 @@
                         <p id="registrationRequestMessage" style="margin-top:0.8rem;"></p>
                     </div>
 
-                    <!-- ADMISSION LETTER -->
-                    <div class="letter-preview" id="admissionLetterDiv">
-                        <h3>🎓 WEBFORGE ADMISSION LETTER</h3>
-                        <p><strong>WEBFORGE INSTITUTE OF TECHNOLOGY</strong></p>
-                        <p>Dear <span id="studentNameLetter">Student</span>,</p>
-                        <p>We are pleased to inform you that you have been officially admitted to <strong>WebForge Institute</strong> for the <strong>WEBFORGE TEAM WEB DEVELOPMENT TRAINING 2026</strong> program.</p>
-                        <p><strong>Gender:</strong> <span id="letterGender">Not specified</span></p>
-                        <p><strong>Department:</strong> <span id="letterDept">-</span></p>
-                        <p><strong>Student ID:</strong> <span id="letterId">-</span></p>
-                        <p><strong>Institution:</strong> <span id="letterInstitution">-</span></p>
-                        <p><strong>Phone:</strong> <span id="letterPhone">-</span></p>
-                        <p><strong>Interested Course:</strong> <span id="letterCourse">-</span></p>
-                        <p><strong>Registered Courses:</strong> <span id="letterCourses">None</span></p>
-                        <p>Your admission is confirmed. Please complete your registration.</p>
-                        <div class="letter-signature">
-                            <p>Evans Ayanlude<br>Team Lead<br>WebForge Team</p>
+                    <!-- ADMISSION LETTER - A4 CENTERED -->
+                    <div class="letter-container">
+                        <div class="letter-preview" id="admissionLetterDiv">
+                            <h3>🎓 WEBFORGE ADMISSION LETTER</h3>
+                            <p><strong>WEBFORGE INSTITUTE OF TECHNOLOGY</strong></p>
+                            <p>Dear <span id="studentNameLetter">Student</span>,</p>
+                            <p>We are pleased to inform you that you have been officially admitted to <strong>WebForge Institute</strong> for the <strong>WEBFORGE TEAM WEB DEVELOPMENT TRAINING 2026</strong> program.</p>
+                            <p><strong>Gender:</strong> <span id="letterGender">Not specified</span></p>
+                            <p><strong>Department:</strong> <span id="letterDept">-</span></p>
+                            <p><strong>Student ID:</strong> <span id="letterId">-</span></p>
+                            <p><strong>Institution:</strong> <span id="letterInstitution">-</span></p>
+                            <p><strong>Phone:</strong> <span id="letterPhone">-</span></p>
+                            <p><strong>Interested Course:</strong> <span id="letterCourse">-</span></p>
+                            <p><strong>Registered Courses:</strong> <span id="letterCourses">None</span></p>
+                            <p>Your admission is confirmed. Please complete your registration.</p>
+                            <div class="letter-signature">
+                                <p>Evans Ayanlude<br>Team Lead<br>WebForge Team</p>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Download button - Only visible to admin -->
-                    <div class="flex-row" style="justify-content: center;" id="downloadButtonContainer">
-                        <!-- This will be populated by JavaScript based on role -->
-                    </div>
+                    <!-- Download button container -->
+                    <div class="flex-row" style="justify-content: center;" id="downloadButtonContainer"></div>
 
                     <div id="registrationToast" class="toast-message hidden">
                         <i class="fas fa-envelope"></i> <span id="regMsg"></span>
@@ -1010,167 +1111,22 @@
     <script>
         (function() {
             // ========== STUDENT DATA FROM PDF ==========
-            // All students with password = "1234"
             let students = [
-                { 
-                    name: 'Sharon Samson', 
-                    email: 'samshazon@gmail.com', 
-                    phone: '09169315036',
-                    institution: 'Ladoke Akintola University of Technology',
-                    department: 'Cyber security',
-                    interestedCourse: 'Frontend',
-                    hasExperience: 'Yes',
-                    id: 'WF001', 
-                    password: '1234', 
-                    gender: '',
-                    courseRequests: []
-                },
-                { 
-                    name: 'Fikayomi Christopher Ojo', 
-                    email: 'metacourier1@gmail.com', 
-                    phone: '08077549692',
-                    institution: 'Lautech',
-                    department: 'Cybersecurity science',
-                    interestedCourse: 'Frontend',
-                    hasExperience: 'Yes',
-                    id: 'WF002', 
-                    password: '1234', 
-                    gender: '',
-                    courseRequests: []
-                },
-                { 
-                    name: 'Ogundare Bowofoluwa', 
-                    email: 'ogundarebowofoluwa2007@gmail.com', 
-                    phone: '09063737072',
-                    institution: 'Lautech',
-                    department: 'Cyber security',
-                    interestedCourse: 'Frontend',
-                    hasExperience: 'Yes',
-                    id: 'WF003', 
-                    password: '1234', 
-                    gender: '',
-                    courseRequests: []
-                },
-                { 
-                    name: 'Yusuff Muizah', 
-                    email: 'yussuffmuizah@gmail.com', 
-                    phone: '09129386133',
-                    institution: 'Ladoke Akintola University Of Technology',
-                    department: 'Cyber Security Science',
-                    interestedCourse: 'Frontend',
-                    hasExperience: 'Yes',
-                    id: 'WF004', 
-                    password: '1234', 
-                    gender: 'female',
-                    courseRequests: []
-                },
-                { 
-                    name: 'Akeem Bashit', 
-                    email: 'hakeembasit272@gmail.com', 
-                    phone: '09075903833',
-                    institution: 'Lautech',
-                    department: 'CSS',
-                    interestedCourse: 'Frontend',
-                    hasExperience: 'Yes',
-                    id: 'WF005', 
-                    password: '1234', 
-                    gender: '',
-                    courseRequests: []
-                },
-                { 
-                    name: 'Ajani Shukuroh', 
-                    email: 'ajanishukuroholamide@gmail.com', 
-                    phone: '09068566420',
-                    institution: 'LAUTECH',
-                    department: 'Cybersecurity science',
-                    interestedCourse: 'Frontend',
-                    hasExperience: 'Yes',
-                    id: 'WF006', 
-                    password: '1234', 
-                    gender: 'female',
-                    courseRequests: []
-                },
-                { 
-                    name: 'Ayomide Jayeona', 
-                    email: 'jayeonaayomide@gmail.com', 
-                    phone: '09036518761',
-                    institution: 'Atiba',
-                    department: 'Computer science',
-                    interestedCourse: 'Frontend',
-                    hasExperience: 'Yes',
-                    id: 'WF007', 
-                    password: '1234', 
-                    gender: '',
-                    courseRequests: []
-                },
-                { 
-                    name: 'Adesina Peace', 
-                    email: 'graceadunola633@gmail.com', 
-                    phone: '08135510780',
-                    institution: 'Lautech',
-                    department: 'Cyber security',
-                    interestedCourse: 'Frontend',
-                    hasExperience: 'Yes',
-                    id: 'WF008', 
-                    password: '1234', 
-                    gender: 'female',
-                    courseRequests: []
-                },
-                { 
-                    name: 'Jeremiah Oluwanifemi', 
-                    email: 'jacinthjerry@gmail.com', 
-                    phone: '09162544363',
-                    institution: 'Lautech',
-                    department: 'CSS',
-                    interestedCourse: 'Frontend',
-                    hasExperience: 'Yes',
-                    id: 'WF009', 
-                    password: '1234', 
-                    gender: '',
-                    courseRequests: []
-                },
-                { 
-                    name: 'Olagunju Adeyemi Samuel', 
-                    email: 'adeyemiolagunju001@gmail.com', 
-                    phone: '09151066962',
-                    institution: 'Ladoke Akintola University of Technology',
-                    department: 'Cybersecurity',
-                    interestedCourse: 'Frontend',
-                    hasExperience: 'Yes',
-                    id: 'WF010', 
-                    password: '1234', 
-                    gender: '',
-                    courseRequests: []
-                },
-                { 
-                    name: 'Abdulaziz Aliyah Ayomide', 
-                    email: 'abdulazizaliyah06@gmail.com', 
-                    phone: '00867733494',
-                    institution: 'Ladoke Akintola University of Technology',
-                    department: 'Cyber security science',
-                    interestedCourse: 'Frontend',
-                    hasExperience: 'Yes',
-                    id: 'WF011', 
-                    password: '1234', 
-                    gender: 'female',
-                    courseRequests: []
-                },
-                { 
-                    name: 'Adekunle Abdulhameed Ademola', 
-                    email: 'adekunleabdulhameed15@gmail.com', 
-                    phone: '09160419462',
-                    institution: 'Lautech',
-                    department: 'Cybersecurity',
-                    interestedCourse: 'Frontend',
-                    hasExperience: 'Yes',
-                    id: 'WF012', 
-                    password: '1234', 
-                    gender: '',
-                    courseRequests: []
-                }
+                { name: 'Sharon Samson', email: 'samshazon@gmail.com', phone: '09169315036', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF001', password: '1234', gender: '', courseRequests: [] },
+                { name: 'Fikayomi Christopher Ojo', email: 'metacourier1@gmail.com', phone: '08077549692', institution: 'Lautech', department: 'Cybersecurity science', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF002', password: '1234', gender: '', courseRequests: [] },
+                { name: 'Ogundare Bowofoluwa', email: 'ogundarebowofoluwa2007@gmail.com', phone: '09063737072', institution: 'Lautech', department: 'Cyber security', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF003', password: '1234', gender: '', courseRequests: [] },
+                { name: 'Yusuff Muizah', email: 'yussuffmuizah@gmail.com', phone: '09129386133', institution: 'Ladoke Akintola University Of Technology', department: 'Cyber Security Science', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF004', password: '1234', gender: 'female', courseRequests: [] },
+                { name: 'Akeem Bashit', email: 'hakeembasit272@gmail.com', phone: '09075903833', institution: 'Lautech', department: 'CSS', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF005', password: '1234', gender: '', courseRequests: [] },
+                { name: 'Ajani Shukuroh', email: 'ajanishukuroholamide@gmail.com', phone: '09068566420', institution: 'LAUTECH', department: 'Cybersecurity science', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF006', password: '1234', gender: 'female', courseRequests: [] },
+                { name: 'Ayomide Jayeona', email: 'jayeonaayomide@gmail.com', phone: '09036518761', institution: 'Atiba', department: 'Computer science', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF007', password: '1234', gender: '', courseRequests: [] },
+                { name: 'Adesina Peace', email: 'graceadunola633@gmail.com', phone: '08135510780', institution: 'Lautech', department: 'Cyber security', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF008', password: '1234', gender: 'female', courseRequests: [] },
+                { name: 'Jeremiah Oluwanifemi', email: 'jacinthjerry@gmail.com', phone: '09162544363', institution: 'Lautech', department: 'CSS', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF009', password: '1234', gender: '', courseRequests: [] },
+                { name: 'Olagunju Adeyemi Samuel', email: 'adeyemiolagunju001@gmail.com', phone: '09151066962', institution: 'Ladoke Akintola University of Technology', department: 'Cybersecurity', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF010', password: '1234', gender: '', courseRequests: [] },
+                { name: 'Abdulaziz Aliyah Ayomide', email: 'abdulazizaliyah06@gmail.com', phone: '00867733494', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security science', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF011', password: '1234', gender: 'female', courseRequests: [] },
+                { name: 'Adekunle Abdulhameed Ademola', email: 'adekunleabdulhameed15@gmail.com', phone: '09160419462', institution: 'Lautech', department: 'Cybersecurity', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF012', password: '1234', gender: '', courseRequests: [] }
             ];
 
-            // Staff accounts with all provided names
+            // Staff accounts
             let staffAccounts = [
                 { email: 'Ayanlude Evans Abayomi', password: 'staffpass', name: 'Ayanlude Evans Abayomi' },
                 { email: 'Ajayi Victory Ayomide', password: 'staffpass', name: 'Ajayi Victory Ayomide' },
@@ -1185,7 +1141,6 @@
                 { username: 'admin', password: 'Evans2006', name: 'Administrator' }
             ];
             
-            // Activity log
             let activityLog = [];
             
             const courseCatalog = [
@@ -1238,32 +1193,21 @@
             const letterGender = document.getElementById('letterGender');
             const idPhotoIcon = document.getElementById('idPhotoIcon');
             
-            // Student details extended
-            const detailPhone = document.getElementById('detailPhone');
-            const detailInstitution = document.getElementById('detailInstitution');
-            const letterInstitution = document.getElementById('letterInstitution');
-            const letterPhone = document.getElementById('letterPhone');
-            const letterCourse = document.getElementById('letterCourse');
-            
-            // Reset modal
-            const resetModal = document.getElementById('resetModal');
-            const closeResetModal = document.getElementById('closeResetModal');
-            const resetPasswordLink = document.getElementById('resetPasswordLink');
-            const resetEmail = document.getElementById('resetEmail');
-            const newResetPassword = document.getElementById('newResetPassword');
-            const confirmResetPassword = document.getElementById('confirmResetPassword');
-            const resetPasswordBtn = document.getElementById('resetPasswordBtn');
-            const resetMessage = document.getElementById('resetMessage');
-            
             // Student details
             const detailName = document.getElementById('detailName');
             const detailId = document.getElementById('detailId');
             const detailEmail = document.getElementById('detailEmail');
             const detailDept = document.getElementById('detailDept');
+            const detailPhone = document.getElementById('detailPhone');
+            const detailInstitution = document.getElementById('detailInstitution');
+            
             const studentNameLetter = document.getElementById('studentNameLetter');
             const letterDept = document.getElementById('letterDept');
             const letterId = document.getElementById('letterId');
             const letterCourses = document.getElementById('letterCourses');
+            const letterInstitution = document.getElementById('letterInstitution');
+            const letterPhone = document.getElementById('letterPhone');
+            const letterCourse = document.getElementById('letterCourse');
             
             // ID Card
             const idName = document.getElementById('idName');
@@ -1277,171 +1221,90 @@
             const availableCourses = document.getElementById('availableCourses');
             const requestRegistrationBtn = document.getElementById('requestRegistrationBtn');
             const registrationRequestMessage = document.getElementById('registrationRequestMessage');
+            const regMsg = document.getElementById('regMsg');
+            const registrationToast = document.getElementById('registrationToast');
 
             const toggleLoginPass = document.getElementById('toggleLoginPass');
             const toggleReset = document.getElementById('toggleResetPass');
+            
+            // Reset modal
+            const resetModal = document.getElementById('resetModal');
+            const closeResetModal = document.getElementById('closeResetModal');
+            const resetPasswordLink = document.getElementById('resetPasswordLink');
+            const resetEmail = document.getElementById('resetEmail');
+            const newResetPassword = document.getElementById('newResetPassword');
+            const confirmResetPassword = document.getElementById('confirmResetPassword');
+            const resetPasswordBtn = document.getElementById('resetPasswordBtn');
+            const resetMessage = document.getElementById('resetMessage');
 
-            // ========== ACTIVITY FUNCTIONS ==========
             function addActivity(studentName, action, type = 'info') {
-                const activity = {
-                    time: new Date().toLocaleString(),
-                    timestamp: Date.now(),
-                    student: studentName,
-                    action: action,
-                    type: type
-                };
-                
-                activityLog.unshift(activity);
-                
-                // Keep log at reasonable size
+                activityLog.unshift({ time: new Date().toLocaleString(), timestamp: Date.now(), student: studentName, action, type });
                 if (activityLog.length > 50) activityLog.pop();
-                
                 refreshActivityDisplays();
             }
 
             function refreshActivityDisplays() {
-                const activityDisplays = document.querySelectorAll('.activity-log');
-                activityDisplays.forEach(display => {
-                    if (display) {
-                        display.innerHTML = activityLog.map(log => 
-                            `<div class="activity-item">
-                                <div class="activity-time">${log.time}</div>
-                                <div class="activity-text">
-                                    <span class="activity-student">${log.student}</span> ${log.action}
-                                </div>
-                            </div>`
-                        ).join('');
-                    }
+                document.querySelectorAll('.activity-log').forEach(display => {
+                    if (display) display.innerHTML = activityLog.map(log => 
+                        `<div class="activity-item"><div class="activity-time">${log.time}</div><div class="activity-text"><span class="activity-student">${log.student}</span> ${log.action}</div></div>`
+                    ).join('');
                 });
             }
 
-            // Refresh admin panel
             function refreshAdminPanel() {
                 if (currentRole !== 'admin') return;
-                
                 const pendingDiv = document.getElementById('pendingApprovals');
                 if (pendingDiv) {
-                    const pendingStudents = students.filter(s => s.courseRequests && s.courseRequests.some(r => r.status === 'pending'));
-                    if (pendingStudents.length > 0) {
-                        pendingDiv.innerHTML = pendingStudents.map(s => 
-                            `<div style="padding:0.5rem; border-bottom:1px solid #ccc;">
-                                <strong>${s.name}</strong> (${s.email}) requests: 
-                                ${s.courseRequests.filter(r => r.status === 'pending').map(r => r.courseName).join(', ')}
-                                <button class="btn-small" onclick="approveCourses('${s.email}')">Approve</button>
-                            </div>`
-                        ).join('');
-                    } else {
-                        pendingDiv.innerHTML = '<p>No pending registrations</p>';
-                    }
+                    const pendingStudents = students.filter(s => s.courseRequests?.some(r => r.status === 'pending'));
+                    pendingDiv.innerHTML = pendingStudents.length ? pendingStudents.map(s => 
+                        `<div style="padding:0.5rem; border-bottom:1px solid #ccc;"><strong>${s.name}</strong> (${s.email}) requests: ${s.courseRequests.filter(r => r.status === 'pending').map(r => r.courseName).join(', ')} <button class="btn-small" onclick="approveCourses('${s.email}')">Approve</button></div>`
+                    ).join('') : '<p>No pending registrations</p>';
                 }
-                
-                // Update student list for admin
                 const studentListDiv = document.getElementById('adminStudentList');
                 if (studentListDiv) {
                     studentListDiv.innerHTML = students.map(s => 
-                        `<div class="student-list-item ${selectedStudentForAdmin === s.email ? 'selected' : ''}" 
-                              onclick="selectStudentForAdmin('${s.email}')">
-                            <div><strong>${s.name}</strong><br><small>${s.email}</small></div>
-                            <div><i class="fas fa-chevron-right"></i></div>
-                        </div>`
+                        `<div class="student-list-item ${selectedStudentForAdmin === s.email ? 'selected' : ''}" onclick="selectStudentForAdmin('${s.email}')"><div><strong>${s.name}</strong><br><small>${s.email}</small></div><div><i class="fas fa-chevron-right"></i></div></div>`
                     ).join('');
                 }
             }
 
-            // Global function to select student for admin view
             window.selectStudentForAdmin = function(email) {
                 selectedStudentForAdmin = email;
                 const student = students.find(s => s.email === email);
-                if (student) {
-                    updateStudentUI(student);
-                    refreshAdminPanel();
-                    
-                    // Show toast
-                    const toast = document.getElementById('registrationToast');
-                    const msg = document.getElementById('regMsg');
-                    msg.innerText = `Viewing ${student.name}'s record`;
-                    toast.classList.remove('hidden');
-                    toast.classList.add('toast-message');
-                    setTimeout(() => toast.classList.add('hidden'), 3000);
+                if (student) { updateStudentUI(student); refreshAdminPanel(); showToast(`Viewing ${student.name}'s record`); }
+            };
+
+            window.approveCourses = function(studentEmail) {
+                const student = students.find(s => s.email === studentEmail);
+                if (student?.courseRequests) {
+                    student.courseRequests.filter(r => r.status === 'pending').forEach(r => { r.status = 'approved'; addActivity(student.name, `course approved: ${r.courseName}`, 'approval'); });
+                    alert(`Courses approved for ${student.name}`); refreshAdminPanel();
+                    if (selectedStudentForAdmin === studentEmail) updateStudentUI(student);
                 }
             };
 
-            // Global approve function
-            window.approveCourses = function(studentEmail) {
-                const student = students.find(s => s.email === studentEmail);
-                if (student && student.courseRequests) {
-                    const pending = student.courseRequests.filter(r => r.status === 'pending');
-                    pending.forEach(r => {
-                        r.status = 'approved';
-                        addActivity(student.name, `course approved: ${r.courseName}`, 'approval');
-                    });
-                    
-                    alert(`${pending.length} courses approved for ${student.name}`);
-                    refreshAdminPanel();
-                    
-                    if (selectedStudentForAdmin === studentEmail) {
-                        updateStudentUI(student);
-                    }
-                }
-            };
+            function showToast(msg, isWarning = false) {
+                regMsg.innerText = msg;
+                registrationToast.classList.remove('hidden', 'warning');
+                if (isWarning) registrationToast.classList.add('warning');
+                setTimeout(() => registrationToast.classList.add('hidden'), 3000);
+            }
 
             // Role selection
             let selectedRole = 'student';
             selectStudent.classList.add('selected');
-            
-            selectStudent.addEventListener('click', () => {
-                selectStudent.classList.add('selected');
-                selectStaff.classList.remove('selected');
-                selectAdmin.classList.remove('selected');
-                selectedRole = 'student';
-                document.getElementById('loginLabel').innerText = 'Email';
-                loginUsername.placeholder = 'student@example.com';
-            });
-            
-            selectStaff.addEventListener('click', () => {
-                selectStaff.classList.add('selected');
-                selectStudent.classList.remove('selected');
-                selectAdmin.classList.remove('selected');
-                selectedRole = 'staff';
-                document.getElementById('loginLabel').innerText = 'Staff Name';
-                loginUsername.placeholder = 'Enter your full name';
-            });
-            
-            selectAdmin.addEventListener('click', () => {
-                selectAdmin.classList.add('selected');
-                selectStudent.classList.remove('selected');
-                selectStaff.classList.remove('selected');
-                selectedRole = 'admin';
-                document.getElementById('loginLabel').innerText = 'Admin Username';
-                loginUsername.placeholder = 'username';
-            });
+            selectStudent.addEventListener('click', () => { selectStudent.classList.add('selected'); selectStaff.classList.remove('selected'); selectAdmin.classList.remove('selected'); selectedRole = 'student'; document.getElementById('loginLabel').innerText = 'Email'; loginUsername.placeholder = 'student@example.com'; });
+            selectStaff.addEventListener('click', () => { selectStaff.classList.add('selected'); selectStudent.classList.remove('selected'); selectAdmin.classList.remove('selected'); selectedRole = 'staff'; document.getElementById('loginLabel').innerText = 'Staff Name'; loginUsername.placeholder = 'Enter your full name'; });
+            selectAdmin.addEventListener('click', () => { selectAdmin.classList.add('selected'); selectStudent.classList.remove('selected'); selectStaff.classList.remove('selected'); selectedRole = 'admin'; document.getElementById('loginLabel').innerText = 'Admin Username'; loginUsername.placeholder = 'username'; });
 
-            // Toggle password
-            toggleLoginPass.addEventListener('click', function() {
-                const type = loginPassword.type === 'password' ? 'text' : 'password';
-                loginPassword.type = type;
-                this.classList.toggle('fa-eye-slash');
-            });
+            toggleLoginPass.addEventListener('click', function() { loginPassword.type = loginPassword.type === 'password' ? 'text' : 'password'; this.classList.toggle('fa-eye-slash'); });
+            selectMale.addEventListener('click', () => { selectMale.classList.add('selected'); selectFemale.classList.remove('selected'); selectedGender = 'male'; });
+            selectFemale.addEventListener('click', () => { selectFemale.classList.add('selected'); selectMale.classList.remove('selected'); selectedGender = 'female'; });
 
-            // Gender selection
-            selectMale.addEventListener('click', () => {
-                selectMale.classList.add('selected');
-                selectFemale.classList.remove('selected');
-                selectedGender = 'male';
-            });
-            
-            selectFemale.addEventListener('click', () => {
-                selectFemale.classList.add('selected');
-                selectMale.classList.remove('selected');
-                selectedGender = 'female';
-            });
-
-            // Initialize department grid
             function renderDepartmentGrid(selected = '') {
                 if (!departmentGrid) return;
                 departmentGrid.innerHTML = '';
-                const uniqueDepts = [...new Set(departments)];
-                uniqueDepts.forEach(dept => {
+                [...new Set(departments)].forEach(dept => {
                     const div = document.createElement('div');
                     div.className = `dept-card ${dept === selected ? 'selected' : ''}`;
                     div.textContent = dept;
@@ -1454,24 +1317,17 @@
                 });
             }
 
-            // Render available courses
             function renderAvailableCourses() {
                 if (!availableCourses) return;
                 availableCourses.innerHTML = '';
                 courseCatalog.forEach(course => {
                     const div = document.createElement('div');
                     div.className = 'course-item';
-                    div.innerHTML = `
-                        <div>
-                            <input type="checkbox" class="course-checkbox" value="${course}">
-                            <strong>${course}</strong>
-                        </div>
-                    `;
+                    div.innerHTML = `<div><input type="checkbox" class="course-checkbox" value="${course}"> <strong>${course}</strong></div>`;
                     availableCourses.appendChild(div);
                 });
             }
 
-            // Update student UI
             function updateStudentUI(student) {
                 detailName.innerText = student.name;
                 detailId.innerText = student.id;
@@ -1481,271 +1337,95 @@
                 detailPhone.innerText = student.phone || 'Not provided';
                 detailInstitution.innerText = student.institution || 'Not provided';
                 
-                // Update ID card
                 idName.innerText = student.name;
                 idNumber.innerText = student.id;
                 idGender.innerText = student.gender === 'male' ? 'Male' : student.gender === 'female' ? 'Female' : 'Not set';
-                idDept.innerText = student.department || student.department || 'Not selected';
+                idDept.innerText = student.department || 'Not selected';
                 
-                // Update letter
                 studentNameLetter.innerText = student.name;
                 letterGender.innerText = student.gender === 'male' ? 'Male' : student.gender === 'female' ? 'Female' : 'Not specified';
-                letterDept.innerText = student.department || student.department || 'Not selected';
+                letterDept.innerText = student.department || 'Not selected';
                 letterId.innerText = student.id;
                 letterInstitution.innerText = student.institution || 'Not provided';
                 letterPhone.innerText = student.phone || 'Not provided';
                 letterCourse.innerText = student.interestedCourse || 'Not specified';
                 
-                // Update photo icon based on gender
-                if (student.gender === 'male') {
-                    idPhotoIcon.className = 'fas fa-user-graduate';
-                } else if (student.gender === 'female') {
-                    idPhotoIcon.className = 'fas fa-user-graduate';
-                }
+                idPhotoIcon.className = 'fas fa-user-graduate';
                 
-                if (student.courseRequests && student.courseRequests.length > 0) {
-                    const approvedCourses = student.courseRequests
-                        .filter(r => r.status === 'approved')
-                        .map(r => r.courseName)
-                        .join(', ');
-                    letterCourses.innerText = approvedCourses || 'None approved yet';
-                } else {
-                    letterCourses.innerText = 'None';
-                }
-                
+                letterCourses.innerText = student.courseRequests?.filter(r => r.status === 'approved').map(r => r.courseName).join(', ') || 'None';
                 renderDepartmentGrid(student.department);
             }
 
-            // UNIFIED LOGIN
             unifiedLoginBtn.addEventListener('click', () => {
                 const username = loginUsername.value.trim();
                 const password = loginPassword.value.trim();
                 loginError.innerText = '';
-
-                if (!username || !password) {
-                    loginError.innerText = 'Please enter credentials';
-                    return;
-                }
+                if (!username || !password) { loginError.innerText = 'Please enter credentials'; return; }
 
                 if (selectedRole === 'student') {
                     const student = students.find(s => s.email === username && s.password === password);
-                    if (!student) {
-                        loginError.innerText = 'Invalid student credentials';
-                        return;
-                    }
-                    currentUser = 'student';
-                    currentRole = 'student';
-                    loggedInEmail = username;
-                    roleBadge.innerText = 'Student';
-                    displayName.innerText = student.name;
+                    if (!student) { loginError.innerText = 'Invalid student credentials'; return; }
+                    currentUser = 'student'; currentRole = 'student'; loggedInEmail = username;
+                    roleBadge.innerText = 'Student'; displayName.innerText = student.name;
                     updateStudentUI(student);
-                    
-                    // Hide gender section for students (can be shown if needed)
                     document.getElementById('genderSection').style.display = 'block';
-                    
-                    // Hide download button for students (only admin can print)
-                    downloadButtonContainer.innerHTML = '';
-                    
-                    // Show message that only admin can print
-                    const msgDiv = document.createElement('div');
-                    msgDiv.className = 'toast-message warning';
-                    msgDiv.innerHTML = '<i class="fas fa-info-circle"></i> Only Admin can download admission letters';
-                    downloadButtonContainer.appendChild(msgDiv);
-                    
+                    downloadButtonContainer.innerHTML = '<div class="toast-message warning"><i class="fas fa-info-circle"></i> Only Admin can download admission letters (A4 format)</div>';
                     dynamicPanel.innerHTML = '';
-                    
                     addActivity(student.name, 'logged in', 'login');
-                    
-                } else if (selectedRole === 'staff') {
+                } 
+                else if (selectedRole === 'staff') {
                     const staff = staffAccounts.find(s => s.email === username && s.password === password);
-                    if (!staff) {
-                        loginError.innerText = 'Invalid staff credentials';
-                        return;
-                    }
-                    currentUser = 'staff';
-                    currentRole = 'staff';
-                    loggedInEmail = username;
-                    roleBadge.innerText = 'Staff';
-                    displayName.innerText = staff.name;
-                    
-                    if (students.length > 0) updateStudentUI(students[0]);
-                    
-                    // Hide gender section for non-students
+                    if (!staff) { loginError.innerText = 'Invalid staff credentials'; return; }
+                    currentUser = 'staff'; currentRole = 'staff'; loggedInEmail = username;
+                    roleBadge.innerText = 'Staff'; displayName.innerText = staff.name;
+                    if (students.length) updateStudentUI(students[0]);
                     document.getElementById('genderSection').style.display = 'none';
-                    
-                    // Hide download button for staff
                     downloadButtonContainer.innerHTML = '';
-                    
                     dynamicPanel.innerHTML = `
                         <div class="staff-zone">
                             <div class="section-title"><i class="fas fa-users"></i> Staff Portal</div>
-                            <div class="email-indicator">
-                                <i class="fas fa-envelope"></i> teamwebforge@gmail.com
-                            </div>
-                            
+                            <div class="email-indicator"><i class="fas fa-envelope"></i> teamwebforge@gmail.com</div>
                             <div style="background:#e9f0f9; border-radius:24px; padding:1.2rem; margin-bottom:1.5rem;">
                                 <h3><i class="fas fa-list"></i> Student Roster</h3>
-                                <div style="max-height:300px; overflow-y:auto;">
-                                    ${students.map(s => `<div style="padding:4px 0;"><i class="fas fa-user"></i> ${s.name} - ${s.email} - ${s.interestedCourse}</div>`).join('')}
-                                </div>
+                                <div style="max-height:300px; overflow-y:auto;">${students.map(s => `<div style="padding:4px 0;"><i class="fas fa-user"></i> ${s.name} - ${s.email} - ${s.interestedCourse}</div>`).join('')}</div>
                             </div>
-                            
-                            <div class="activity-monitor">
-                                <h3><i class="fas fa-history"></i> Recent Activity</h3>
-                                <div class="activity-log" id="activityLogDisplay">
-                                    ${activityLog.slice(0, 10).map(log => 
-                                        `<div class="activity-item">
-                                            <div class="activity-time">${log.time}</div>
-                                            <div class="activity-text">
-                                                <span class="activity-student">${log.student}</span> ${log.action}
-                                            </div>
-                                        </div>`
-                                    ).join('')}
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <h3><i class="fas fa-bullhorn"></i> Send Announcement</h3>
-                                <div class="flex-row">
-                                    <input type="text" id="shareUpdateText" class="input-field" placeholder="news...">
-                                    <button class="btn btn-warning" id="shareUpdateBtn"><i class="fas fa-share"></i> send</button>
-                                </div>
-                                <p id="shareFeedback"></p>
-                            </div>
-                            
-                            <div style="margin-top:1rem; padding:1rem; background:#fff3cd; border-radius:16px;">
-                                <i class="fas fa-info-circle"></i> Staff can view student data but cannot print admission letters.
-                            </div>
-                        </div>
-                    `;
-
+                            <div class="activity-monitor"><h3><i class="fas fa-history"></i> Recent Activity</h3><div class="activity-log" id="activityLogDisplay">${activityLog.slice(0,10).map(log => `<div class="activity-item"><div class="activity-time">${log.time}</div><div class="activity-text"><span class="activity-student">${log.student}</span> ${log.action}</div></div>`).join('')}</div></div>
+                            <div><h3><i class="fas fa-bullhorn"></i> Send Announcement</h3><div class="flex-row"><input type="text" id="shareUpdateText" class="input-field" placeholder="news..."><button class="btn btn-warning" id="shareUpdateBtn"><i class="fas fa-share"></i> send</button></div><p id="shareFeedback"></p></div>
+                            <div style="margin-top:1rem; padding:1rem; background:#fff3cd; border-radius:16px;"><i class="fas fa-info-circle"></i> Staff can view but cannot print admission letters.</div>
+                        </div>`;
                     document.getElementById('shareUpdateBtn')?.addEventListener('click', function() {
                         const update = document.getElementById('shareUpdateText').value.trim();
-                        const feedback = document.getElementById('shareFeedback');
                         if (!update) return;
-                        feedback.innerText = `📢 Update sent: "${update}"`;
+                        document.getElementById('shareFeedback').innerText = `📢 Update sent: "${update}"`;
                         document.getElementById('shareUpdateText').value = '';
                         addActivity('Staff', `sent announcement: "${update}"`, 'staff');
                     });
-                    
-                } else if (selectedRole === 'admin') {
+                } 
+                else if (selectedRole === 'admin') {
                     const admin = adminAccounts.find(a => a.username === username && a.password === password);
-                    if (!admin) {
-                        loginError.innerText = 'Invalid admin credentials';
-                        return;
-                    }
-                    currentUser = 'admin';
-                    currentRole = 'admin';
-                    loggedInEmail = username;
-                    roleBadge.innerText = 'Admin';
-                    displayName.innerText = admin.name;
-                    
-                    if (students.length > 0) {
-                        selectedStudentForAdmin = students[0].email;
-                        updateStudentUI(students[0]);
-                    }
-                    
-                    // Hide gender section for non-students
+                    if (!admin) { loginError.innerText = 'Invalid admin credentials'; return; }
+                    currentUser = 'admin'; currentRole = 'admin'; loggedInEmail = username;
+                    roleBadge.innerText = 'Admin'; displayName.innerText = admin.name;
+                    if (students.length) { selectedStudentForAdmin = students[0].email; updateStudentUI(students[0]); }
                     document.getElementById('genderSection').style.display = 'none';
-                    
-                    // Show download button for admin
-                    downloadButtonContainer.innerHTML = `
-                        <button class="btn btn-warning" id="downloadPDFBtn"><i class="fas fa-file-pdf"></i> download admission letter (PDF)</button>
-                    `;
-                    
-                    // Add event listener for download
+                    downloadButtonContainer.innerHTML = `<button class="btn btn-warning" id="downloadPDFBtn"><i class="fas fa-file-pdf"></i> download admission letter (A4 PDF)</button>`;
                     document.getElementById('downloadPDFBtn')?.addEventListener('click', downloadPDF);
                     
                     dynamicPanel.innerHTML = `
                         <div class="admin-zone">
                             <div class="section-title"><i class="fas fa-crown"></i> Admin Control Panel</div>
-                            
-                            <div class="activity-monitor">
-                                <h3><i class="fas fa-history"></i> Student List</h3>
-                                <div class="student-list" id="adminStudentList">
-                                    ${students.map(s => 
-                                        `<div class="student-list-item ${selectedStudentForAdmin === s.email ? 'selected' : ''}" 
-                                              onclick="selectStudentForAdmin('${s.email}')">
-                                            <div><strong>${s.name}</strong><br><small>${s.email}</small></div>
-                                            <div><i class="fas fa-chevron-right"></i></div>
-                                        </div>`
-                                    ).join('')}
-                                </div>
-                            </div>
-                            
-                            <div class="approval-section">
-                                <h3><i class="fas fa-check-circle"></i> Pending Course Registrations</h3>
-                                <div id="pendingApprovals">
-                                    ${students.filter(s => s.courseRequests && s.courseRequests.some(r => r.status === 'pending')).length > 0 
-                                        ? students.filter(s => s.courseRequests && s.courseRequests.some(r => r.status === 'pending')).map(s => 
-                                            `<div style="padding:0.5rem; border-bottom:1px solid #ccc;">
-                                                <strong>${s.name}</strong> (${s.email}) requests: 
-                                                ${s.courseRequests.filter(r => r.status === 'pending').map(r => r.courseName).join(', ')}
-                                                <button class="btn-small" onclick="approveCourses('${s.email}')">Approve</button>
-                                            </div>`
-                                          ).join('')
-                                        : '<p>No pending registrations</p>'
-                                    }
-                                </div>
-                            </div>
-                            
-                            <div class="create-student">
-                                <h3><i class="fas fa-user-plus"></i> Create New Student</h3>
-                                <div style="margin-bottom:0.8rem;">
-                                    <input type="text" id="newFullName" class="input-field" placeholder="full name">
-                                </div>
-                                <div style="margin-bottom:0.8rem;">
-                                    <input type="email" id="newEmail" class="input-field" placeholder="email">
-                                </div>
-                                <div style="margin-bottom:0.8rem;">
-                                    <input type="text" id="newPhone" class="input-field" placeholder="phone">
-                                </div>
-                                <div style="margin-bottom:0.8rem;">
-                                    <input type="text" id="newInstitution" class="input-field" placeholder="institution">
-                                </div>
-                                <div style="margin-bottom:0.8rem;">
-                                    <input type="text" id="newStudentId" class="input-field" placeholder="student ID">
-                                </div>
-                                <div style="margin-bottom:0.8rem;" class="password-wrapper">
-                                    <input type="password" id="newStudentPassword" class="input-field" placeholder="password" value="1234">
-                                    <i class="far fa-eye toggle-password" id="toggleNewPass"></i>
-                                </div>
-                                <select id="newStudentGender" class="input-field" style="margin-bottom:0.8rem;">
-                                    <option value="">Select Gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                                <select id="newStudentDept" class="input-field" style="margin-bottom:0.8rem;">
-                                    <option value="">Select Department</option>
-                                    ${[...new Set(departments)].map(d => `<option value="${d}">${d}</option>`).join('')}
-                                </select>
-                                <select id="newStudentCourse" class="input-field" style="margin-bottom:0.8rem;">
-                                    <option value="Frontend">Frontend</option>
-                                    <option value="Backend">Backend</option>
-                                    <option value="Full Stack">Full Stack</option>
-                                </select>
-                                <button class="btn" id="createStudentBtn"><i class="fas fa-save"></i> create student</button>
-                                <p id="accountCreatedMsg" style="margin-top:8px;"></p>
-                            </div>
-                            
-                            <div style="margin-top:1.5rem; background:#f0e6ff; padding:1rem; border-radius:20px;">
-                                <h3><i class="fas fa-database"></i> System Stats</h3>
-                                <p>Total students: ${students.length}</p>
-                                <p>Total staff: ${staffAccounts.length}</p>
-                                <p>Total activities: ${activityLog.length}</p>
-                                <p><i class="fas fa-print"></i> Only Admin can print admission letters</p>
-                            </div>
-                        </div>
-                    `;
-
-                    // Add toggle for new password
-                    document.getElementById('toggleNewPass')?.addEventListener('click', function() {
-                        const field = document.getElementById('newStudentPassword');
-                        field.type = field.type === 'password' ? 'text' : 'password';
-                        this.classList.toggle('fa-eye-slash');
+                            <div class="activity-monitor"><h3><i class="fas fa-history"></i> Student List</h3><div class="student-list" id="adminStudentList">${students.map(s => `<div class="student-list-item ${selectedStudentForAdmin === s.email ? 'selected' : ''}" onclick="selectStudentForAdmin('${s.email}')"><div><strong>${s.name}</strong><br><small>${s.email}</small></div><div><i class="fas fa-chevron-right"></i></div></div>`).join('')}</div></div>
+                            <div class="approval-section"><h3><i class="fas fa-check-circle"></i> Pending Registrations</h3><div id="pendingApprovals">${students.filter(s => s.courseRequests?.some(r => r.status === 'pending')).length ? students.filter(s => s.courseRequests?.some(r => r.status === 'pending')).map(s => `<div style="padding:0.5rem; border-bottom:1px solid #ccc;"><strong>${s.name}</strong> (${s.email}) requests: ${s.courseRequests.filter(r => r.status === 'pending').map(r => r.courseName).join(', ')} <button class="btn-small" onclick="approveCourses('${s.email}')">Approve</button></div>`).join('') : '<p>No pending registrations</p>'}</div></div>
+                            <div class="create-student"><h3><i class="fas fa-user-plus"></i> Create Student</h3><div style="margin-bottom:0.8rem;"><input type="text" id="newFullName" class="input-field" placeholder="full name"></div><div style="margin-bottom:0.8rem;"><input type="email" id="newEmail" class="input-field" placeholder="email"></div><div style="margin-bottom:0.8rem;"><input type="text" id="newPhone" class="input-field" placeholder="phone"></div><div style="margin-bottom:0.8rem;"><input type="text" id="newInstitution" class="input-field" placeholder="institution"></div><div style="margin-bottom:0.8rem;"><input type="text" id="newStudentId" class="input-field" placeholder="student ID"></div><div class="password-wrapper" style="margin-bottom:0.8rem;"><input type="password" id="newStudentPassword" class="input-field" placeholder="password" value="1234"><i class="far fa-eye toggle-password" id="toggleNewPass"></i></div><select id="newStudentGender" class="input-field" style="margin-bottom:0.8rem;"><option value="">Select Gender</option><option value="male">Male</option><option value="female">Female</option></select><select id="newStudentDept" class="input-field" style="margin-bottom:0.8rem;"><option value="">Select Department</option>${[...new Set(departments)].map(d => `<option value="${d}">${d}</option>`).join('')}</select><select id="newStudentCourse" class="input-field" style="margin-bottom:0.8rem;"><option value="Frontend">Frontend</option><option value="Backend">Backend</option><option value="Full Stack">Full Stack</option></select><button class="btn" id="createStudentBtn"><i class="fas fa-save"></i> create</button><p id="accountCreatedMsg" style="margin-top:8px;"></p></div>
+                            <div style="margin-top:1.5rem; background:#f0e6ff; padding:1rem; border-radius:20px;"><h3><i class="fas fa-database"></i> System Stats</h3><p>Total students: ${students.length}</p><p>Total staff: ${staffAccounts.length}</p><p>Total activities: ${activityLog.length}</p><p><i class="fas fa-print"></i> A4 format - Centered</p></div>
+                        </div>`;
+                    
+                    document.getElementById('toggleNewPass')?.addEventListener('click', function() { 
+                        const f = document.getElementById('newStudentPassword'); 
+                        f.type = f.type === 'password' ? 'text' : 'password'; 
+                        this.classList.toggle('fa-eye-slash'); 
                     });
-
-                    // Create student button
+                    
                     document.getElementById('createStudentBtn')?.addEventListener('click', function() {
                         const name = document.getElementById('newFullName')?.value.trim();
                         const email = document.getElementById('newEmail')?.value.trim();
@@ -1757,117 +1437,75 @@
                         const dept = document.getElementById('newStudentDept')?.value;
                         const course = document.getElementById('newStudentCourse')?.value;
                         const msg = document.getElementById('accountCreatedMsg');
-
-                        if (!name || !email || !id) {
-                            msg.innerText = '❌ Name, Email and ID are required';
-                            msg.style.color = 'red';
-                            return;
-                        }
-
-                        if (students.some(s => s.email === email)) {
-                            msg.innerText = '❌ Email already exists';
-                            msg.style.color = 'red';
-                            return;
-                        }
-
-                        const newStudent = {
-                            name, email, phone, institution,
-                            id, password: pass,
-                            gender, department: dept,
-                            interestedCourse: course,
-                            hasExperience: 'No',
-                            courseRequests: []
-                        };
-
-                        students.push(newStudent);
-                        
+                        if (!name || !email || !id) { msg.innerText = '❌ Name, Email and ID required'; msg.style.color = 'red'; return; }
+                        if (students.some(s => s.email === email)) { msg.innerText = '❌ Email exists'; msg.style.color = 'red'; return; }
+                        students.push({ name, email, phone, institution, id, password: pass, gender, department: dept, interestedCourse: course, hasExperience: 'No', courseRequests: [] });
                         addActivity('Admin', `created student: ${name}`, 'admin');
                         msg.innerText = `✅ ${name} created with password: ${pass}`;
                         msg.style.color = 'green';
-                        
-                        // Clear form
-                        document.getElementById('newFullName').value = '';
-                        document.getElementById('newEmail').value = '';
-                        document.getElementById('newPhone').value = '';
-                        document.getElementById('newInstitution').value = '';
-                        document.getElementById('newStudentId').value = '';
-                        document.getElementById('newStudentPassword').value = '1234';
-                        document.getElementById('newStudentGender').value = '';
-                        document.getElementById('newStudentDept').value = '';
-                        
+                        document.getElementById('newFullName').value = ''; document.getElementById('newEmail').value = ''; document.getElementById('newPhone').value = ''; document.getElementById('newInstitution').value = ''; document.getElementById('newStudentId').value = ''; document.getElementById('newStudentPassword').value = '1234'; document.getElementById('newStudentGender').value = ''; document.getElementById('newStudentDept').value = '';
                         refreshAdminPanel();
                     });
                 }
-
                 loginSection.classList.add('hidden');
                 dashboardSection.classList.remove('hidden');
             });
 
-            // Download PDF function (only for admin)
             function downloadPDF() {
-                if (currentRole !== 'admin') {
-                    alert('Only Admin can download admission letters');
-                    return;
-                }
-                
+                if (currentRole !== 'admin') { alert('Only Admin can download admission letters'); return; }
                 const { jsPDF } = window.jspdf;
-                const letterElement = document.getElementById('admissionLetterDiv');
-                
-                html2canvas(letterElement, { scale: 2 }).then(canvas => {
+                html2canvas(document.getElementById('admissionLetterDiv'), { scale: 2 }).then(canvas => {
                     const imgData = canvas.toDataURL('image/png');
                     const pdf = new jsPDF({
                         orientation: 'portrait',
                         unit: 'px',
-                        format: [canvas.width * 0.75, canvas.height * 0.75]
+                        format: 'a4'
                     });
-                    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width * 0.75, canvas.height * 0.75);
-                    pdf.save(`WebForge_Admission_${studentNameLetter.innerText}.pdf`);
+                    const pageWidth = pdf.internal.pageSize.getWidth();
+                    const pageHeight = pdf.internal.pageSize.getHeight();
+                    const imgWidth = canvas.width;
+                    const imgHeight = canvas.height;
+                    const ratio = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
+                    const width = imgWidth * ratio;
+                    const height = imgHeight * ratio;
+                    const x = (pageWidth - width) / 2;
+                    const y = (pageHeight - height) / 2;
                     
-                    addActivity('Admin', `downloaded admission letter for ${studentNameLetter.innerText}`, 'download');
+                    pdf.addImage(imgData, 'PNG', x, y, width, height);
+                    pdf.save(`WebForge_Admission_${studentNameLetter.innerText}.pdf`);
+                    addActivity('Admin', `downloaded A4 admission letter for ${studentNameLetter.innerText}`, 'download');
                 });
             }
 
-            // Save gender
             saveGenderBtn.addEventListener('click', () => {
-                if (!selectedGender) {
-                    genderMessage.innerText = 'Please select a gender';
-                    return;
-                }
-                
+                if (!selectedGender) { genderMessage.innerText = 'Please select a gender'; return; }
                 if (currentUser === 'student' && loggedInEmail) {
                     const student = students.find(s => s.email === loggedInEmail);
                     if (student) {
-                        const oldGender = student.gender;
+                        const old = student.gender;
                         student.gender = selectedGender;
                         detailGender.innerText = selectedGender === 'male' ? 'Male' : 'Female';
                         idGender.innerText = selectedGender === 'male' ? 'Male' : 'Female';
                         letterGender.innerText = selectedGender === 'male' ? 'Male' : 'Female';
                         genderMessage.innerText = `✅ Gender updated to ${selectedGender}`;
                         genderMessage.style.color = 'green';
-                        
-                        addActivity(student.name, `updated gender from ${oldGender} to ${selectedGender}`, 'update');
+                        addActivity(student.name, `updated gender from ${old} to ${selectedGender}`, 'update');
                     }
                 }
             });
 
-            // Save department
             saveDeptBtn.addEventListener('click', () => {
-                if (!selectedDepartment) {
-                    deptMessage.innerText = 'Please select a department';
-                    return;
-                }
-                
+                if (!selectedDepartment) { deptMessage.innerText = 'Please select a department'; return; }
                 if (currentUser === 'student' && loggedInEmail) {
                     const student = students.find(s => s.email === loggedInEmail);
                     if (student) {
-                        const oldDept = student.department;
+                        const old = student.department;
                         student.department = selectedDepartment;
                         detailDept.innerText = selectedDepartment;
                         letterDept.innerText = selectedDepartment;
                         idDept.innerText = selectedDepartment;
                         deptMessage.innerText = `✅ Department updated to ${selectedDepartment}`;
-                        
-                        addActivity(student.name, `changed department from ${oldDept} to ${selectedDepartment}`, 'update');
+                        addActivity(student.name, `changed department from ${old} to ${selectedDepartment}`, 'update');
                     }
                 } else if (currentRole === 'admin' && selectedStudentForAdmin) {
                     const student = students.find(s => s.email === selectedStudentForAdmin);
@@ -1877,98 +1515,61 @@
                         letterDept.innerText = selectedDepartment;
                         idDept.innerText = selectedDepartment;
                         deptMessage.innerText = `✅ Department updated for ${student.name}`;
-                        
                         addActivity('Admin', `updated department for ${student.name} to ${selectedDepartment}`, 'admin');
                     }
                 }
             });
 
-            // Request course registration
             requestRegistrationBtn.addEventListener('click', () => {
                 if (currentUser !== 'student' || !loggedInEmail) {
                     if (currentRole === 'admin' && selectedStudentForAdmin) {
-                        // Admin can register courses for selected student
                         const checkboxes = document.querySelectorAll('.course-checkbox:checked');
-                        if (checkboxes.length === 0) {
-                            registrationRequestMessage.innerText = 'Select at least one course';
-                            return;
-                        }
-
+                        if (!checkboxes.length) { registrationRequestMessage.innerText = 'Select at least one course'; return; }
                         const student = students.find(s => s.email === selectedStudentForAdmin);
                         if (!student) return;
-
                         if (!student.courseRequests) student.courseRequests = [];
-
-                        const requestedCourses = [];
+                        const requested = [];
                         checkboxes.forEach(cb => {
-                            const courseName = cb.value;
-                            if (!student.courseRequests.some(r => r.courseName === courseName)) {
-                                student.courseRequests.push({
-                                    courseName: courseName,
-                                    status: 'pending',
-                                    requestDate: new Date().toLocaleString()
-                                });
-                                requestedCourses.push(courseName);
+                            const course = cb.value;
+                            if (!student.courseRequests.some(r => r.courseName === course)) {
+                                student.courseRequests.push({ courseName: course, status: 'pending', requestDate: new Date().toLocaleString() });
+                                requested.push(course);
                             }
                         });
-
-                        if (requestedCourses.length > 0) {
-                            addActivity('Admin', `registered courses for ${student.name}: ${requestedCourses.join(', ')}`, 'admin');
+                        if (requested.length) {
+                            addActivity('Admin', `registered courses for ${student.name}: ${requested.join(', ')}`, 'admin');
                             registrationRequestMessage.innerText = `✅ Courses registered for ${student.name}`;
-                        } else {
-                            registrationRequestMessage.innerText = 'Courses already requested';
-                        }
-                        
+                        } else registrationRequestMessage.innerText = 'Courses already requested';
                         registrationRequestMessage.style.color = 'green';
                         checkboxes.forEach(cb => cb.checked = false);
                         return;
                     }
-                    
-                    registrationRequestMessage.innerText = 'Please login as student';
-                    return;
+                    registrationRequestMessage.innerText = 'Please login as student'; return;
                 }
-
                 const checkboxes = document.querySelectorAll('.course-checkbox:checked');
-                if (checkboxes.length === 0) {
-                    registrationRequestMessage.innerText = 'Select at least one course';
-                    return;
-                }
-
+                if (!checkboxes.length) { registrationRequestMessage.innerText = 'Select at least one course'; return; }
                 const student = students.find(s => s.email === loggedInEmail);
                 if (!student) return;
-
                 if (!student.courseRequests) student.courseRequests = [];
-
-                const requestedCourses = [];
+                const requested = [];
                 checkboxes.forEach(cb => {
-                    const courseName = cb.value;
-                    if (!student.courseRequests.some(r => r.courseName === courseName)) {
-                        student.courseRequests.push({
-                            courseName: courseName,
-                            status: 'pending',
-                            requestDate: new Date().toLocaleString()
-                        });
-                        requestedCourses.push(courseName);
+                    const course = cb.value;
+                    if (!student.courseRequests.some(r => r.courseName === course)) {
+                        student.courseRequests.push({ courseName: course, status: 'pending', requestDate: new Date().toLocaleString() });
+                        requested.push(course);
                     }
                 });
-
-                if (requestedCourses.length > 0) {
-                    addActivity(student.name, `requested ${requestedCourses.length} courses: ${requestedCourses.join(', ')}`, 'request');
-                    registrationRequestMessage.innerText = `✅ Request sent to admin for ${requestedCourses.length} courses`;
-                } else {
-                    registrationRequestMessage.innerText = 'Courses already requested';
-                }
-                
+                if (requested.length) {
+                    addActivity(student.name, `requested ${requested.length} courses: ${requested.join(', ')}`, 'request');
+                    registrationRequestMessage.innerText = `✅ Request sent to admin for ${requested.length} courses`;
+                } else registrationRequestMessage.innerText = 'Courses already requested';
                 registrationRequestMessage.style.color = 'green';
                 checkboxes.forEach(cb => cb.checked = false);
             });
 
-            // Download ID card (available to all logged in users)
             downloadIdCardBtn.addEventListener('click', function() {
                 const { jsPDF } = window.jspdf;
-                const idCardElement = document.getElementById('studentIdCard');
-                
-                html2canvas(idCardElement, { scale: 2 }).then(canvas => {
+                html2canvas(document.getElementById('studentIdCard'), { scale: 2 }).then(canvas => {
                     const imgData = canvas.toDataURL('image/png');
                     const pdf = new jsPDF({
                         orientation: 'landscape',
@@ -1977,111 +1578,51 @@
                     });
                     pdf.addImage(imgData, 'PNG', 0, 0, canvas.width * 0.75, canvas.height * 0.75);
                     pdf.save(`WebForge_ID_${idName.innerText}.pdf`);
-                    
                     if (currentUser === 'student' && loggedInEmail) {
                         const student = students.find(s => s.email === loggedInEmail);
-                        if (student) {
-                            addActivity(student.name, 'downloaded ID card PDF', 'download');
-                        }
+                        if (student) addActivity(student.name, 'downloaded ID card PDF', 'download');
                     } else if (currentRole === 'admin' && selectedStudentForAdmin) {
                         const student = students.find(s => s.email === selectedStudentForAdmin);
-                        if (student) {
-                            addActivity('Admin', `downloaded ID card for ${student.name}`, 'admin');
-                        }
+                        if (student) addActivity('Admin', `downloaded ID card for ${student.name}`, 'admin');
                     }
                 });
             });
 
-            // Reset password functionality
-            resetPasswordLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                resetModal.classList.remove('hidden');
-                resetEmail.value = '';
-                newResetPassword.value = '';
-                confirmResetPassword.value = '';
-                resetMessage.innerText = '';
-            });
-
-            closeResetModal.addEventListener('click', () => {
-                resetModal.classList.add('hidden');
-            });
-
-            toggleReset?.addEventListener('click', function() {
-                const type = newResetPassword.type === 'password' ? 'text' : 'password';
-                newResetPassword.type = type;
-                this.classList.toggle('fa-eye-slash');
-            });
-
+            resetPasswordLink.addEventListener('click', (e) => { e.preventDefault(); resetModal.classList.remove('hidden'); resetEmail.value = ''; newResetPassword.value = ''; confirmResetPassword.value = ''; resetMessage.innerText = ''; });
+            closeResetModal.addEventListener('click', () => resetModal.classList.add('hidden'));
+            toggleReset?.addEventListener('click', function() { newResetPassword.type = newResetPassword.type === 'password' ? 'text' : 'password'; this.classList.toggle('fa-eye-slash'); });
             resetPasswordBtn.addEventListener('click', () => {
-                const emailOrUsername = resetEmail.value.trim();
-                const newPass = newResetPassword.value.trim();
-                const confirmPass = confirmResetPassword.value.trim();
-
-                if (!emailOrUsername || !newPass || !confirmPass) {
-                    resetMessage.innerText = 'All fields required';
-                    resetMessage.style.color = 'red';
-                    return;
-                }
-
-                if (newPass !== confirmPass) {
-                    resetMessage.innerText = 'Passwords do not match';
-                    resetMessage.style.color = 'red';
-                    return;
-                }
-
-                // Try student first
-                let found = false;
-                let userName = '';
-                const student = students.find(s => s.email === emailOrUsername);
-                if (student) {
-                    student.password = newPass;
-                    found = true;
-                    userName = student.name;
-                } else {
-                    const staff = staffAccounts.find(s => s.email === emailOrUsername);
-                    if (staff) {
-                        staff.password = newPass;
-                        found = true;
-                        userName = staff.name;
-                    } else {
-                        const admin = adminAccounts.find(a => a.username === emailOrUsername);
-                        if (admin) {
-                            admin.password = newPass;
-                            found = true;
-                            userName = admin.name;
-                        }
+                const email = resetEmail.value.trim(), newPass = newResetPassword.value.trim(), confirm = confirmResetPassword.value.trim();
+                if (!email || !newPass || !confirm) { resetMessage.innerText = 'All fields required'; resetMessage.style.color = 'red'; return; }
+                if (newPass !== confirm) { resetMessage.innerText = 'Passwords do not match'; resetMessage.style.color = 'red'; return; }
+                let found = false, userName = '';
+                const student = students.find(s => s.email === email);
+                if (student) { student.password = newPass; found = true; userName = student.name; }
+                else {
+                    const staff = staffAccounts.find(s => s.email === email);
+                    if (staff) { staff.password = newPass; found = true; userName = staff.name; }
+                    else {
+                        const admin = adminAccounts.find(a => a.username === email);
+                        if (admin) { admin.password = newPass; found = true; userName = admin.name; }
                     }
                 }
-
                 if (found) {
                     addActivity('System', `password reset for ${userName}`, 'security');
                     resetMessage.innerText = '✅ Password reset successful!';
                     resetMessage.style.color = 'green';
                     setTimeout(() => resetModal.classList.add('hidden'), 1500);
-                } else {
-                    resetMessage.innerText = '❌ Account not found';
-                    resetMessage.style.color = 'red';
-                }
+                } else { resetMessage.innerText = '❌ Account not found'; resetMessage.style.color = 'red'; }
             });
 
-            // Logout
             logoutBtn.addEventListener('click', () => {
                 if (currentUser === 'student' && loggedInEmail) {
                     const student = students.find(s => s.email === loggedInEmail);
-                    if (student) {
-                        addActivity(student.name, 'logged out', 'logout');
-                    }
+                    if (student) addActivity(student.name, 'logged out', 'logout');
                 }
-                
                 dashboardSection.classList.add('hidden');
                 loginSection.classList.remove('hidden');
-                currentUser = null;
-                currentRole = null;
-                loggedInEmail = null;
-                selectedStudentForAdmin = null;
-                loginUsername.value = '';
-                loginPassword.value = '';
-                loginPassword.type = 'password';
+                currentUser = null; currentRole = null; loggedInEmail = null; selectedStudentForAdmin = null;
+                loginUsername.value = ''; loginPassword.value = ''; loginPassword.type = 'password';
             });
 
             // Initialize
