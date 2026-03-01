@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>WebForge · Student Portal </title>
+    <title>WebForge · Student Portal · </title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- jsPDF for PDF generation -->
@@ -756,37 +756,23 @@
     </div>
 
     <script>
-        // ===== ENCRYPTED DEFAULT PASSWORD (SHA-256 of "1234") =====
-        const DEFAULT_PASSWORD_HASH = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4';
-
-        // ===== SIMPLE HASH FUNCTION =====
-        function simpleHash(str) {
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                const char = str.charCodeAt(i);
-                hash = ((hash << 5) - hash) + char;
-                hash = hash & hash;
-            }
-            return Math.abs(hash).toString(16).padStart(64, '0');
-        }
-
-        // ===== STUDENT DATA (All start with default password hash) =====
+        // ===== STUDENT DATA (All start with password "1234") =====
         let students = [
-            { name: 'Sharon Samson', email: 'samshazon@gmail.com', phone: '09169315036', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security', id: 'WF001', passwordHash: DEFAULT_PASSWORD_HASH },
-            { name: 'Fikayomi Christopher Ojo', email: 'metacourier1@gmail.com', phone: '08077549692', institution: 'Lautech', department: 'Cybersecurity science', id: 'WF002', passwordHash: DEFAULT_PASSWORD_HASH },
-            { name: 'Ogundare Bowofoluwa', email: 'ogundarebowofoluwa2007@gmail.com', phone: '09063737072', institution: 'Lautech', department: 'Cyber security', id: 'WF003', passwordHash: DEFAULT_PASSWORD_HASH },
-            { name: 'Yusuff Muizah', email: 'yussuffmuizah@gmail.com', phone: '09129386133', institution: 'Ladoke Akintola University Of Technology', department: 'Cyber Security Science', id: 'WF004', passwordHash: DEFAULT_PASSWORD_HASH },
-            { name: 'Akeem Bashit', email: 'hakeembasit272@gmail.com', phone: '09075903833', institution: 'Lautech', department: 'CSS', id: 'WF005', passwordHash: DEFAULT_PASSWORD_HASH },
-            { name: 'Ajani Shukuroh', email: 'ajanishukuroholamide@gmail.com', phone: '09068566420', institution: 'LAUTECH', department: 'Cybersecurity science', id: 'WF006', passwordHash: DEFAULT_PASSWORD_HASH },
-            { name: 'Ayomide Jayeona', email: 'jayeonaayomide@gmail.com', phone: '09036518761', institution: 'Atiba', department: 'Computer science', id: 'WF007', passwordHash: DEFAULT_PASSWORD_HASH },
-            { name: 'Adesina Peace', email: 'graceadunola633@gmail.com', phone: '08135510780', institution: 'Lautech', department: 'Cyber security', id: 'WF008', passwordHash: DEFAULT_PASSWORD_HASH },
-            { name: 'Jeremiah Oluwanifemi', email: 'jacinthjerry@gmail.com', phone: '09162544363', institution: 'Lautech', department: 'CSS', id: 'WF009', passwordHash: DEFAULT_PASSWORD_HASH },
-            { name: 'Olagunju Adeyemi Samuel', email: 'adeyemiolagunju001@gmail.com', phone: '09151066962', institution: 'Ladoke Akintola University of Technology', department: 'Cybersecurity', id: 'WF010', passwordHash: DEFAULT_PASSWORD_HASH },
-            { name: 'Abdulaziz Aliyah Ayomide', email: 'abdulazizaliyah06@gmail.com', phone: '08067733494', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security science', id: 'WF011', passwordHash: DEFAULT_PASSWORD_HASH },
-            { name: 'Adekunle Abdulhameed Ademola', email: 'adekunleabdulhameed15@gmail.com', phone: '09160419462', institution: 'Lautech', department: 'Cybersecurity', id: 'WF012', passwordHash: DEFAULT_PASSWORD_HASH },
-            { name: 'Olatunji Testimony Israel', email: 'testimonyisrael353@gmail.com', phone: '09015037316', institution: 'Ladoke akintola university', department: 'Cyber security science', id: 'WF013', passwordHash: DEFAULT_PASSWORD_HASH },
-            { name: 'Adebayo Ismail', email: 'adebayoismail012@gmail.com', phone: '09017124307', institution: 'Ladoke Akintola University of Technology', department: 'Cyber Security', id: 'WF014', passwordHash: DEFAULT_PASSWORD_HASH },
-            { name: 'Peter Adelola Joseph', email: 'adelolapeter331@gmail.com', phone: '08130877248', institution: 'Lautech', department: 'Animal production and health', id: 'WF015', passwordHash: DEFAULT_PASSWORD_HASH }
+            { name: 'Sharon Samson', email: 'samshazon@gmail.com', phone: '09169315036', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security', id: 'WF001', password: '1234' },
+            { name: 'Fikayomi Christopher Ojo', email: 'metacourier1@gmail.com', phone: '08077549692', institution: 'Lautech', department: 'Cybersecurity science', id: 'WF002', password: '1234' },
+            { name: 'Ogundare Bowofoluwa', email: 'ogundarebowofoluwa2007@gmail.com', phone: '09063737072', institution: 'Lautech', department: 'Cyber security', id: 'WF003', password: '1234' },
+            { name: 'Yusuff Muizah', email: 'yussuffmuizah@gmail.com', phone: '09129386133', institution: 'Ladoke Akintola University Of Technology', department: 'Cyber Security Science', id: 'WF004', password: '1234' },
+            { name: 'Akeem Bashit', email: 'hakeembasit272@gmail.com', phone: '09075903833', institution: 'Lautech', department: 'CSS', id: 'WF005', password: '1234' },
+            { name: 'Ajani Shukuroh', email: 'ajanishukuroholamide@gmail.com', phone: '09068566420', institution: 'LAUTECH', department: 'Cybersecurity science', id: 'WF006', password: '1234' },
+            { name: 'Ayomide Jayeona', email: 'jayeonaayomide@gmail.com', phone: '09036518761', institution: 'Atiba', department: 'Computer science', id: 'WF007', password: '1234' },
+            { name: 'Adesina Peace', email: 'graceadunola633@gmail.com', phone: '08135510780', institution: 'Lautech', department: 'Cyber security', id: 'WF008', password: '1234' },
+            { name: 'Jeremiah Oluwanifemi', email: 'jacinthjerry@gmail.com', phone: '09162544363', institution: 'Lautech', department: 'CSS', id: 'WF009', password: '1234' },
+            { name: 'Olagunju Adeyemi Samuel', email: 'adeyemiolagunju001@gmail.com', phone: '09151066962', institution: 'Ladoke Akintola University of Technology', department: 'Cybersecurity', id: 'WF010', password: '1234' },
+            { name: 'Abdulaziz Aliyah Ayomide', email: 'abdulazizaliyah06@gmail.com', phone: '08067733494', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security science', id: 'WF011', password: '1234' },
+            { name: 'Adekunle Abdulhameed Ademola', email: 'adekunleabdulhameed15@gmail.com', phone: '09160419462', institution: 'Lautech', department: 'Cybersecurity', id: 'WF012', password: '1234' },
+            { name: 'Olatunji Testimony Israel', email: 'testimonyisrael353@gmail.com', phone: '09015037316', institution: 'Ladoke akintola university', department: 'Cyber security science', id: 'WF013', password: '1234' },
+            { name: 'Adebayo Ismail', email: 'adebayoismail012@gmail.com', phone: '09017124307', institution: 'Ladoke Akintola University of Technology', department: 'Cyber Security', id: 'WF014', password: '1234' },
+            { name: 'Peter Adelola Joseph', email: 'adelolapeter331@gmail.com', phone: '08130877248', institution: 'Lautech', department: 'Animal production and health', id: 'WF015', password: '1234' }
         ];
 
         // ===== DOM Elements =====
@@ -842,8 +828,7 @@
                 return;
             }
 
-            const enteredHash = simpleHash(password);
-            const student = students.find(s => s.email === email && s.passwordHash === enteredHash);
+            const student = students.find(s => s.email === email && s.password === password);
             
             if (student) {
                 // Update UI with student data
@@ -872,7 +857,7 @@
                 studentEmail.value = '';
                 studentPassword.value = '';
             } else {
-                loginError.textContent = 'Invalid email or password';
+                loginError.textContent = 'Invalid email or password. Default password is 1234';
             }
         });
 
@@ -936,9 +921,8 @@
                 return;
             }
 
-            // Hash the new password and update
-            const newHash = simpleHash(newPass);
-            students[studentIndex].passwordHash = newHash;
+            // Update password
+            students[studentIndex].password = newPass;
 
             // Show success message
             resetMessage.textContent = '✅ Password reset successful! You can now login with your new password.';
@@ -1006,6 +990,13 @@
         studentPassword.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 studentLoginBtn.click();
+            }
+        });
+
+        // ===== Allow Enter key in reset modal =====
+        confirmPassword.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                resetPasswordBtn.click();
             }
         });
     </script>
