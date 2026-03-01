@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>WebForge · Student Portal</title>
+    <title>WebForge · Student Portal </title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- jsPDF for PDF generation -->
@@ -27,6 +27,7 @@
             --accent-light: #ffb85c;
             --accent-dark: #ff9f2f;
             --success: #28a745;
+            --danger: #dc3545;
             --gray-100: #f8f9fa;
             --gray-200: #e9ecef;
             --gray-300: #dee2e6;
@@ -178,10 +179,108 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            margin-bottom: 1rem;
         }
 
         .btn-login:hover {
             background: var(--primary-light);
+        }
+
+        .btn-link {
+            background: none;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 50px;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-link:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .forgot-password a {
+            color: var(--accent-dark);
+            text-decoration: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESET PASSWORD MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 1rem;
+            padding: clamp(1.5rem, 4vw, 2.5rem);
+            width: 100%;
+            max-width: 450px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+        }
+
+        .modal-content h3 {
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--gray-600);
+        }
+
+        .close-btn:hover {
+            color: var(--danger);
+        }
+
+        .reset-message {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            min-height: 2rem;
+        }
+
+        .reset-message.success {
+            color: var(--success);
+        }
+
+        .reset-message.error {
+            color: var(--danger);
         }
 
         /* ===== DASHBOARD ===== */
@@ -229,9 +328,9 @@
         }
 
         .logout-btn:hover {
-            background: #dc3545;
+            background: var(--danger);
             color: white;
-            border-color: #dc3545;
+            border-color: var(--danger);
         }
 
         .dashboard-content {
@@ -427,7 +526,7 @@
         }
 
         .error-message {
-            color: #dc3545;
+            color: var(--danger);
             text-align: center;
             margin-top: 1rem;
             font-size: clamp(0.8rem, 2.5vw, 0.9rem);
@@ -518,7 +617,40 @@
                 <button class="btn-login" id="studentLoginBtn">
                     <i class="fas fa-sign-in-alt"></i> Sign In
                 </button>
+
+                <div class="forgot-password">
+                    <a id="forgotPasswordBtn"><i class="fas fa-key"></i> Forgot Password?</a>
+                </div>
                 <div id="loginError" class="error-message"></div>
+            </div>
+        </div>
+
+        <!-- Reset Password Modal -->
+        <div id="resetModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" id="closeModal">&times;</span>
+                <h3>Reset Password</h3>
+                
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="resetEmail" class="form-control" placeholder="Enter your email">
+                </div>
+
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" id="newPassword" class="form-control" placeholder="Enter new password">
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm New Password</label>
+                    <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm new password">
+                </div>
+
+                <button class="btn-login" id="resetPasswordBtn">
+                    <i class="fas fa-save"></i> Reset Password
+                </button>
+
+                <div id="resetMessage" class="reset-message"></div>
             </div>
         </div>
 
@@ -624,51 +756,55 @@
     </div>
 
     <script>
-        // ===== ENCRYPTED PASSWORD (SHA-256 of "1234") =====
-        // This is the encrypted version of "1234"
-        // No plain text password appears in the code
-        const ENCRYPTED_PASSWORD = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4';
+        // ===== ENCRYPTED DEFAULT PASSWORD (SHA-256 of "1234") =====
+        const DEFAULT_PASSWORD_HASH = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4';
 
-        // ===== SIMPLE HASH FUNCTION (for demo purposes) =====
-        // In production, use proper encryption library
+        // ===== SIMPLE HASH FUNCTION =====
         function simpleHash(str) {
             let hash = 0;
             for (let i = 0; i < str.length; i++) {
                 const char = str.charCodeAt(i);
                 hash = ((hash << 5) - hash) + char;
-                hash = hash & hash; // Convert to 32-bit integer
+                hash = hash & hash;
             }
-            // Convert to hex string
             return Math.abs(hash).toString(16).padStart(64, '0');
         }
 
-        // ===== STUDENT DATA (Passwords are encrypted) =====
-        const students = [
-            { name: 'Sharon Samson', email: 'samshazon@gmail.com', phone: '09169315036', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security', id: 'WF001', passwordHash: ENCRYPTED_PASSWORD },
-            { name: 'Fikayomi Christopher Ojo', email: 'metacourier1@gmail.com', phone: '08077549692', institution: 'Lautech', department: 'Cybersecurity science', id: 'WF002', passwordHash: ENCRYPTED_PASSWORD },
-            { name: 'Ogundare Bowofoluwa', email: 'ogundarebowofoluwa2007@gmail.com', phone: '09063737072', institution: 'Lautech', department: 'Cyber security', id: 'WF003', passwordHash: ENCRYPTED_PASSWORD },
-            { name: 'Yusuff Muizah', email: 'yussuffmuizah@gmail.com', phone: '09129386133', institution: 'Ladoke Akintola University Of Technology', department: 'Cyber Security Science', id: 'WF004', passwordHash: ENCRYPTED_PASSWORD },
-            { name: 'Akeem Bashit', email: 'hakeembasit272@gmail.com', phone: '09075903833', institution: 'Lautech', department: 'CSS', id: 'WF005', passwordHash: ENCRYPTED_PASSWORD },
-            { name: 'Ajani Shukuroh', email: 'ajanishukuroholamide@gmail.com', phone: '09068566420', institution: 'LAUTECH', department: 'Cybersecurity science', id: 'WF006', passwordHash: ENCRYPTED_PASSWORD },
-            { name: 'Ayomide Jayeona', email: 'jayeonaayomide@gmail.com', phone: '09036518761', institution: 'Atiba', department: 'Computer science', id: 'WF007', passwordHash: ENCRYPTED_PASSWORD },
-            { name: 'Adesina Peace', email: 'graceadunola633@gmail.com', phone: '08135510780', institution: 'Lautech', department: 'Cyber security', id: 'WF008', passwordHash: ENCRYPTED_PASSWORD },
-            { name: 'Jeremiah Oluwanifemi', email: 'jacinthjerry@gmail.com', phone: '09162544363', institution: 'Lautech', department: 'CSS', id: 'WF009', passwordHash: ENCRYPTED_PASSWORD },
-            { name: 'Olagunju Adeyemi Samuel', email: 'adeyemiolagunju001@gmail.com', phone: '09151066962', institution: 'Ladoke Akintola University of Technology', department: 'Cybersecurity', id: 'WF010', passwordHash: ENCRYPTED_PASSWORD },
-            { name: 'Abdulaziz Aliyah Ayomide', email: 'abdulazizaliyah06@gmail.com', phone: '08067733494', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security science', id: 'WF011', passwordHash: ENCRYPTED_PASSWORD },
-            { name: 'Adekunle Abdulhameed Ademola', email: 'adekunleabdulhameed15@gmail.com', phone: '09160419462', institution: 'Lautech', department: 'Cybersecurity', id: 'WF012', passwordHash: ENCRYPTED_PASSWORD },
-            { name: 'Olatunji Testimony Israel', email: 'testimonyisrael353@gmail.com', phone: '09015037316', institution: 'Ladoke akintola university', department: 'Cyber security science', id: 'WF013', passwordHash: ENCRYPTED_PASSWORD },
-            { name: 'Adebayo Ismail', email: 'adebayoismail012@gmail.com', phone: '09017124307', institution: 'Ladoke Akintola University of Technology', department: 'Cyber Security', id: 'WF014', passwordHash: ENCRYPTED_PASSWORD },
-            { name: 'Peter Adelola Joseph', email: 'adelolapeter331@gmail.com', phone: '08130877248', institution: 'Lautech', department: 'Animal production and health', id: 'WF015', passwordHash: ENCRYPTED_PASSWORD }
+        // ===== STUDENT DATA (All start with default password hash) =====
+        let students = [
+            { name: 'Sharon Samson', email: 'samshazon@gmail.com', phone: '09169315036', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security', id: 'WF001', passwordHash: DEFAULT_PASSWORD_HASH },
+            { name: 'Fikayomi Christopher Ojo', email: 'metacourier1@gmail.com', phone: '08077549692', institution: 'Lautech', department: 'Cybersecurity science', id: 'WF002', passwordHash: DEFAULT_PASSWORD_HASH },
+            { name: 'Ogundare Bowofoluwa', email: 'ogundarebowofoluwa2007@gmail.com', phone: '09063737072', institution: 'Lautech', department: 'Cyber security', id: 'WF003', passwordHash: DEFAULT_PASSWORD_HASH },
+            { name: 'Yusuff Muizah', email: 'yussuffmuizah@gmail.com', phone: '09129386133', institution: 'Ladoke Akintola University Of Technology', department: 'Cyber Security Science', id: 'WF004', passwordHash: DEFAULT_PASSWORD_HASH },
+            { name: 'Akeem Bashit', email: 'hakeembasit272@gmail.com', phone: '09075903833', institution: 'Lautech', department: 'CSS', id: 'WF005', passwordHash: DEFAULT_PASSWORD_HASH },
+            { name: 'Ajani Shukuroh', email: 'ajanishukuroholamide@gmail.com', phone: '09068566420', institution: 'LAUTECH', department: 'Cybersecurity science', id: 'WF006', passwordHash: DEFAULT_PASSWORD_HASH },
+            { name: 'Ayomide Jayeona', email: 'jayeonaayomide@gmail.com', phone: '09036518761', institution: 'Atiba', department: 'Computer science', id: 'WF007', passwordHash: DEFAULT_PASSWORD_HASH },
+            { name: 'Adesina Peace', email: 'graceadunola633@gmail.com', phone: '08135510780', institution: 'Lautech', department: 'Cyber security', id: 'WF008', passwordHash: DEFAULT_PASSWORD_HASH },
+            { name: 'Jeremiah Oluwanifemi', email: 'jacinthjerry@gmail.com', phone: '09162544363', institution: 'Lautech', department: 'CSS', id: 'WF009', passwordHash: DEFAULT_PASSWORD_HASH },
+            { name: 'Olagunju Adeyemi Samuel', email: 'adeyemiolagunju001@gmail.com', phone: '09151066962', institution: 'Ladoke Akintola University of Technology', department: 'Cybersecurity', id: 'WF010', passwordHash: DEFAULT_PASSWORD_HASH },
+            { name: 'Abdulaziz Aliyah Ayomide', email: 'abdulazizaliyah06@gmail.com', phone: '08067733494', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security science', id: 'WF011', passwordHash: DEFAULT_PASSWORD_HASH },
+            { name: 'Adekunle Abdulhameed Ademola', email: 'adekunleabdulhameed15@gmail.com', phone: '09160419462', institution: 'Lautech', department: 'Cybersecurity', id: 'WF012', passwordHash: DEFAULT_PASSWORD_HASH },
+            { name: 'Olatunji Testimony Israel', email: 'testimonyisrael353@gmail.com', phone: '09015037316', institution: 'Ladoke akintola university', department: 'Cyber security science', id: 'WF013', passwordHash: DEFAULT_PASSWORD_HASH },
+            { name: 'Adebayo Ismail', email: 'adebayoismail012@gmail.com', phone: '09017124307', institution: 'Ladoke Akintola University of Technology', department: 'Cyber Security', id: 'WF014', passwordHash: DEFAULT_PASSWORD_HASH },
+            { name: 'Peter Adelola Joseph', email: 'adelolapeter331@gmail.com', phone: '08130877248', institution: 'Lautech', department: 'Animal production and health', id: 'WF015', passwordHash: DEFAULT_PASSWORD_HASH }
         ];
 
         // ===== DOM Elements =====
         const loginContainer = document.getElementById('loginContainer');
         const dashboardContainer = document.getElementById('dashboardContainer');
+        const resetModal = document.getElementById('resetModal');
         const studentEmail = document.getElementById('studentEmail');
         const studentPassword = document.getElementById('studentPassword');
         const studentLoginBtn = document.getElementById('studentLoginBtn');
         const loginError = document.getElementById('loginError');
         const logoutBtn = document.getElementById('logoutBtn');
+        const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
+        const closeModal = document.getElementById('closeModal');
+        const resetEmail = document.getElementById('resetEmail');
+        const newPassword = document.getElementById('newPassword');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const resetPasswordBtn = document.getElementById('resetPasswordBtn');
+        const resetMessage = document.getElementById('resetMessage');
         const studentNameDisplay = document.getElementById('studentNameDisplay');
         
         // Student info elements
@@ -694,7 +830,7 @@
         const downloadLetterBtn = document.getElementById('downloadLetterBtn');
         const printLetterBtn = document.getElementById('printLetterBtn');
 
-        // ===== Login Function with Encryption =====
+        // ===== Login Function =====
         studentLoginBtn.addEventListener('click', () => {
             const email = studentEmail.value.trim();
             const password = studentPassword.value.trim();
@@ -706,10 +842,7 @@
                 return;
             }
 
-            // Hash the entered password
             const enteredHash = simpleHash(password);
-            
-            // Find student with matching email and password hash
             const student = students.find(s => s.email === email && s.passwordHash === enteredHash);
             
             if (student) {
@@ -741,6 +874,85 @@
             } else {
                 loginError.textContent = 'Invalid email or password';
             }
+        });
+
+        // ===== Open Reset Password Modal =====
+        forgotPasswordBtn.addEventListener('click', () => {
+            resetModal.classList.add('active');
+            resetEmail.value = '';
+            newPassword.value = '';
+            confirmPassword.value = '';
+            resetMessage.textContent = '';
+            resetMessage.className = 'reset-message';
+        });
+
+        // ===== Close Modal =====
+        closeModal.addEventListener('click', () => {
+            resetModal.classList.remove('active');
+        });
+
+        // ===== Close Modal when clicking outside =====
+        window.addEventListener('click', (e) => {
+            if (e.target === resetModal) {
+                resetModal.classList.remove('active');
+            }
+        });
+
+        // ===== Reset Password Function =====
+        resetPasswordBtn.addEventListener('click', () => {
+            const email = resetEmail.value.trim();
+            const newPass = newPassword.value.trim();
+            const confirmPass = confirmPassword.value.trim();
+
+            // Clear previous messages
+            resetMessage.textContent = '';
+            resetMessage.className = 'reset-message';
+
+            // Validation
+            if (!email || !newPass || !confirmPass) {
+                resetMessage.textContent = 'All fields are required';
+                resetMessage.classList.add('error');
+                return;
+            }
+
+            if (newPass !== confirmPass) {
+                resetMessage.textContent = 'Passwords do not match';
+                resetMessage.classList.add('error');
+                return;
+            }
+
+            if (newPass.length < 4) {
+                resetMessage.textContent = 'Password must be at least 4 characters';
+                resetMessage.classList.add('error');
+                return;
+            }
+
+            // Find student by email
+            const studentIndex = students.findIndex(s => s.email === email);
+            
+            if (studentIndex === -1) {
+                resetMessage.textContent = 'Email not found';
+                resetMessage.classList.add('error');
+                return;
+            }
+
+            // Hash the new password and update
+            const newHash = simpleHash(newPass);
+            students[studentIndex].passwordHash = newHash;
+
+            // Show success message
+            resetMessage.textContent = '✅ Password reset successful! You can now login with your new password.';
+            resetMessage.classList.add('success');
+
+            // Clear form
+            resetEmail.value = '';
+            newPassword.value = '';
+            confirmPassword.value = '';
+
+            // Close modal after 2 seconds
+            setTimeout(() => {
+                resetModal.classList.remove('active');
+            }, 2000);
         });
 
         // ===== Logout =====
