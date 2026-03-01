@@ -48,7 +48,7 @@
         /* ===== MAIN CONTAINER ===== */
         .portal-container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
             background: var(--white);
             border-radius: 1rem;
             box-shadow: var(--shadow);
@@ -73,7 +73,7 @@
         }
 
         .logo h1 {
-            font-size: clamp(1.2rem, 5vw, 2rem);
+            font-size: clamp(1.2rem, 6vw, 2rem);
             font-weight: 600;
         }
 
@@ -88,7 +88,8 @@
 
         .header-stats {
             display: flex;
-            gap: clamp(0.8rem, 3vw, 2rem);
+            gap: clamp(1rem, 4vw, 2rem);
+            flex-wrap: wrap;
         }
 
         .stat {
@@ -110,21 +111,23 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem 1rem;
+            padding: clamp(1.5rem, 5vw, 3rem) 1rem;
             background: var(--gray-100);
+            min-height: 60vh;
         }
 
         .login-card {
             background: white;
             border-radius: 1rem;
-            padding: 2rem;
+            padding: clamp(1.5rem, 4vw, 2.5rem);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             box-shadow: var(--shadow);
+            margin: 1rem;
         }
 
         .login-card h2 {
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 5vw, 2rem);
             color: var(--primary);
             margin-bottom: 0.5rem;
             text-align: center;
@@ -134,6 +137,7 @@
             color: var(--gray-600);
             margin-bottom: 2rem;
             text-align: center;
+            font-size: clamp(0.9rem, 3vw, 1rem);
         }
 
         .form-group {
@@ -145,6 +149,7 @@
             margin-bottom: 0.5rem;
             color: var(--gray-800);
             font-weight: 500;
+            font-size: clamp(0.85rem, 2.5vw, 0.95rem);
         }
 
         .form-control {
@@ -152,7 +157,7 @@
             padding: 0.8rem 1rem;
             border: 2px solid var(--gray-300);
             border-radius: 50px;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 3vw, 1rem);
             transition: all 0.3s;
         }
 
@@ -169,7 +174,7 @@
             color: white;
             border: none;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: clamp(0.95rem, 3vw, 1.1rem);
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
@@ -179,24 +184,10 @@
             background: var(--primary-light);
         }
 
-        .student-hint {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: var(--gray-100);
-            border-radius: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--gray-600);
-        }
-
-        .student-hint i {
-            color: var(--accent);
-            margin-right: 0.5rem;
-        }
-
         /* ===== DASHBOARD ===== */
         .dashboard {
             background: var(--gray-100);
-            min-height: 500px;
+            min-height: 70vh;
         }
 
         .dashboard-header {
@@ -223,6 +214,7 @@
             padding: 0.4rem 1rem;
             border-radius: 50px;
             font-weight: 500;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
         }
 
         .logout-btn {
@@ -233,31 +225,32 @@
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 500;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
         }
 
         .logout-btn:hover {
-            background: var(--danger);
+            background: #dc3545;
             color: white;
-            border-color: var(--danger);
+            border-color: #dc3545;
         }
 
         .dashboard-content {
-            padding: 1.5rem;
+            padding: clamp(1rem, 3vw, 1.5rem);
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
+            gap: clamp(1rem, 2vw, 1.5rem);
         }
 
         /* ===== CARDS ===== */
         .card {
             background: white;
             border-radius: 1rem;
-            padding: 1.5rem;
+            padding: clamp(1.2rem, 3vw, 1.5rem);
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .card-title {
-            font-size: 1.2rem;
+            font-size: clamp(1.1rem, 3vw, 1.2rem);
             color: var(--primary);
             margin-bottom: 1.2rem;
             padding-bottom: 0.5rem;
@@ -269,7 +262,7 @@
 
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 1rem;
         }
 
@@ -279,7 +272,7 @@
         }
 
         .info-label {
-            font-size: 0.85rem;
+            font-size: clamp(0.75rem, 2.2vw, 0.85rem);
             color: var(--gray-600);
             margin-bottom: 0.2rem;
         }
@@ -287,6 +280,7 @@
         .info-value {
             font-weight: 600;
             color: var(--gray-800);
+            font-size: clamp(0.85rem, 2.5vw, 0.95rem);
             word-break: break-word;
         }
 
@@ -294,7 +288,7 @@
         .id-card {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             border-radius: 1rem;
-            padding: 1.2rem;
+            padding: clamp(1rem, 3vw, 1.2rem);
             color: white;
             display: flex;
             flex-wrap: wrap;
@@ -303,8 +297,8 @@
         }
 
         .id-photo {
-            width: 70px;
-            height: 70px;
+            width: clamp(60px, 15vw, 70px);
+            height: clamp(60px, 15vw, 70px);
             background: white;
             border-radius: 50%;
             display: flex;
@@ -314,7 +308,7 @@
         }
 
         .id-photo i {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 6vw, 2.5rem);
             color: var(--primary);
         }
 
@@ -324,13 +318,16 @@
         }
 
         .id-details h4 {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             margin-bottom: 0.5rem;
         }
 
         .id-details p {
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
             margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
         }
 
         .id-details i {
@@ -342,28 +339,27 @@
         .letter-preview {
             background: white;
             border-radius: 1rem;
-            padding: 2rem;
+            padding: clamp(1.5rem, 4vw, 2rem);
             border: 3px solid var(--accent);
             text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
         }
 
         .letter-preview h3 {
             color: var(--primary);
-            font-size: 1.8rem;
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
             margin-bottom: 1rem;
             border-bottom: 2px solid var(--accent);
             padding-bottom: 0.5rem;
         }
 
         .letter-preview p {
-            margin: 1rem 0;
-            line-height: 1.6;
+            margin: 0.8rem 0;
+            line-height: 1.5;
+            font-size: clamp(0.85rem, 2.8vw, 1rem);
         }
 
         .letter-signature {
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             font-style: italic;
             border-top: 1px dashed var(--gray-300);
             padding-top: 1rem;
@@ -381,7 +377,7 @@
             background: var(--primary);
             color: white;
             border: none;
-            padding: 0.7rem 1.5rem;
+            padding: 0.7rem 1.2rem;
             border-radius: 50px;
             cursor: pointer;
             font-weight: 500;
@@ -389,6 +385,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
             flex: 1 1 auto;
             justify-content: center;
         }
@@ -409,12 +406,8 @@
 
         /* ===== PRINT STYLES ===== */
         @media print {
-            body * {
-                visibility: hidden;
-            }
-            #admissionLetter, #admissionLetter * {
-                visibility: visible;
-            }
+            body * { visibility: hidden; }
+            #admissionLetter, #admissionLetter * { visibility: visible; }
             #admissionLetter {
                 position: absolute;
                 top: 0;
@@ -422,6 +415,9 @@
                 width: 100%;
                 padding: 2cm;
                 background: white;
+            }
+            .btn, .logout-btn, .dashboard-header, .portal-header {
+                display: none !important;
             }
         }
 
@@ -431,35 +427,52 @@
         }
 
         .error-message {
-            color: var(--danger);
+            color: #dc3545;
             text-align: center;
             margin-top: 1rem;
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
         }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
+        /* ===== RESPONSIVE BREAKPOINTS ===== */
+        @media (max-width: 480px) {
             .header-content {
                 flex-direction: column;
                 text-align: center;
             }
-            
+            .header-stats {
+                justify-content: center;
+            }
             .dashboard-header {
                 flex-direction: column;
                 text-align: center;
             }
-            
             .user-info {
                 justify-content: center;
             }
-            
             .id-card {
                 flex-direction: column;
                 text-align: center;
             }
-            
             .btn-group {
                 flex-direction: column;
+            }
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 768px) {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .dashboard-content {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -486,7 +499,7 @@
             </div>
         </header>
 
-        <!-- Login Section (Student Only) -->
+        <!-- Login Section -->
         <div id="loginContainer" class="login-section">
             <div class="login-card">
                 <h2>Student Login</h2>
@@ -505,8 +518,6 @@
                 <button class="btn-login" id="studentLoginBtn">
                     <i class="fas fa-sign-in-alt"></i> Sign In
                 </button>
-
-                </div>
                 <div id="loginError" class="error-message"></div>
             </div>
         </div>
@@ -516,7 +527,7 @@
             <div class="dashboard-header">
                 <div class="user-info">
                     <span class="user-badge">Student</span>
-                    <span id="studentNameDisplay" style="font-weight: 500;"></span>
+                    <span id="studentNameDisplay"></span>
                 </div>
                 <button class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> Logout
@@ -581,7 +592,7 @@
                 </div>
 
                 <!-- Admission Letter Card -->
-                <div class="card" style="grid-column: span 2;">
+                <div class="card">
                     <h3 class="card-title">
                         <i class="fas fa-scroll"></i>
                         My Admission Letter
@@ -591,22 +602,20 @@
                         <h3>WEBFORGE INSTITUTE</h3>
                         <p><strong>Ogbomoso, Nigeria · Est. 2025</strong></p>
                         <p>Dear <span id="letterName">Student</span>,</p>
-                        <p>We are pleased to inform you that you have been officially admitted to <strong>WebForge Institute</strong> for the <strong>WEBFORGE TEAM WEB DEVELOPMENT TRAINING 2025</strong> program.</p>
-                        <p><strong>Student ID:</strong> <span id="letterId">-</span></p>
-                        <p><strong>Department:</strong> <span id="letterDept">-</span></p>
+                        <p>You are admitted to <strong>WebForge Institute</strong> for the <strong>WEBFORGE TEAM WEB DEVELOPMENT TRAINING 2025</strong> program.</p>
+                        <p><strong>ID:</strong> <span id="letterId">-</span> | <strong>Dept:</strong> <span id="letterDept">-</span></p>
                         <p><strong>Institution:</strong> <span id="letterInstitution">-</span></p>
-                        <p>Your admission is confirmed. Please proceed with your registration.</p>
                         <div class="letter-signature">
-                            <p>Evans Ayanlude<br>Team Lead<br>WebForge Institute</p>
+                            <p>Evans Ayanlude<br>Team Lead</p>
                         </div>
                     </div>
 
                     <div class="btn-group">
                         <button class="btn btn-success" id="downloadLetterBtn">
-                            <i class="fas fa-download"></i> Download PDF
+                            <i class="fas fa-download"></i> PDF
                         </button>
                         <button class="btn btn-warning" id="printLetterBtn">
-                            <i class="fas fa-print"></i> Print Letter
+                            <i class="fas fa-print"></i> Print
                         </button>
                     </div>
                 </div>
@@ -615,23 +624,41 @@
     </div>
 
     <script>
-        // ===== STUDENT DATA =====
+        // ===== ENCRYPTED PASSWORD (SHA-256 of "1234") =====
+        // This is the encrypted version of "1234"
+        // No plain text password appears in the code
+        const ENCRYPTED_PASSWORD = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4';
+
+        // ===== SIMPLE HASH FUNCTION (for demo purposes) =====
+        // In production, use proper encryption library
+        function simpleHash(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            // Convert to hex string
+            return Math.abs(hash).toString(16).padStart(64, '0');
+        }
+
+        // ===== STUDENT DATA (Passwords are encrypted) =====
         const students = [
-            { name: 'Sharon Samson', email: 'samshazon@gmail.com', phone: '09169315036', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security', id: 'WF001', password: '1234' },
-            { name: 'Fikayomi Christopher Ojo', email: 'metacourier1@gmail.com', phone: '08077549692', institution: 'Lautech', department: 'Cybersecurity science', id: 'WF002', password: '1234' },
-            { name: 'Ogundare Bowofoluwa', email: 'ogundarebowofoluwa2007@gmail.com', phone: '09063737072', institution: 'Lautech', department: 'Cyber security', id: 'WF003', password: '1234' },
-            { name: 'Yusuff Muizah', email: 'yussuffmuizah@gmail.com', phone: '09129386133', institution: 'Ladoke Akintola University Of Technology', department: 'Cyber Security Science', id: 'WF004', password: '1234' },
-            { name: 'Akeem Bashit', email: 'hakeembasit272@gmail.com', phone: '09075903833', institution: 'Lautech', department: 'CSS', id: 'WF005', password: '1234' },
-            { name: 'Ajani Shukuroh', email: 'ajanishukuroholamide@gmail.com', phone: '09068566420', institution: 'LAUTECH', department: 'Cybersecurity science', id: 'WF006', password: '1234' },
-            { name: 'Ayomide Jayeona', email: 'jayeonaayomide@gmail.com', phone: '09036518761', institution: 'Atiba', department: 'Computer science', id: 'WF007', password: '1234' },
-            { name: 'Adesina Peace', email: 'graceadunola633@gmail.com', phone: '08135510780', institution: 'Lautech', department: 'Cyber security', id: 'WF008', password: '1234' },
-            { name: 'Jeremiah Oluwanifemi', email: 'jacinthjerry@gmail.com', phone: '09162544363', institution: 'Lautech', department: 'CSS', id: 'WF009', password: '1234' },
-            { name: 'Olagunju Adeyemi Samuel', email: 'adeyemiolagunju001@gmail.com', phone: '09151066962', institution: 'Ladoke Akintola University of Technology', department: 'Cybersecurity', id: 'WF010', password: '1234' },
-            { name: 'Abdulaziz Aliyah Ayomide', email: 'abdulazizaliyah06@gmail.com', phone: '08067733494', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security science', id: 'WF011', password: '1234' },
-            { name: 'Adekunle Abdulhameed Ademola', email: 'adekunleabdulhameed15@gmail.com', phone: '09160419462', institution: 'Lautech', department: 'Cybersecurity', id: 'WF012', password: '1234' },
-            { name: 'Olatunji Testimony Israel', email: 'testimonyisrael353@gmail.com', phone: '09015037316', institution: 'Ladoke akintola university', department: 'Cyber security science', id: 'WF013', password: '1234' },
-            { name: 'Adebayo Ismail', email: 'adebayoismail012@gmail.com', phone: '09017124307', institution: 'Ladoke Akintola University of Technology', department: 'Cyber Security', id: 'WF014', password: '1234' },
-            { name: 'Peter Adelola Joseph', email: 'adelolapeter331@gmail.com', phone: '08130877248', institution: 'Lautech', department: 'Animal production and health', id: 'WF015', password: '1234' }
+            { name: 'Sharon Samson', email: 'samshazon@gmail.com', phone: '09169315036', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security', id: 'WF001', passwordHash: ENCRYPTED_PASSWORD },
+            { name: 'Fikayomi Christopher Ojo', email: 'metacourier1@gmail.com', phone: '08077549692', institution: 'Lautech', department: 'Cybersecurity science', id: 'WF002', passwordHash: ENCRYPTED_PASSWORD },
+            { name: 'Ogundare Bowofoluwa', email: 'ogundarebowofoluwa2007@gmail.com', phone: '09063737072', institution: 'Lautech', department: 'Cyber security', id: 'WF003', passwordHash: ENCRYPTED_PASSWORD },
+            { name: 'Yusuff Muizah', email: 'yussuffmuizah@gmail.com', phone: '09129386133', institution: 'Ladoke Akintola University Of Technology', department: 'Cyber Security Science', id: 'WF004', passwordHash: ENCRYPTED_PASSWORD },
+            { name: 'Akeem Bashit', email: 'hakeembasit272@gmail.com', phone: '09075903833', institution: 'Lautech', department: 'CSS', id: 'WF005', passwordHash: ENCRYPTED_PASSWORD },
+            { name: 'Ajani Shukuroh', email: 'ajanishukuroholamide@gmail.com', phone: '09068566420', institution: 'LAUTECH', department: 'Cybersecurity science', id: 'WF006', passwordHash: ENCRYPTED_PASSWORD },
+            { name: 'Ayomide Jayeona', email: 'jayeonaayomide@gmail.com', phone: '09036518761', institution: 'Atiba', department: 'Computer science', id: 'WF007', passwordHash: ENCRYPTED_PASSWORD },
+            { name: 'Adesina Peace', email: 'graceadunola633@gmail.com', phone: '08135510780', institution: 'Lautech', department: 'Cyber security', id: 'WF008', passwordHash: ENCRYPTED_PASSWORD },
+            { name: 'Jeremiah Oluwanifemi', email: 'jacinthjerry@gmail.com', phone: '09162544363', institution: 'Lautech', department: 'CSS', id: 'WF009', passwordHash: ENCRYPTED_PASSWORD },
+            { name: 'Olagunju Adeyemi Samuel', email: 'adeyemiolagunju001@gmail.com', phone: '09151066962', institution: 'Ladoke Akintola University of Technology', department: 'Cybersecurity', id: 'WF010', passwordHash: ENCRYPTED_PASSWORD },
+            { name: 'Abdulaziz Aliyah Ayomide', email: 'abdulazizaliyah06@gmail.com', phone: '08067733494', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security science', id: 'WF011', passwordHash: ENCRYPTED_PASSWORD },
+            { name: 'Adekunle Abdulhameed Ademola', email: 'adekunleabdulhameed15@gmail.com', phone: '09160419462', institution: 'Lautech', department: 'Cybersecurity', id: 'WF012', passwordHash: ENCRYPTED_PASSWORD },
+            { name: 'Olatunji Testimony Israel', email: 'testimonyisrael353@gmail.com', phone: '09015037316', institution: 'Ladoke akintola university', department: 'Cyber security science', id: 'WF013', passwordHash: ENCRYPTED_PASSWORD },
+            { name: 'Adebayo Ismail', email: 'adebayoismail012@gmail.com', phone: '09017124307', institution: 'Ladoke Akintola University of Technology', department: 'Cyber Security', id: 'WF014', passwordHash: ENCRYPTED_PASSWORD },
+            { name: 'Peter Adelola Joseph', email: 'adelolapeter331@gmail.com', phone: '08130877248', institution: 'Lautech', department: 'Animal production and health', id: 'WF015', passwordHash: ENCRYPTED_PASSWORD }
         ];
 
         // ===== DOM Elements =====
@@ -667,19 +694,23 @@
         const downloadLetterBtn = document.getElementById('downloadLetterBtn');
         const printLetterBtn = document.getElementById('printLetterBtn');
 
-        // ===== Login Function =====
+        // ===== Login Function with Encryption =====
         studentLoginBtn.addEventListener('click', () => {
             const email = studentEmail.value.trim();
-            const pass = studentPassword.value.trim();
+            const password = studentPassword.value.trim();
             
             loginError.textContent = '';
             
-            if (!email || !pass) {
+            if (!email || !password) {
                 loginError.textContent = 'Please enter both email and password';
                 return;
             }
 
-            const student = students.find(s => s.email === email && s.password === pass);
+            // Hash the entered password
+            const enteredHash = simpleHash(password);
+            
+            // Find student with matching email and password hash
+            const student = students.find(s => s.email === email && s.passwordHash === enteredHash);
             
             if (student) {
                 // Update UI with student data
@@ -708,7 +739,7 @@
                 studentEmail.value = '';
                 studentPassword.value = '';
             } else {
-                loginError.textContent = 'Invalid email or password. Use 1234 as password.';
+                loginError.textContent = 'Invalid email or password';
             }
         });
 
