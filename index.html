@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>WebForge · Student and staff Portal </title>
+    <title>WebForge · Student Portal</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- jsPDF for PDF generation -->
@@ -11,7 +11,7 @@
     <!-- html2canvas for PDF rendering -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        /* ===== STANDARD STUDENT PORTAL STYLES ===== */
+        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -27,15 +27,13 @@
             --accent-light: #ffb85c;
             --accent-dark: #ff9f2f;
             --success: #28a745;
-            --warning: #ffc107;
-            --danger: #dc3545;
             --gray-100: #f8f9fa;
             --gray-200: #e9ecef;
             --gray-300: #dee2e6;
             --gray-600: #6c757d;
             --gray-800: #343a40;
-            --border-radius: 1rem;
-            --box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         body {
@@ -44,23 +42,25 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1rem;
+            padding: 0.5rem;
         }
 
+        /* ===== MAIN CONTAINER ===== */
         .portal-container {
-            max-width: 1400px;
             width: 100%;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
+            max-width: 1200px;
+            background: var(--white);
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
             overflow: hidden;
+            margin: 0.5rem;
         }
 
         /* ===== HEADER ===== */
         .portal-header {
             background: var(--primary);
             color: white;
-            padding: 1.5rem 2rem;
+            padding: 1rem 1.5rem;
             border-bottom: 4px solid var(--accent);
         }
 
@@ -73,7 +73,7 @@
         }
 
         .logo h1 {
-            font-size: 2rem;
+            font-size: clamp(1.2rem, 5vw, 2rem);
             font-weight: 600;
         }
 
@@ -82,14 +82,13 @@
         }
 
         .logo p {
-            font-size: 0.9rem;
+            font-size: clamp(0.7rem, 3vw, 0.9rem);
             opacity: 0.9;
-            margin-top: 0.25rem;
         }
 
         .header-stats {
             display: flex;
-            gap: 2rem;
+            gap: clamp(0.8rem, 3vw, 2rem);
         }
 
         .stat {
@@ -97,125 +96,44 @@
         }
 
         .stat .number {
-            font-size: 1.5rem;
+            font-size: clamp(1rem, 4vw, 1.5rem);
             font-weight: 700;
             color: var(--accent-light);
         }
 
         .stat .label {
-            font-size: 0.85rem;
-            opacity: 0.9;
-        }
-
-        /* ===== MAIN LAYOUT ===== */
-        .portal-main {
-            display: grid;
-            grid-template-columns: 2.5fr 1.5fr;
-            min-height: 700px;
+            font-size: clamp(0.6rem, 2.5vw, 0.85rem);
         }
 
         /* ===== LOGIN SECTION ===== */
         .login-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 3rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            padding: 2rem 1rem;
+            background: var(--gray-100);
         }
 
-        .login-content {
-            max-width: 400px;
-        }
-
-        .login-content h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .login-content h2 span {
-            color: var(--accent-light);
-            display: block;
-            font-size: 1.8rem;
-        }
-
-        .features {
-            margin: 2rem 0;
-            list-style: none;
-        }
-
-        .features li {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .features li i {
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* ===== LOGIN FORM ===== */
-        .login-form-container {
+        .login-card {
             background: white;
-            padding: 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login-form {
+            border-radius: 1rem;
+            padding: 2rem;
             width: 100%;
             max-width: 400px;
+            box-shadow: var(--shadow);
         }
 
-        .login-form h3 {
+        .login-card h2 {
             font-size: 2rem;
             color: var(--primary);
             margin-bottom: 0.5rem;
+            text-align: center;
         }
 
-        .login-form p {
+        .login-card p {
             color: var(--gray-600);
             margin-bottom: 2rem;
-        }
-
-        .role-tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            background: var(--gray-100);
-            padding: 0.5rem;
-            border-radius: 50px;
-        }
-
-        .role-tab {
-            flex: 1;
-            padding: 0.75rem;
             text-align: center;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-
-        .role-tab i {
-            display: block;
-            font-size: 1.2rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .role-tab.active {
-            background: var(--primary);
-            color: white;
         }
 
         .form-group {
@@ -231,7 +149,7 @@
 
         .form-control {
             width: 100%;
-            padding: 1rem 1.25rem;
+            padding: 0.8rem 1rem;
             border: 2px solid var(--gray-300);
             border-radius: 50px;
             font-size: 1rem;
@@ -246,7 +164,7 @@
 
         .btn-login {
             width: 100%;
-            padding: 1rem;
+            padding: 0.8rem;
             background: var(--primary);
             color: white;
             border: none;
@@ -255,48 +173,40 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 1rem;
         }
 
         .btn-login:hover {
             background: var(--primary-light);
-            transform: translateY(-2px);
         }
 
-        .btn-login:active {
-            transform: translateY(0);
-        }
-
-        .forgot-link {
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .forgot-link a {
-            color: var(--accent-dark);
-            text-decoration: none;
+        .student-hint {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--gray-100);
+            border-radius: 0.5rem;
             font-size: 0.9rem;
+            color: var(--gray-600);
         }
 
-        .error-message {
-            color: var(--danger);
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 0.9rem;
+        .student-hint i {
+            color: var(--accent);
+            margin-right: 0.5rem;
         }
 
         /* ===== DASHBOARD ===== */
         .dashboard {
             background: var(--gray-100);
-            min-height: 700px;
+            min-height: 500px;
         }
 
         .dashboard-header {
             background: white;
-            padding: 1rem 2rem;
+            padding: 1rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
             border-bottom: 1px solid var(--gray-300);
         }
 
@@ -304,12 +214,13 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .user-badge {
             background: var(--primary);
             color: white;
-            padding: 0.5rem 1.5rem;
+            padding: 0.4rem 1rem;
             border-radius: 50px;
             font-weight: 500;
         }
@@ -317,7 +228,7 @@
         .logout-btn {
             background: none;
             border: 2px solid var(--gray-300);
-            padding: 0.5rem 1.5rem;
+            padding: 0.4rem 1.2rem;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s;
@@ -331,9 +242,9 @@
         }
 
         .dashboard-content {
-            padding: 2rem;
+            padding: 1.5rem;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
         }
 
@@ -348,7 +259,7 @@
         .card-title {
             font-size: 1.2rem;
             color: var(--primary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--accent-light);
             display: flex;
@@ -358,7 +269,7 @@
 
         .info-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
         }
 
@@ -370,29 +281,30 @@
         .info-label {
             font-size: 0.85rem;
             color: var(--gray-600);
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
         }
 
         .info-value {
             font-weight: 600;
             color: var(--gray-800);
+            word-break: break-word;
         }
 
         /* ===== ID CARD ===== */
         .id-card {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             border-radius: 1rem;
-            padding: 1.5rem;
+            padding: 1.2rem;
             color: white;
             display: flex;
-            gap: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
             align-items: center;
-            margin-top: 1rem;
         }
 
         .id-photo {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             background: white;
             border-radius: 50%;
             display: flex;
@@ -402,8 +314,13 @@
         }
 
         .id-photo i {
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: var(--primary);
+        }
+
+        .id-details {
+            flex: 1;
+            min-width: 180px;
         }
 
         .id-details h4 {
@@ -413,8 +330,7 @@
 
         .id-details p {
             font-size: 0.9rem;
-            margin-bottom: 0.25rem;
-            opacity: 0.9;
+            margin-bottom: 0.3rem;
         }
 
         .id-details i {
@@ -453,30 +369,19 @@
             padding-top: 1rem;
         }
 
-        /* ===== PRINT STYLES - A4 ===== */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            #admissionLetterDiv, #admissionLetterDiv * {
-                visibility: visible;
-            }
-            #admissionLetterDiv {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                padding: 2cm;
-                background: white;
-            }
+        /* ===== BUTTONS ===== */
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
         }
 
-        /* ===== BUTTONS ===== */
         .btn {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
+            padding: 0.7rem 1.5rem;
             border-radius: 50px;
             cursor: pointer;
             font-weight: 500;
@@ -484,11 +389,8 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-        }
-
-        .btn:hover {
-            background: var(--primary-light);
-            transform: translateY(-2px);
+            flex: 1 1 auto;
+            justify-content: center;
         }
 
         .btn-success {
@@ -502,13 +404,25 @@
 
         .btn-block {
             width: 100%;
-            justify-content: center;
+            margin-top: 1rem;
         }
 
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
+        /* ===== PRINT STYLES ===== */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #admissionLetter, #admissionLetter * {
+                visibility: visible;
+            }
+            #admissionLetter {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                padding: 2cm;
+                background: white;
+            }
         }
 
         /* ===== UTILITIES ===== */
@@ -516,8 +430,37 @@
             display: none !important;
         }
 
-        .mt-4 {
-            margin-top: 2rem;
+        .error-message {
+            color: var(--danger);
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .user-info {
+                justify-content: center;
+            }
+            
+            .id-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -536,10 +479,6 @@
                         <div class="label">Students</div>
                     </div>
                     <div class="stat">
-                        <div class="number">7</div>
-                        <div class="label">Staff</div>
-                    </div>
-                    <div class="stat">
                         <div class="number">2025</div>
                         <div class="label">Founded</div>
                     </div>
@@ -547,186 +486,131 @@
             </div>
         </header>
 
-        <!-- Login Section (Visible by default) -->
-        <div id="loginContainer" class="portal-main">
-            <div class="login-section">
-                <div class="login-content">
-                    <h2>
-                        Welcome to WebForge
-                        <span>Student Portal</span>
-                    </h2>
-                    <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                        Access your academic records, download admission letters, and manage your courses.
-                    </p>
-                    <ul class="features">
-                        <li><i class="fas fa-id-card"></i> Digital ID Card</li>
-                        <li><i class="fas fa-download"></i> A4 Admission Letter</li>
-                        <li><i class="fas fa-book-open"></i> Course Registration</li>
-                        <li><i class="fas fa-print"></i> Print Documents</li>
-                    </ul>
+        <!-- Login Section (Student Only) -->
+        <div id="loginContainer" class="login-section">
+            <div class="login-card">
+                <h2>Student Login</h2>
+                <p>Enter your credentials to access your portal</p>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="studentEmail" class="form-control" placeholder="Enter your email">
                 </div>
-            </div>
 
-            <div class="login-form-container">
-                <div class="login-form">
-                    <h3>Sign In</h3>
-                    <p>Enter your credentials to access your dashboard</p>
-
-                    <div class="role-tabs" id="roleTabs">
-                        <div class="role-tab active" data-role="student">
-                            <i class="fas fa-graduation-cap"></i>
-                            Student
-                        </div>
-                        <div class="role-tab" data-role="staff">
-                            <i class="fas fa-users"></i>
-                            Staff
-                        </div>
-                        <div class="role-tab" data-role="admin">
-                            <i class="fas fa-crown"></i>
-                            Admin
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label id="loginLabel">Email Address</label>
-                        <input type="text" id="username" class="form-control" placeholder="Enter your email">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" id="password" class="form-control" placeholder="Enter your password">
-                    </div>
-
-                    <button class="btn-login" id="loginBtn">
-                        <i class="fas fa-sign-in-alt"></i>
-                        Sign In
-                    </button>
-
-                    <div class="forgot-link">
-                        <a href="#" id="forgotPassword">Forgot Password?</a>
-                    </div>
-                    <div id="loginError" class="error-message"></div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="studentPassword" class="form-control" placeholder="Enter your password">
                 </div>
+
+                <button class="btn-login" id="studentLoginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+
+                <div class="student-hint">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>All students:</strong> Use your email and password <strong>1234</strong>
+                </div>
+                <div id="loginError" class="error-message"></div>
             </div>
         </div>
 
-        <!-- Dashboard (Hidden by default) -->
+        <!-- Student Dashboard -->
         <div id="dashboardContainer" class="dashboard hidden">
             <div class="dashboard-header">
                 <div class="user-info">
-                    <span class="user-badge" id="roleDisplay">Student</span>
-                    <span id="userNameDisplay"></span>
+                    <span class="user-badge">Student</span>
+                    <span id="studentNameDisplay" style="font-weight: 500;"></span>
                 </div>
                 <button class="logout-btn" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Logout
+                    <i class="fas fa-sign-out-alt"></i> Logout
                 </button>
             </div>
 
             <div class="dashboard-content">
-                <!-- Left Column -->
-                <div class="left-column">
-                    <!-- Student Info Card -->
-                    <div class="card">
-                        <h3 class="card-title">
-                            <i class="fas fa-user-graduate"></i>
-                            Student Information
-                        </h3>
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <span class="info-label">Full Name</span>
-                                <span class="info-value" id="displayName">-</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Student ID</span>
-                                <span class="info-value" id="displayId">-</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Email</span>
-                                <span class="info-value" id="displayEmail">-</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Phone</span>
-                                <span class="info-value" id="displayPhone">-</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Institution</span>
-                                <span class="info-value" id="displayInstitution">-</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Department</span>
-                                <span class="info-value" id="displayDepartment">-</span>
-                            </div>
+                <!-- Student Info Card -->
+                <div class="card">
+                    <h3 class="card-title">
+                        <i class="fas fa-user-graduate"></i>
+                        My Information
+                    </h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Full Name</span>
+                            <span class="info-value" id="displayName">-</span>
                         </div>
-                    </div>
-
-                    <!-- ID Card -->
-                    <div class="card">
-                        <h3 class="card-title">
-                            <i class="fas fa-id-card"></i>
-                            Student ID Card
-                        </h3>
-                        <div class="id-card" id="idCard">
-                            <div class="id-photo">
-                                <i class="fas fa-user-graduate"></i>
-                            </div>
-                            <div class="id-details">
-                                <h4 id="idName">-</h4>
-                                <p><i class="fas fa-id-card"></i> <span id="idNumber">-</span></p>
-                                <p><i class="fas fa-calendar"></i> Valid Until: Dec 2025</p>
-                                <p><i class="fas fa-map-pin"></i> Ogbomoso, Nigeria</p>
-                            </div>
+                        <div class="info-item">
+                            <span class="info-label">Student ID</span>
+                            <span class="info-value" id="displayId">-</span>
                         </div>
-                        <button class="btn btn-block mt-4" id="downloadIdBtn">
-                            <i class="fas fa-download"></i>
-                            Download ID Card
-                        </button>
+                        <div class="info-item">
+                            <span class="info-label">Email</span>
+                            <span class="info-value" id="displayEmail">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Phone</span>
+                            <span class="info-value" id="displayPhone">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Institution</span>
+                            <span class="info-value" id="displayInstitution">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Department</span>
+                            <span class="info-value" id="displayDepartment">-</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Right Column -->
-                <div class="right-column">
-                    <!-- Admission Letter Card -->
-                    <div class="card">
-                        <h3 class="card-title">
-                            <i class="fas fa-scroll"></i>
-                            Admission Letter
-                        </h3>
-                        
-                        <div class="letter-preview" id="admissionLetter">
-                            <h3>WEBFORGE INSTITUTE</h3>
-                            <p><strong>Ogbomoso, Nigeria · Est. 2025</strong></p>
-                            <p>Dear <span id="letterName">Student</span>,</p>
-                            <p>We are pleased to inform you that you have been officially admitted to <strong>WebForge Institute</strong> for the <strong>WEBFORGE TEAM WEB DEVELOPMENT TRAINING 2025</strong> program.</p>
-                            <p><strong>Student ID:</strong> <span id="letterId">-</span></p>
-                            <p><strong>Department:</strong> <span id="letterDept">-</span></p>
-                            <p><strong>Institution:</strong> <span id="letterInstitution">-</span></p>
-                            <div class="letter-signature">
-                                <p>Evans Ayanlude<br>Team Lead</p>
-                            </div>
+                <!-- ID Card -->
+                <div class="card">
+                    <h3 class="card-title">
+                        <i class="fas fa-id-card"></i>
+                        My ID Card
+                    </h3>
+                    <div class="id-card" id="studentIdCard">
+                        <div class="id-photo">
+                            <i class="fas fa-user-graduate"></i>
                         </div>
+                        <div class="id-details">
+                            <h4 id="idName">-</h4>
+                            <p><i class="fas fa-id-card"></i> <span id="idNumber">-</span></p>
+                            <p><i class="fas fa-calendar"></i> Valid: December 2025</p>
+                            <p><i class="fas fa-map-pin"></i> Ogbomoso, Nigeria</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-block" id="downloadIdBtn">
+                        <i class="fas fa-download"></i> Download ID Card
+                    </button>
+                </div>
 
-                        <div class="btn-group">
-                            <button class="btn btn-success" id="downloadLetterBtn">
-                                <i class="fas fa-download"></i>
-                                Download PDF
-                            </button>
-                            <button class="btn btn-warning" id="printLetterBtn">
-                                <i class="fas fa-print"></i>
-                                Print
-                            </button>
+                <!-- Admission Letter Card -->
+                <div class="card" style="grid-column: span 2;">
+                    <h3 class="card-title">
+                        <i class="fas fa-scroll"></i>
+                        My Admission Letter
+                    </h3>
+                    
+                    <div class="letter-preview" id="admissionLetter">
+                        <h3>WEBFORGE INSTITUTE</h3>
+                        <p><strong>Ogbomoso, Nigeria · Est. 2025</strong></p>
+                        <p>Dear <span id="letterName">Student</span>,</p>
+                        <p>We are pleased to inform you that you have been officially admitted to <strong>WebForge Institute</strong> for the <strong>WEBFORGE TEAM WEB DEVELOPMENT TRAINING 2025</strong> program.</p>
+                        <p><strong>Student ID:</strong> <span id="letterId">-</span></p>
+                        <p><strong>Department:</strong> <span id="letterDept">-</span></p>
+                        <p><strong>Institution:</strong> <span id="letterInstitution">-</span></p>
+                        <p>Your admission is confirmed. Please proceed with your registration.</p>
+                        <div class="letter-signature">
+                            <p>Evans Ayanlude<br>Team Lead<br>WebForge Institute</p>
                         </div>
                     </div>
 
-                    <!-- Actions Card (for Staff/Admin) -->
-                    <div class="card" id="actionsCard">
-                        <h3 class="card-title">
-                            <i class="fas fa-tasks"></i>
-                            Quick Actions
-                        </h3>
-                        <div id="actionsContent">
-                            <!-- Dynamic content based on role -->
-                        </div>
+                    <div class="btn-group">
+                        <button class="btn btn-success" id="downloadLetterBtn">
+                            <i class="fas fa-download"></i> Download PDF
+                        </button>
+                        <button class="btn btn-warning" id="printLetterBtn">
+                            <i class="fas fa-print"></i> Print Letter
+                        </button>
                     </div>
                 </div>
             </div>
@@ -734,7 +618,7 @@
     </div>
 
     <script>
-        // ===== STUDENT DATA (Updated from PDF) =====
+        // ===== STUDENT DATA =====
         const students = [
             { name: 'Sharon Samson', email: 'samshazon@gmail.com', phone: '09169315036', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security', id: 'WF001', password: '1234' },
             { name: 'Fikayomi Christopher Ojo', email: 'metacourier1@gmail.com', phone: '08077549692', institution: 'Lautech', department: 'Cybersecurity science', id: 'WF002', password: '1234' },
@@ -753,34 +637,15 @@
             { name: 'Peter Adelola Joseph', email: 'adelolapeter331@gmail.com', phone: '08130877248', institution: 'Lautech', department: 'Animal production and health', id: 'WF015', password: '1234' }
         ];
 
-        // Staff accounts
-        const staffAccounts = [
-            { email: 'Ayanlude Evans Abayomi', password: 'staffpass', name: 'Ayanlude Evans Abayomi' },
-            { email: 'Ajayi Victory Ayomide', password: 'staffpass', name: 'Ajayi Victory Ayomide' },
-            { email: 'Ishola Samuel Odunayo', password: 'staffpass', name: 'Ishola Samuel Odunayo' },
-            { email: 'Alao Richard Olaoluwa', password: 'staffpass', name: 'Alao Richard Olaoluwa' },
-            { email: 'Ajani Shukuroh Olamide', password: 'staffpass', name: 'Ajani Shukuroh Olamide' },
-            { email: 'Lawalson Ayomide Esther', password: 'staffpass', name: 'Lawalson Ayomide Esther' },
-            { email: 'Olabiyi Christopher Iyanuoluwa', password: 'staffpass', name: 'Olabiyi Christopher Iyanuoluwa' }
-        ];
-
-        // Admin accounts
-        const adminAccounts = [
-            { username: 'admin', password: 'Evans2006', name: 'Administrator' }
-        ];
-
         // ===== DOM Elements =====
         const loginContainer = document.getElementById('loginContainer');
         const dashboardContainer = document.getElementById('dashboardContainer');
-        const roleTabs = document.querySelectorAll('.role-tab');
-        const loginBtn = document.getElementById('loginBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const username = document.getElementById('username');
-        const password = document.getElementById('password');
+        const studentEmail = document.getElementById('studentEmail');
+        const studentPassword = document.getElementById('studentPassword');
+        const studentLoginBtn = document.getElementById('studentLoginBtn');
         const loginError = document.getElementById('loginError');
-        const loginLabel = document.getElementById('loginLabel');
-        const roleDisplay = document.getElementById('roleDisplay');
-        const userNameDisplay = document.getElementById('userNameDisplay');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const studentNameDisplay = document.getElementById('studentNameDisplay');
         
         // Student info elements
         const displayName = document.getElementById('displayName');
@@ -800,160 +665,72 @@
         const letterDept = document.getElementById('letterDept');
         const letterInstitution = document.getElementById('letterInstitution');
         
-        // Action buttons
+        // Buttons
         const downloadIdBtn = document.getElementById('downloadIdBtn');
         const downloadLetterBtn = document.getElementById('downloadLetterBtn');
         const printLetterBtn = document.getElementById('printLetterBtn');
-        const forgotPassword = document.getElementById('forgotPassword');
-
-        // ===== State =====
-        let currentRole = 'student';
-        let currentUser = null;
-
-        // ===== Role Tab Switching =====
-        roleTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                roleTabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                currentRole = tab.dataset.role;
-                
-                // Update login label
-                if (currentRole === 'student') {
-                    loginLabel.textContent = 'Email Address';
-                    username.placeholder = 'student@example.com';
-                } else if (currentRole === 'staff') {
-                    loginLabel.textContent = 'Staff Name';
-                    username.placeholder = 'Enter your full name';
-                } else {
-                    loginLabel.textContent = 'Admin Username';
-                    username.placeholder = 'username';
-                }
-            });
-        });
 
         // ===== Login Function =====
-        loginBtn.addEventListener('click', () => {
-            const userInput = username.value.trim();
-            const pass = password.value.trim();
+        studentLoginBtn.addEventListener('click', () => {
+            const email = studentEmail.value.trim();
+            const pass = studentPassword.value.trim();
             
             loginError.textContent = '';
             
-            if (!userInput || !pass) {
-                loginError.textContent = 'Please enter both username and password';
+            if (!email || !pass) {
+                loginError.textContent = 'Please enter both email and password';
                 return;
             }
 
-            if (currentRole === 'student') {
-                const student = students.find(s => s.email === userInput && s.password === pass);
-                if (student) {
-                    currentUser = student;
-                    showDashboard('student', student);
-                } else {
-                    loginError.textContent = 'Invalid email or password';
-                }
-            } 
-            else if (currentRole === 'staff') {
-                const staff = staffAccounts.find(s => s.email === userInput && s.password === pass);
-                if (staff) {
-                    currentUser = staff;
-                    showDashboard('staff', staff);
-                } else {
-                    loginError.textContent = 'Invalid staff credentials';
-                }
-            } 
-            else {
-                const admin = adminAccounts.find(a => a.username === userInput && a.password === pass);
-                if (admin) {
-                    currentUser = admin;
-                    showDashboard('admin', admin);
-                } else {
-                    loginError.textContent = 'Invalid admin credentials';
-                }
+            const student = students.find(s => s.email === email && s.password === pass);
+            
+            if (student) {
+                // Update UI with student data
+                displayName.textContent = student.name;
+                displayId.textContent = student.id;
+                displayEmail.textContent = student.email;
+                displayPhone.textContent = student.phone;
+                displayInstitution.textContent = student.institution;
+                displayDepartment.textContent = student.department;
+                
+                studentNameDisplay.textContent = student.name;
+                
+                idName.textContent = student.name;
+                idNumber.textContent = student.id;
+                
+                letterName.textContent = student.name.split(' ')[0];
+                letterId.textContent = student.id;
+                letterDept.textContent = student.department;
+                letterInstitution.textContent = student.institution;
+                
+                // Switch to dashboard
+                loginContainer.classList.add('hidden');
+                dashboardContainer.classList.remove('hidden');
+                
+                // Clear login fields
+                studentEmail.value = '';
+                studentPassword.value = '';
+            } else {
+                loginError.textContent = 'Invalid email or password. Use 1234 as password.';
             }
         });
 
-        // ===== Show Dashboard =====
-        function showDashboard(role, user) {
-            // Update UI
-            roleDisplay.textContent = role.charAt(0).toUpperCase() + role.slice(1);
-            userNameDisplay.textContent = user.name || user.email || user.username;
-            
-            // Update student info if applicable
-            if (role === 'student') {
-                updateStudentInfo(user);
-            } else {
-                // Show demo student for staff/admin
-                updateStudentInfo(students[0]);
-            }
-            
-            // Update actions based on role
-            updateActions(role);
-            
-            // Switch views
-            loginContainer.classList.add('hidden');
-            dashboardContainer.classList.remove('hidden');
-        }
-
-        // ===== Update Student Info =====
-        function updateStudentInfo(student) {
-            // Student info
-            displayName.textContent = student.name;
-            displayId.textContent = student.id;
-            displayEmail.textContent = student.email;
-            displayPhone.textContent = student.phone;
-            displayInstitution.textContent = student.institution;
-            displayDepartment.textContent = student.department;
-            
-            // ID card
-            idName.textContent = student.name;
-            idNumber.textContent = student.id;
-            
-            // Admission letter
-            letterName.textContent = student.name.split(' ')[0];
-            letterId.textContent = student.id;
-            letterDept.textContent = student.department;
-            letterInstitution.textContent = student.institution;
-        }
-
-        // ===== Update Actions Based on Role =====
-        function updateActions(role) {
-            const actionsContent = document.getElementById('actionsContent');
-            
-            if (role === 'student') {
-                actionsContent.innerHTML = `
-                    <p><i class="fas fa-check-circle" style="color: var(--success);"></i> You can view and download your documents.</p>
-                `;
-            } else if (role === 'staff') {
-                actionsContent.innerHTML = `
-                    <p><i class="fas fa-users"></i> Total Students: ${students.length}</p>
-                    <button class="btn btn-block mt-4" onclick="alert('Staff features coming soon')">
-                        <i class="fas fa-bullhorn"></i> Send Announcement
-                    </button>
-                `;
-            } else {
-                actionsContent.innerHTML = `
-                    <p><i class="fas fa-database"></i> System Stats</p>
-                    <p>Students: ${students.length}</p>
-                    <p>Staff: ${staffAccounts.length}</p>
-                `;
-            }
-        }
+        // ===== Logout =====
+        logoutBtn.addEventListener('click', () => {
+            dashboardContainer.classList.add('hidden');
+            loginContainer.classList.remove('hidden');
+        });
 
         // ===== Download ID Card =====
         downloadIdBtn.addEventListener('click', () => {
             const { jsPDF } = window.jspdf;
-            
-            html2canvas(document.getElementById('idCard'), {
-                scale: 2,
-                backgroundColor: '#ffffff'
-            }).then(canvas => {
+            html2canvas(document.getElementById('studentIdCard'), { scale: 2 }).then(canvas => {
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF({
                     orientation: 'landscape',
                     unit: 'px',
                     format: [canvas.width * 0.75, canvas.height * 0.75]
                 });
-                
                 pdf.addImage(imgData, 'PNG', 0, 0, canvas.width * 0.75, canvas.height * 0.75);
                 pdf.save(`WebForge_ID_${idName.textContent}.pdf`);
             });
@@ -962,18 +739,13 @@
         // ===== Download Admission Letter =====
         downloadLetterBtn.addEventListener('click', () => {
             const { jsPDF } = window.jspdf;
-            
-            html2canvas(document.getElementById('admissionLetter'), {
-                scale: 2,
-                backgroundColor: '#ffffff'
-            }).then(canvas => {
+            html2canvas(document.getElementById('admissionLetter'), { scale: 2 }).then(canvas => {
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF({
                     orientation: 'portrait',
                     unit: 'px',
                     format: 'a4'
                 });
-                
                 const pageWidth = pdf.internal.pageSize.getWidth();
                 const imgWidth = canvas.width;
                 const imgHeight = canvas.height;
@@ -990,18 +762,11 @@
             window.print();
         });
 
-        // ===== Logout =====
-        logoutBtn.addEventListener('click', () => {
-            dashboardContainer.classList.add('hidden');
-            loginContainer.classList.remove('hidden');
-            username.value = '';
-            password.value = '';
-        });
-
-        // ===== Forgot Password =====
-        forgotPassword.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Please contact the administrator at teamwebforge@gmail.com to reset your password.');
+        // ===== Allow Enter key to login =====
+        studentPassword.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                studentLoginBtn.click();
+            }
         });
     </script>
 </body>
