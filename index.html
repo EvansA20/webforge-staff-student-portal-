@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>WebForge · Staff and students portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>WebForge · Student and staff Portal </title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- jsPDF for PDF generation -->
@@ -11,7 +11,7 @@
     <!-- html2canvas for PDF rendering -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        /* ===== BASE STYLES ===== */
+        /* ===== STANDARD STUDENT PORTAL STYLES ===== */
         * {
             margin: 0;
             padding: 0;
@@ -20,626 +20,440 @@
         }
 
         :root {
-            --primary-dark: #0b1e33;
             --primary: #1e3a5f;
             --primary-light: #2a4a77;
+            --primary-dark: #0b1e33;
             --accent: #ffb347;
             --accent-light: #ffb85c;
             --accent-dark: #ff9f2f;
-            --light-bg: #f9fcff;
-            --card-bg: #ffffff;
-            --text-dark: #0f2a41;
-            --text-light: #5f7d9c;
-            --border-color: #c1daf5;
             --success: #28a745;
             --warning: #ffc107;
             --danger: #dc3545;
-            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-600: #6c757d;
+            --gray-800: #343a40;
+            --border-radius: 1rem;
+            --box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         body {
-            background: linear-gradient(135deg, #eef3f8 0%, #d9e6f2 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: clamp(0.5rem, 2vw, 1.5rem);
+            padding: 1rem;
         }
 
-        /* ===== MAIN CONTAINER ===== */
-        .webforge-portal {
-            max-width: 1600px;
+        .portal-container {
+            max-width: 1400px;
             width: 100%;
-            background: var(--card-bg);
-            border-radius: clamp(1rem, 3vw, 2rem);
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3);
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
             overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
         }
 
         /* ===== HEADER ===== */
-        .institutional-header {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            padding: clamp(1rem, 3vw, 1.5rem) clamp(1rem, 4vw, 2.5rem);
+        .portal-header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem 2rem;
             border-bottom: 4px solid var(--accent);
         }
 
-        .header-top {
+        .header-content {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            margin-bottom: 0.8rem;
         }
 
         .logo h1 {
-            color: white;
-            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            font-size: 2rem;
             font-weight: 600;
-            letter-spacing: -0.5px;
-            line-height: 1.2;
         }
 
         .logo h1 span {
             color: var(--accent-light);
+        }
+
+        .logo p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 0.25rem;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat .number {
+            font-size: 1.5rem;
             font-weight: 700;
-        }
-
-        .logo .subtitle {
             color: var(--accent-light);
-            font-size: clamp(0.7rem, 2vw, 0.9rem);
-            display: block;
-            margin-top: 0.2rem;
         }
 
-        .contact-info {
-            display: flex;
-            gap: clamp(0.8rem, 2vw, 2rem);
-            color: #e0e9f5;
-            font-size: clamp(0.7rem, 2vw, 0.9rem);
-            flex-wrap: wrap;
+        .stat .label {
+            font-size: 0.85rem;
+            opacity: 0.9;
         }
 
-        .contact-info i {
-            color: var(--accent-light);
-            margin-right: 0.3rem;
-        }
-
-        .header-divider {
-            height: 1px;
-            background: rgba(255,255,255,0.2);
-            margin: 0.8rem 0;
-        }
-
-        .header-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #cbd6e6;
-            font-size: clamp(0.7rem, 2vw, 0.9rem);
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .remote-badge {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(8px);
-            padding: 0.4rem 1.2rem;
-            border-radius: 40px;
-            border: 1px solid var(--accent);
-            white-space: nowrap;
+        /* ===== MAIN LAYOUT ===== */
+        .portal-main {
+            display: grid;
+            grid-template-columns: 2.5fr 1.5fr;
+            min-height: 700px;
         }
 
         /* ===== LOGIN SECTION ===== */
-        .login-container {
+        .login-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 3rem;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 4vw, 2rem);
-            background: var(--light-bg);
+            color: white;
         }
 
-        .unified-login-card {
-            background: var(--card-bg);
-            border-radius: clamp(1.5rem, 4vw, 2.5rem);
-            padding: clamp(1.5rem, 4vw, 2.5rem);
-            box-shadow: var(--shadow);
-            width: 100%;
-            max-width: 500px;
-            border: 1px solid var(--border-color);
+        .login-content {
+            max-width: 400px;
         }
 
-        .unified-login-card h2 {
-            font-size: clamp(1.5rem, 5vw, 2rem);
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            text-align: center;
+        .login-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
         }
 
-        .role-selector {
+        .login-content h2 span {
+            color: var(--accent-light);
+            display: block;
+            font-size: 1.8rem;
+        }
+
+        .features {
+            margin: 2rem 0;
+            list-style: none;
+        }
+
+        .features li {
             display: flex;
-            gap: 0.8rem;
-            margin-bottom: 2rem;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .features li i {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
             justify-content: center;
-            flex-wrap: wrap;
         }
 
-        .role-option {
-            flex: 1;
-            min-width: 80px;
-            background: #f0f7ff;
-            border: 2px solid var(--border-color);
-            border-radius: 40px;
-            padding: 0.8rem 0.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 500;
-            font-size: clamp(0.7rem, 2vw, 0.9rem);
+        /* ===== LOGIN FORM ===== */
+        .login-form-container {
+            background: white;
+            padding: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .role-option i {
-            display: block;
-            font-size: clamp(1.2rem, 4vw, 1.5rem);
-            margin-bottom: 0.3rem;
-            color: var(--primary);
+        .login-form {
+            width: 100%;
+            max-width: 400px;
         }
 
-        .role-option.selected {
-            background: var(--accent-light);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .role-option.selected i {
-            color: var(--primary);
-        }
-
-        .input-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-
-        .input-group label {
-            display: block;
-            font-weight: 500;
+        .login-form h3 {
+            font-size: 2rem;
             color: var(--primary);
             margin-bottom: 0.5rem;
-            font-size: clamp(0.8rem, 2vw, 0.9rem);
         }
 
-        .input-field {
-            width: 100%;
-            background: #f2f8ff;
-            border: 2px solid var(--border-color);
-            border-radius: 40px;
-            padding: 0.9rem 1.4rem;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            outline: none;
-            transition: all 0.2s;
-            padding-right: 3rem;
+        .login-form p {
+            color: var(--gray-600);
+            margin-bottom: 2rem;
         }
 
-        .input-field:focus {
-            border-color: var(--accent-dark);
-            box-shadow: 0 0 0 4px rgba(255, 180, 71, 0.2);
-        }
-
-        .password-wrapper {
-            position: relative;
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: var(--text-light);
-            font-size: 1.3rem;
-            background: white;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
+        .role-tabs {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            background: var(--gray-100);
+            padding: 0.5rem;
+            border-radius: 50px;
         }
 
-        .login-btn {
+        .role-tab {
+            flex: 1;
+            padding: 0.75rem;
+            text-align: center;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .role-tab i {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .role-tab.active {
             background: var(--primary);
-            border: none;
-            border-radius: 60px;
-            padding: 1rem 2rem;
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            font-weight: 600;
             color: white;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--gray-800);
+            font-weight: 500;
+        }
+
+        .form-control {
             width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--gray-300);
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 180, 71, 0.2);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
+            transition: all 0.3s;
             margin-top: 1rem;
-            transition: all 0.2s;
         }
 
-        .login-btn:hover {
+        .btn-login:hover {
             background: var(--primary-light);
-            transform: scale(1.02);
+            transform: translateY(-2px);
         }
 
-        .reset-link {
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .forgot-link {
             text-align: center;
             margin-top: 1rem;
         }
-        
-        .reset-link a {
+
+        .forgot-link a {
             color: var(--accent-dark);
             text-decoration: none;
-            font-weight: 500;
-            cursor: pointer;
-            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            font-size: 0.9rem;
         }
 
-        /* ===== RESET MODAL ===== */
-        .reset-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 1rem;
-        }
-        
-        .reset-card {
-            background: white;
-            border-radius: 32px;
-            padding: clamp(1.5rem, 4vw, 2.5rem);
-            max-width: 450px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 25px 50px -12px black;
-        }
-        
-        .reset-card h3 {
-            font-size: clamp(1.3rem, 4vw, 1.8rem);
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-        }
-        
-        .close-btn {
-            float: right;
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: #666;
+        .error-message {
+            color: var(--danger);
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
         }
 
         /* ===== DASHBOARD ===== */
         .dashboard {
-            background: #edf3f9;
+            background: var(--gray-100);
+            min-height: 700px;
         }
 
-        .dashboard-bar {
-            background: var(--primary);
-            padding: 0.9rem clamp(1rem, 3vw, 2.2rem);
+        .dashboard-header {
+            background: white;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: white;
-            flex-wrap: wrap;
-            gap: 1rem;
+            border-bottom: 1px solid var(--gray-300);
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .user-badge {
-            background: rgba(255,255,255,0.2);
-            padding: 0.3rem 1rem;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            border: 1px solid var(--accent-light);
-            white-space: nowrap;
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
         }
 
         .logout-btn {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid var(--accent);
-            border-radius: 30px;
+            background: none;
+            border: 2px solid var(--gray-300);
             padding: 0.5rem 1.5rem;
-            color: white;
+            border-radius: 50px;
             cursor: pointer;
-            transition: 0.2s;
-            white-space: nowrap;
+            transition: all 0.3s;
+            font-weight: 500;
         }
 
-        .dashboard-grid {
+        .logout-btn:hover {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .dashboard-content {
+            padding: 2rem;
             display: grid;
-            grid-template-columns: 2.2fr 1.3fr;
-            gap: clamp(1rem, 3vw, 1.8rem);
-            padding: clamp(1rem, 3vw, 2.2rem);
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
         }
 
-        /* ===== STUDENT ZONE ===== */
-        .student-zone {
+        /* ===== CARDS ===== */
+        .card {
             background: white;
-            border-radius: 28px;
-            padding: clamp(1.2rem, 3vw, 2rem);
-            box-shadow: 0 8px 18px #cdddec;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .section-title {
-            font-size: clamp(1.2rem, 3vw, 1.6rem);
-            color: var(--text-dark);
-            border-left: 8px solid var(--accent);
-            padding-left: 1rem;
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--primary);
             margin-bottom: 1.5rem;
-        }
-
-        .student-details-card {
-            background: #f0f7ff;
-            border-radius: 24px;
-            padding: clamp(1rem, 3vw, 1.8rem);
-            margin-bottom: 1.5rem;
-            border: 2px solid var(--border-color);
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .detail-item {
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-light);
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: clamp(0.8rem, 2vw, 0.95rem);
-            word-break: break-word;
+            gap: 0.5rem;
         }
 
-        .detail-item i {
-            width: 28px;
-            color: var(--accent-dark);
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        /* ===== GENDER SELECTOR ===== */
-        .gender-selector {
-            display: flex;
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 1rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
         }
 
-        .gender-option {
-            flex: 1;
-            min-width: 100px;
-            background: white;
-            border: 2px solid var(--border-color);
-            border-radius: 40px;
-            padding: 0.8rem;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: clamp(0.8rem, 2vw, 0.95rem);
+        .info-item {
+            display: flex;
+            flex-direction: column;
         }
 
-        .gender-option.selected {
-            background: var(--accent-light);
-            border-color: var(--primary);
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
             font-weight: 600;
-        }
-
-        .gender-option i {
-            margin-right: 0.5rem;
-            color: var(--primary);
+            color: var(--gray-800);
         }
 
         /* ===== ID CARD ===== */
-        .id-card-section {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            border-radius: 24px;
-            padding: clamp(1.2rem, 3vw, 2rem);
-            margin: 1.5rem 0;
-            color: white;
-            border: 3px solid var(--accent);
-        }
-
         .id-card {
-            background: white;
-            border-radius: 20px;
-            padding: clamp(1rem, 3vw, 1.5rem);
-            color: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            color: white;
             display: flex;
-            flex-wrap: wrap;
             gap: 1.5rem;
             align-items: center;
-            border: 2px solid var(--accent);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            margin-top: 1rem;
         }
 
         .id-photo {
-            width: clamp(70px, 15vw, 100px);
-            height: clamp(70px, 15vw, 100px);
-            background: #f0f7ff;
+            width: 80px;
+            height: 80px;
+            background: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 3px solid var(--accent);
-            margin: 0 auto;
         }
 
         .id-photo i {
-            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-size: 3rem;
             color: var(--primary);
         }
 
-        .id-details {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .id-details h3 {
-            color: var(--primary);
-            font-size: clamp(1.1rem, 3vw, 1.5rem);
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 0.5rem;
-            margin-bottom: 0.8rem;
+        .id-details h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
         }
 
         .id-details p {
-            margin: 0.5rem 0;
-            font-size: clamp(0.8rem, 2vw, 1rem);
-            color: #333;
-            word-break: break-word;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+            opacity: 0.9;
         }
 
         .id-details i {
-            color: var(--accent-dark);
-            width: 24px;
+            width: 20px;
+            color: var(--accent-light);
         }
 
-        .id-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            justify-content: flex-end;
-            flex-wrap: wrap;
-        }
-
-        /* ===== DEPARTMENT GRID ===== */
-        .department-section {
-            background: #f2f2fc;
-            border-radius: 24px;
-            padding: clamp(1rem, 3vw, 1.8rem);
-            margin: 1.5rem 0;
-            border: 2px dashed var(--accent);
-        }
-
-        .department-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 0.8rem;
-            margin: 1rem 0;
-        }
-
-        .dept-card {
-            background: white;
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            padding: 0.8rem;
-            cursor: pointer;
-            transition: 0.2s;
-            text-align: center;
-            font-size: clamp(0.7rem, 2vw, 0.9rem);
-            word-break: break-word;
-        }
-
-        .dept-card.selected {
-            background: var(--accent-light);
-            border-color: var(--primary);
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* ===== COURSE LIST ===== */
-        .course-registration-section {
-            background: #f0f7ff;
-            border-radius: 24px;
-            padding: clamp(1rem, 3vw, 1.8rem);
-            margin: 1.5rem 0;
-            border: 2px solid var(--accent);
-        }
-
-        .course-list {
-            max-height: 300px;
-            overflow-y: auto;
-            margin: 1rem 0;
-            border-radius: 16px;
-        }
-
-        .course-item {
-            background: white;
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            padding: 0.8rem;
-            margin-bottom: 0.8rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            font-size: clamp(0.8rem, 2vw, 0.95rem);
-        }
-
-        /* ===== ADMISSION LETTER - A4 CENTERED ===== */
-        .letter-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 1.5rem 0;
-        }
-
+        /* ===== ADMISSION LETTER ===== */
         .letter-preview {
             background: white;
+            border-radius: 1rem;
+            padding: 2rem;
             border: 3px solid var(--accent);
-            border-radius: 20px;
-            padding: clamp(2rem, 5vw, 3rem);
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            width: 100%;
             max-width: 800px;
             margin: 0 auto;
         }
 
         .letter-preview h3 {
-            font-size: clamp(1.5rem, 4vw, 2.2rem);
             color: var(--primary);
-            margin-bottom: 1.5rem;
-            border-bottom: 3px solid var(--accent);
-            padding-bottom: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
         }
 
         .letter-preview p {
             margin: 1rem 0;
-            font-size: clamp(1rem, 2vw, 1.2rem);
             line-height: 1.6;
-            color: #333;
-        }
-
-        .letter-preview strong {
-            color: var(--primary);
         }
 
         .letter-signature {
-            margin-top: 2.5rem;
+            margin-top: 2rem;
             font-style: italic;
-            border-top: 2px dashed #ccc;
-            padding-top: 1.5rem;
+            border-top: 1px dashed var(--gray-300);
+            padding-top: 1rem;
         }
 
-        .letter-signature p {
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            margin: 0.3rem 0;
-        }
-
-        /* ===== PRINT STYLES - A4 FORMAT ===== */
+        /* ===== PRINT STYLES - A4 ===== */
         @media print {
             body * {
                 visibility: hidden;
@@ -652,983 +466,543 @@
                 top: 0;
                 left: 0;
                 width: 100%;
-                height: 100%;
-                padding: 0;
-                margin: 0;
+                padding: 2cm;
                 background: white;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                border: none;
-                box-shadow: none;
-            }
-            .letter-preview {
-                max-width: 100%;
-                border: none;
-                box-shadow: none;
-                padding: 2.5cm;
-            }
-            .letter-preview h3 {
-                font-size: 28pt;
-                margin-bottom: 20pt;
-            }
-            .letter-preview p {
-                font-size: 14pt;
-                margin: 12pt 0;
-            }
-            .no-print {
-                display: none !important;
             }
         }
 
         /* ===== BUTTONS ===== */
-        .flex-row {
-            display: flex;
-            gap: 0.8rem;
-            align-items: center;
-            flex-wrap: wrap;
-            margin: 1rem 0;
-        }
-
         .btn {
             background: var(--primary);
-            border: none;
-            border-radius: 40px;
-            padding: 0.8rem 1.5rem;
             color: white;
-            font-weight: 600;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
             cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            border: 1px solid var(--accent);
-            transition: all 0.2s;
-            font-size: clamp(0.8rem, 2vw, 0.95rem);
-            white-space: nowrap;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success);
         }
 
         .btn-warning {
             background: var(--accent-light);
             color: var(--primary);
-            border: none;
         }
 
-        .btn-small {
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 0.3rem 0.8rem;
-            font-size: 0.8rem;
-            cursor: pointer;
+        .btn-block {
+            width: 100%;
+            justify-content: center;
         }
 
-        .btn:hover:not(:disabled) {
-            transform: scale(1.02);
-        }
-
-        /* ===== STAFF/ADMIN PANELS ===== */
-        .staff-zone, .admin-zone {
-            background: white;
-            border-radius: 24px;
-            padding: clamp(1.2rem, 3vw, 2rem);
-            box-shadow: 0 8px 18px #cdddec;
-        }
-
-        .admin-zone {
-            background: #f0e6ff;
-            border: 2px solid #a67cff;
-        }
-
-        .email-indicator {
-            background: var(--primary);
-            color: var(--accent-light);
-            border-radius: 50px;
-            padding: 0.8rem 1.2rem;
-            margin-bottom: 1rem;
-            font-size: clamp(0.8rem, 2vw, 0.9rem);
-            word-break: break-word;
-        }
-
-        .create-student, .create-staff, .approval-section, .activity-monitor {
-            background: #ffe6c9;
-            border-radius: 20px;
-            padding: clamp(1rem, 3vw, 1.5rem);
-            margin-bottom: 1.5rem;
-        }
-
-        .activity-monitor {
-            background: #e6f0ff;
-            border: 2px solid var(--primary);
-        }
-
-        .student-list {
-            max-height: 300px;
-            overflow-y: auto;
-            margin: 1rem 0;
-            border-radius: 16px;
-        }
-
-        .student-list-item {
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 0.8rem;
-            margin-bottom: 0.5rem;
+        .btn-group {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: clamp(0.8rem, 2vw, 0.9rem);
-            word-break: break-word;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
-        .student-list-item:hover {
-            background: #f0f7ff;
-            transform: translateX(5px);
-        }
-
-        .student-list-item.selected {
-            background: var(--accent-light);
-            border-color: var(--primary);
-        }
-
-        /* ===== ACTIVITY LOG ===== */
-        .activity-log {
-            background: #f0f7ff;
-            border-radius: 20px;
-            padding: 1.2rem;
-            max-height: 300px;
-            overflow-y: auto;
-            border: 2px solid var(--accent);
-        }
-
-        .activity-item {
-            background: white;
-            border-radius: 12px;
-            padding: 0.8rem;
-            margin-bottom: 0.8rem;
-            border-left: 4px solid var(--accent-dark);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            font-size: clamp(0.75rem, 2vw, 0.85rem);
-        }
-
-        .activity-time {
-            font-size: 0.7rem;
-            color: #666;
-            margin-bottom: 0.2rem;
-        }
-
-        /* ===== TOAST MESSAGES ===== */
-        .toast-message {
-            background: #d0e6c0;
-            border-radius: 60px;
-            padding: 0.8rem 1.2rem;
-            margin: 1rem 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-left: 6px solid var(--success);
-            animation: slideIn 0.3s ease;
-            font-size: clamp(0.8rem, 2vw, 0.9rem);
-            word-break: break-word;
-        }
-
-        .toast-message.warning {
-            background: #fff3cd;
-            border-left-color: var(--warning);
-        }
-
-        @keyframes slideIn {
-            from { transform: translateY(-20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
+        /* ===== UTILITIES ===== */
         .hidden {
             display: none !important;
         }
 
-        /* ===== RESPONSIVE BREAKPOINTS ===== */
-        @media (max-width: 1024px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header-top, .header-bottom {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .contact-info {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            .role-selector {
-                flex-direction: column;
-            }
-            .student-details-card {
-                grid-template-columns: 1fr;
-            }
-            .id-card {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 0.5rem;
-            }
-            .letter-preview {
-                padding: 1.5rem;
-            }
-        }
-
-        /* ===== TOUCH OPTIMIZATIONS ===== */
-        @media (hover: none) and (pointer: coarse) {
-            .btn, .role-option, .dept-card, .gender-option, .student-list-item {
-                min-height: 44px;
-            }
-            .input-field {
-                font-size: 16px;
-            }
+        .mt-4 {
+            margin-top: 2rem;
         }
     </style>
 </head>
 <body>
-    <div class="webforge-portal" id="mainPortal">
-
-        <!-- INSTITUTIONAL HEADER -->
-        <div class="institutional-header">
-            <div class="header-top">
+    <div class="portal-container" id="app">
+        <!-- Header -->
+        <header class="portal-header">
+            <div class="header-content">
                 <div class="logo">
                     <h1>WEBFORGE<span> INSTITUTE</span></h1>
-                    <span class="subtitle">est. 2025 · accredited · remote-first</span>
+                    <p>Est. 2025 · Ogbomoso, Nigeria</p>
                 </div>
-                <div class="contact-info">
-                    <span><i class="fas fa-phone-alt"></i> +234 815 327 9248</span>
-                    <span><i class="fas fa-envelope"></i> teamwebforge@gmail.com</span>
-                    <span><i class="fas fa-map-marker-alt"></i>Ogbomoso, Nigeria</span>
+                <div class="header-stats">
+                    <div class="stat">
+                        <div class="number">15</div>
+                        <div class="label">Students</div>
+                    </div>
+                    <div class="stat">
+                        <div class="number">7</div>
+                        <div class="label">Staff</div>
+                    </div>
+                    <div class="stat">
+                        <div class="number">2025</div>
+                        <div class="label">Founded</div>
+                    </div>
                 </div>
             </div>
-            <div class="header-divider"></div>
-            <div class="header-bottom">
-                <span><i class="fas fa-calendar-check"></i> Spring Semester 2026</span>
-                <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-                    <span class="remote-badge"><i class="fas fa-globe-americas"></i> globally accessible</span>
+        </header>
+
+        <!-- Login Section (Visible by default) -->
+        <div id="loginContainer" class="portal-main">
+            <div class="login-section">
+                <div class="login-content">
+                    <h2>
+                        Welcome to WebForge
+                        <span>Student Portal</span>
+                    </h2>
+                    <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                        Access your academic records, download admission letters, and manage your courses.
+                    </p>
+                    <ul class="features">
+                        <li><i class="fas fa-id-card"></i> Digital ID Card</li>
+                        <li><i class="fas fa-download"></i> A4 Admission Letter</li>
+                        <li><i class="fas fa-book-open"></i> Course Registration</li>
+                        <li><i class="fas fa-print"></i> Print Documents</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="login-form-container">
+                <div class="login-form">
+                    <h3>Sign In</h3>
+                    <p>Enter your credentials to access your dashboard</p>
+
+                    <div class="role-tabs" id="roleTabs">
+                        <div class="role-tab active" data-role="student">
+                            <i class="fas fa-graduation-cap"></i>
+                            Student
+                        </div>
+                        <div class="role-tab" data-role="staff">
+                            <i class="fas fa-users"></i>
+                            Staff
+                        </div>
+                        <div class="role-tab" data-role="admin">
+                            <i class="fas fa-crown"></i>
+                            Admin
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label id="loginLabel">Email Address</label>
+                        <input type="text" id="username" class="form-control" placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="password" class="form-control" placeholder="Enter your password">
+                    </div>
+
+                    <button class="btn-login" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Sign In
+                    </button>
+
+                    <div class="forgot-link">
+                        <a href="#" id="forgotPassword">Forgot Password?</a>
+                    </div>
+                    <div id="loginError" class="error-message"></div>
                 </div>
             </div>
         </div>
 
-        <!-- UNIFIED LOGIN SECTION -->
-        <div id="loginSection" class="login-container">
-            <div class="unified-login-card">
-                <h2><i class="fas fa-sign-in-alt"></i> WebForge Login</h2>
-                
-                <!-- Role Selection -->
-                <div class="role-selector">
-                    <div class="role-option" data-role="student" id="selectStudent">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Student</span>
-                    </div>
-                    <div class="role-option" data-role="staff" id="selectStaff">
-                        <i class="fas fa-users"></i>
-                        <span>Staff</span>
-                    </div>
-                    <div class="role-option" data-role="admin" id="selectAdmin">
-                        <i class="fas fa-crown"></i>
-                        <span>Admin</span>
-                    </div>
-                </div>
-
-                <!-- Login Form -->
-                <div class="input-group">
-                    <label id="loginLabel">Email / Username</label>
-                    <input type="text" id="loginUsername" class="input-field" placeholder="enter your credentials">
-                </div>
-                <div class="input-group password-wrapper">
-                    <label>Password</label>
-                    <input type="password" id="loginPassword" class="input-field" placeholder="••••••••">
-                    <i class="far fa-eye toggle-password" id="toggleLoginPass"></i>
-                </div>
-                
-                <button class="login-btn" id="unifiedLoginBtn"><i class="fas fa-sign-in-alt"></i> login</button>
-                
-                <div class="reset-link">
-                    <a id="resetPasswordLink"><i class="fas fa-key"></i> reset password</a>
-                </div>
-                <p id="loginError" style="color:#c62828; margin-top:0.8rem; text-align:center;"></p>
-                
-                           </div>
-        </div>
-
-        <!-- RESET PASSWORD MODAL -->
-        <div id="resetModal" class="reset-modal hidden">
-            <div class="reset-card">
-                <span class="close-btn" id="closeResetModal">&times;</span>
-                <h3 id="resetModalTitle">Reset Password</h3>
-                <div class="input-group">
-                    <label id="resetEmailLabel">Email/Username</label>
-                    <input type="text" id="resetEmail" class="input-field" placeholder="enter your email/username">
-                </div>
-                <div class="input-group password-wrapper">
-                    <label>new password</label>
-                    <input type="password" id="newResetPassword" class="input-field" placeholder="new password">
-                    <i class="far fa-eye toggle-password" id="toggleResetPass"></i>
-                </div>
-                <div class="input-group password-wrapper">
-                    <label>confirm password</label>
-                    <input type="password" id="confirmResetPassword" class="input-field" placeholder="confirm password">
-                </div>
-                <button class="login-btn" id="resetPasswordBtn"><i class="fas fa-save"></i> reset password</button>
-                <p id="resetMessage" style="margin-top:1rem; color:#1e3a5f;"></p>
-            </div>
-        </div>
-
-        <!-- DASHBOARD -->
-        <div id="dashboardSection" class="dashboard hidden">
-            <div class="dashboard-bar">
+        <!-- Dashboard (Hidden by default) -->
+        <div id="dashboardContainer" class="dashboard hidden">
+            <div class="dashboard-header">
                 <div class="user-info">
-                    <span class="user-badge" id="roleBadge">Student</span>
-                    <span id="displayName"></span>
+                    <span class="user-badge" id="roleDisplay">Student</span>
+                    <span id="userNameDisplay"></span>
                 </div>
-                <div style="display: flex; gap: 1rem; align-items: center;">
-                    <div class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> logout</div>
-                </div>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
             </div>
 
-            <div class="dashboard-grid">
-                <!-- LEFT: Student zone -->
-                <div class="student-zone" id="studentZone">
-                    <div class="section-title"><i class="fas fa-regular fa-id-card"></i> WebForge student record</div>
-
-                    <!-- Student details -->
-                    <div class="student-details-card" id="studentDetailsCard">
-                        <div class="detail-item"><i class="fas fa-user-graduate"></i> <strong>Name:</strong> <span id="detailName">-</span></div>
-                        <div class="detail-item"><i class="fas fa-venus-mars"></i> <strong>Gender:</strong> <span id="detailGender">Not set</span></div>
-                        <div class="detail-item"><i class="fas fa-id-card"></i> <strong>Student ID:</strong> <span id="detailId">-</span></div>
-                        <div class="detail-item"><i class="fas fa-envelope"></i> <strong>Email:</strong> <span id="detailEmail">-</span></div>
-                        <div class="detail-item"><i class="fas fa-calendar-alt"></i> <strong>Admission:</strong> Fall 2026</div>
-                        <div class="detail-item"><i class="fas fa-book"></i> <strong>Department:</strong> <span id="detailDept">Not selected</span></div>
-                        <div class="detail-item"><i class="fas fa-phone"></i> <strong>Phone:</strong> <span id="detailPhone">-</span></div>
-                        <div class="detail-item"><i class="fas fa-university"></i> <strong>Institution:</strong> <span id="detailInstitution">-</span></div>
-                    </div>
-
-                    <!-- GENDER SELECTION -->
-                    <div class="department-section" id="genderSection">
-                        <h3><i class="fas fa-venus-mars"></i> select your gender</h3>
-                        <div class="gender-selector">
-                            <div class="gender-option" data-gender="male" id="selectMale">
-                                <i class="fas fa-mars"></i> Male
+            <div class="dashboard-content">
+                <!-- Left Column -->
+                <div class="left-column">
+                    <!-- Student Info Card -->
+                    <div class="card">
+                        <h3 class="card-title">
+                            <i class="fas fa-user-graduate"></i>
+                            Student Information
+                        </h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Full Name</span>
+                                <span class="info-value" id="displayName">-</span>
                             </div>
-                            <div class="gender-option" data-gender="female" id="selectFemale">
-                                <i class="fas fa-venus"></i> Female
+                            <div class="info-item">
+                                <span class="info-label">Student ID</span>
+                                <span class="info-value" id="displayId">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Email</span>
+                                <span class="info-value" id="displayEmail">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Phone</span>
+                                <span class="info-value" id="displayPhone">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Institution</span>
+                                <span class="info-value" id="displayInstitution">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Department</span>
+                                <span class="info-value" id="displayDepartment">-</span>
                             </div>
                         </div>
-                        <button class="btn" id="saveGenderBtn"><i class="fas fa-save"></i> save gender</button>
-                        <p id="genderMessage" style="margin-top:0.8rem;"></p>
                     </div>
 
-                    <!-- ID CARD SECTION -->
-                    <div class="id-card-section">
-                        <h3 style="color: white; margin-bottom: 1rem;"><i class="fas fa-id-card"></i> student ID card</h3>
-                        <div class="id-card" id="studentIdCard">
+                    <!-- ID Card -->
+                    <div class="card">
+                        <h3 class="card-title">
+                            <i class="fas fa-id-card"></i>
+                            Student ID Card
+                        </h3>
+                        <div class="id-card" id="idCard">
                             <div class="id-photo">
-                                <i class="fas fa-user-graduate" id="idPhotoIcon"></i>
+                                <i class="fas fa-user-graduate"></i>
                             </div>
                             <div class="id-details">
-                                <h3>WEBFORGE INSTITUTE</h3>
-                                <p><i class="fas fa-user"></i> <strong>Name:</strong> <span id="idName">-</span></p>
-                                <p><i class="fas fa-venus-mars"></i> <strong>Gender:</strong> <span id="idGender">Not set</span></p>
-                                <p><i class="fas fa-id-card"></i> <strong>ID:</strong> <span id="idNumber">-</span></p>
-                                <p><i class="fas fa-book"></i> <strong>Department:</strong> <span id="idDept">-</span></p>
-                                <p><i class="fas fa-calendar"></i> <strong>Valid Until:</strong> Dec 2026</p>
-                                <div style="margin-top: 0.5rem; padding: 0.3rem; background: #ffb85c; color: #1e3a5f; border-radius: 20px; text-align: center; font-weight: bold;">
-                                    <i class="fas fa-check-circle"></i> ACTIVE STUDENT
-                                </div>
+                                <h4 id="idName">-</h4>
+                                <p><i class="fas fa-id-card"></i> <span id="idNumber">-</span></p>
+                                <p><i class="fas fa-calendar"></i> Valid Until: Dec 2025</p>
+                                <p><i class="fas fa-map-pin"></i> Ogbomoso, Nigeria</p>
                             </div>
                         </div>
-                        <div class="id-actions">
-                            <button class="btn-small" id="downloadIdCardBtn"><i class="fas fa-download"></i> download ID card</button>
-                        </div>
-                    </div>
-
-                    <!-- DEPARTMENT SELECTION -->
-                    <div class="department-section">
-                        <h3><i class="fas fa-building"></i> select your department</h3>
-                        <div class="department-grid" id="departmentGrid"></div>
-                        <button class="btn" id="saveDeptBtn"><i class="fas fa-save"></i> save department</button>
-                        <p id="deptMessage" style="margin-top:0.8rem;"></p>
-                    </div>
-
-                    <!-- COURSE REGISTRATION SECTION -->
-                    <div class="course-registration-section">
-                        <h3><i class="fas fa-book-open"></i> course registration</h3>
-                        
-                        <div class="course-list" id="availableCourses"></div>
-                        
-                        <button class="btn" id="requestRegistrationBtn"><i class="fas fa-paper-plane"></i> request registration</button>
-                        <p id="registrationRequestMessage" style="margin-top:0.8rem;"></p>
-                    </div>
-
-                    <!-- ADMISSION LETTER - A4 CENTERED -->
-                    <div class="letter-container">
-                        <div class="letter-preview" id="admissionLetterDiv">
-                            <h3>🎓 WEBFORGE ADMISSION LETTER</h3>
-                            <p><strong>WEBFORGE INSTITUTE OF TECHNOLOGY</strong></p>
-                            <p>Dear <span id="studentNameLetter">Student</span>,</p>
-                            <p>We are pleased to inform you that you have been officially admitted to <strong>WebForge Institute</strong> for the <strong>WEBFORGE TEAM WEB DEVELOPMENT TRAINING 2026</strong> program.</p>
-                            <p><strong>Gender:</strong> <span id="letterGender">Not specified</span></p>
-                            <p><strong>Department:</strong> <span id="letterDept">-</span></p>
-                            <p><strong>Student ID:</strong> <span id="letterId">-</span></p>
-                            <p><strong>Institution:</strong> <span id="letterInstitution">-</span></p>
-                            <p><strong>Phone:</strong> <span id="letterPhone">-</span></p>
-                            <p><strong>Interested Course:</strong> <span id="letterCourse">-</span></p>
-                            <p><strong>Registered Courses:</strong> <span id="letterCourses">None</span></p>
-                            <p>Your admission is confirmed. Please complete your registration.</p>
-                            <div class="letter-signature">
-                                <p>Evans Ayanlude<br>Team Lead<br>WebForge Team</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Download button container -->
-                    <div class="flex-row" style="justify-content: center;" id="downloadButtonContainer"></div>
-
-                    <div id="registrationToast" class="toast-message hidden">
-                        <i class="fas fa-envelope"></i> <span id="regMsg"></span>
+                        <button class="btn btn-block mt-4" id="downloadIdBtn">
+                            <i class="fas fa-download"></i>
+                            Download ID Card
+                        </button>
                     </div>
                 </div>
 
-                <!-- RIGHT: Dynamic panel -->
-                <div id="dynamicPanel"></div>
+                <!-- Right Column -->
+                <div class="right-column">
+                    <!-- Admission Letter Card -->
+                    <div class="card">
+                        <h3 class="card-title">
+                            <i class="fas fa-scroll"></i>
+                            Admission Letter
+                        </h3>
+                        
+                        <div class="letter-preview" id="admissionLetter">
+                            <h3>WEBFORGE INSTITUTE</h3>
+                            <p><strong>Ogbomoso, Nigeria · Est. 2025</strong></p>
+                            <p>Dear <span id="letterName">Student</span>,</p>
+                            <p>We are pleased to inform you that you have been officially admitted to <strong>WebForge Institute</strong> for the <strong>WEBFORGE TEAM WEB DEVELOPMENT TRAINING 2025</strong> program.</p>
+                            <p><strong>Student ID:</strong> <span id="letterId">-</span></p>
+                            <p><strong>Department:</strong> <span id="letterDept">-</span></p>
+                            <p><strong>Institution:</strong> <span id="letterInstitution">-</span></p>
+                            <div class="letter-signature">
+                                <p>Evans Ayanlude<br>Team Lead</p>
+                            </div>
+                        </div>
+
+                        <div class="btn-group">
+                            <button class="btn btn-success" id="downloadLetterBtn">
+                                <i class="fas fa-download"></i>
+                                Download PDF
+                            </button>
+                            <button class="btn btn-warning" id="printLetterBtn">
+                                <i class="fas fa-print"></i>
+                                Print
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Actions Card (for Staff/Admin) -->
+                    <div class="card" id="actionsCard">
+                        <h3 class="card-title">
+                            <i class="fas fa-tasks"></i>
+                            Quick Actions
+                        </h3>
+                        <div id="actionsContent">
+                            <!-- Dynamic content based on role -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        (function() {
-            // ========== STUDENT DATA FROM PDF ==========
-            let students = [
-                { name: 'Sharon Samson', email: 'samshazon@gmail.com', phone: '09169315036', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF001', password: '1234', gender: '', courseRequests: [] },
-                { name: 'Fikayomi Christopher Ojo', email: 'metacourier1@gmail.com', phone: '08077549692', institution: 'Lautech', department: 'Cybersecurity science', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF002', password: '1234', gender: '', courseRequests: [] },
-                { name: 'Ogundare Bowofoluwa', email: 'ogundarebowofoluwa2007@gmail.com', phone: '09063737072', institution: 'Lautech', department: 'Cyber security', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF003', password: '1234', gender: '', courseRequests: [] },
-                { name: 'Yusuff Muizah', email: 'yussuffmuizah@gmail.com', phone: '09129386133', institution: 'Ladoke Akintola University Of Technology', department: 'Cyber Security Science', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF004', password: '1234', gender: 'female', courseRequests: [] },
-                { name: 'Akeem Bashit', email: 'hakeembasit272@gmail.com', phone: '09075903833', institution: 'Lautech', department: 'CSS', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF005', password: '1234', gender: '', courseRequests: [] },
-                { name: 'Ajani Shukuroh', email: 'ajanishukuroholamide@gmail.com', phone: '09068566420', institution: 'LAUTECH', department: 'Cybersecurity science', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF006', password: '1234', gender: 'female', courseRequests: [] },
-                { name: 'Ayomide Jayeona', email: 'jayeonaayomide@gmail.com', phone: '09036518761', institution: 'Atiba', department: 'Computer science', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF007', password: '1234', gender: '', courseRequests: [] },
-                { name: 'Adesina Peace', email: 'graceadunola633@gmail.com', phone: '08135510780', institution: 'Lautech', department: 'Cyber security', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF008', password: '1234', gender: 'female', courseRequests: [] },
-                { name: 'Jeremiah Oluwanifemi', email: 'jacinthjerry@gmail.com', phone: '09162544363', institution: 'Lautech', department: 'CSS', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF009', password: '1234', gender: '', courseRequests: [] },
-                { name: 'Olagunju Adeyemi Samuel', email: 'adeyemiolagunju001@gmail.com', phone: '09151066962', institution: 'Ladoke Akintola University of Technology', department: 'Cybersecurity', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF010', password: '1234', gender: '', courseRequests: [] },
-                { name: 'Abdulaziz Aliyah Ayomide', email: 'abdulazizaliyah06@gmail.com', phone: '00867733494', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security science', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF011', password: '1234', gender: 'female', courseRequests: [] },
-                { name: 'Adekunle Abdulhameed Ademola', email: 'adekunleabdulhameed15@gmail.com', phone: '09160419462', institution: 'Lautech', department: 'Cybersecurity', interestedCourse: 'Frontend', hasExperience: 'Yes', id: 'WF012', password: '1234', gender: '', courseRequests: [] }
-            ];
+        // ===== STUDENT DATA (Updated from PDF) =====
+        const students = [
+            { name: 'Sharon Samson', email: 'samshazon@gmail.com', phone: '09169315036', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security', id: 'WF001', password: '1234' },
+            { name: 'Fikayomi Christopher Ojo', email: 'metacourier1@gmail.com', phone: '08077549692', institution: 'Lautech', department: 'Cybersecurity science', id: 'WF002', password: '1234' },
+            { name: 'Ogundare Bowofoluwa', email: 'ogundarebowofoluwa2007@gmail.com', phone: '09063737072', institution: 'Lautech', department: 'Cyber security', id: 'WF003', password: '1234' },
+            { name: 'Yusuff Muizah', email: 'yussuffmuizah@gmail.com', phone: '09129386133', institution: 'Ladoke Akintola University Of Technology', department: 'Cyber Security Science', id: 'WF004', password: '1234' },
+            { name: 'Akeem Bashit', email: 'hakeembasit272@gmail.com', phone: '09075903833', institution: 'Lautech', department: 'CSS', id: 'WF005', password: '1234' },
+            { name: 'Ajani Shukuroh', email: 'ajanishukuroholamide@gmail.com', phone: '09068566420', institution: 'LAUTECH', department: 'Cybersecurity science', id: 'WF006', password: '1234' },
+            { name: 'Ayomide Jayeona', email: 'jayeonaayomide@gmail.com', phone: '09036518761', institution: 'Atiba', department: 'Computer science', id: 'WF007', password: '1234' },
+            { name: 'Adesina Peace', email: 'graceadunola633@gmail.com', phone: '08135510780', institution: 'Lautech', department: 'Cyber security', id: 'WF008', password: '1234' },
+            { name: 'Jeremiah Oluwanifemi', email: 'jacinthjerry@gmail.com', phone: '09162544363', institution: 'Lautech', department: 'CSS', id: 'WF009', password: '1234' },
+            { name: 'Olagunju Adeyemi Samuel', email: 'adeyemiolagunju001@gmail.com', phone: '09151066962', institution: 'Ladoke Akintola University of Technology', department: 'Cybersecurity', id: 'WF010', password: '1234' },
+            { name: 'Abdulaziz Aliyah Ayomide', email: 'abdulazizaliyah06@gmail.com', phone: '08067733494', institution: 'Ladoke Akintola University of Technology', department: 'Cyber security science', id: 'WF011', password: '1234' },
+            { name: 'Adekunle Abdulhameed Ademola', email: 'adekunleabdulhameed15@gmail.com', phone: '09160419462', institution: 'Lautech', department: 'Cybersecurity', id: 'WF012', password: '1234' },
+            { name: 'Olatunji Testimony Israel', email: 'testimonyisrael353@gmail.com', phone: '09015037316', institution: 'Ladoke akintola university', department: 'Cyber security science', id: 'WF013', password: '1234' },
+            { name: 'Adebayo Ismail', email: 'adebayoismail012@gmail.com', phone: '09017124307', institution: 'Ladoke Akintola University of Technology', department: 'Cyber Security', id: 'WF014', password: '1234' },
+            { name: 'Peter Adelola Joseph', email: 'adelolapeter331@gmail.com', phone: '08130877248', institution: 'Lautech', department: 'Animal production and health', id: 'WF015', password: '1234' }
+        ];
 
-            // Staff accounts
-            let staffAccounts = [
-                { email: 'Ayanlude Evans Abayomi', password: 'staffpass', name: 'Ayanlude Evans Abayomi' },
-                { email: 'Ajayi Victory Ayomide', password: 'staffpass', name: 'Ajayi Victory Ayomide' },
-                { email: 'Ishola Samuel Odunayo', password: 'staffpass', name: 'Ishola Samuel Odunayo' },
-                { email: 'Alao Richard Olaoluwa', password: 'staffpass', name: 'Alao Richard Olaoluwa' },
-                { email: 'Ajani Shukuroh Olamide', password: 'staffpass', name: 'Ajani Shukuroh Olamide' },
-                { email: 'Lawalson Ayomide Esther', password: 'staffpass', name: 'Lawalson Ayomide Esther' },
-                { email: 'Olabiyi Christopher Iyanuoluwa', password: 'staffpass', name: 'Olabiyi Christopher Iyanuoluwa' }
-            ];
+        // Staff accounts
+        const staffAccounts = [
+            { email: 'Ayanlude Evans Abayomi', password: 'staffpass', name: 'Ayanlude Evans Abayomi' },
+            { email: 'Ajayi Victory Ayomide', password: 'staffpass', name: 'Ajayi Victory Ayomide' },
+            { email: 'Ishola Samuel Odunayo', password: 'staffpass', name: 'Ishola Samuel Odunayo' },
+            { email: 'Alao Richard Olaoluwa', password: 'staffpass', name: 'Alao Richard Olaoluwa' },
+            { email: 'Ajani Shukuroh Olamide', password: 'staffpass', name: 'Ajani Shukuroh Olamide' },
+            { email: 'Lawalson Ayomide Esther', password: 'staffpass', name: 'Lawalson Ayomide Esther' },
+            { email: 'Olabiyi Christopher Iyanuoluwa', password: 'staffpass', name: 'Olabiyi Christopher Iyanuoluwa' }
+        ];
 
-            let adminAccounts = [
-                { username: 'admin', password: 'Evans2006', name: 'Administrator' }
-            ];
-            
-            let activityLog = [];
-            
-            const courseCatalog = [
-                'Frontend Development (HTML, CSS, JavaScript)',
-                'Backend Development (Node.js)',
-                'Full Stack Development',
-                'Database Design',
-                'Web Development Fundamentals',
-                'Cybersecurity Basics',
-                'Cloud Computing',
-                'UI/UX Design'
-            ];
-            
-            const departments = [
-                'Computer Science', 'Cyber Security', 'Cyber Security Science', 'CSS', 
-                'Cybersecurity science', 'Computer science', 'Cybersecurity',
-                'Information Technology', 'Software Engineering', 'Data Science'
-            ];
-            
-            let currentUser = null;
-            let currentRole = null;
-            let loggedInEmail = null;
-            let selectedDepartment = '';
-            let selectedGender = '';
-            let selectedStudentForAdmin = null;
+        // Admin accounts
+        const adminAccounts = [
+            { username: 'admin', password: 'Evans2006', name: 'Administrator' }
+        ];
 
-            // DOM elements
-            const loginSection = document.getElementById('loginSection');
-            const dashboardSection = document.getElementById('dashboardSection');
-            const selectStudent = document.getElementById('selectStudent');
-            const selectStaff = document.getElementById('selectStaff');
-            const selectAdmin = document.getElementById('selectAdmin');
-            const loginUsername = document.getElementById('loginUsername');
-            const loginPassword = document.getElementById('loginPassword');
-            const unifiedLoginBtn = document.getElementById('unifiedLoginBtn');
-            const loginError = document.getElementById('loginError');
-            const roleBadge = document.getElementById('roleBadge');
-            const displayName = document.getElementById('displayName');
-            const logoutBtn = document.getElementById('logoutBtn');
-            const dynamicPanel = document.getElementById('dynamicPanel');
-            const downloadButtonContainer = document.getElementById('downloadButtonContainer');
-            
-            // Gender elements
-            const selectMale = document.getElementById('selectMale');
-            const selectFemale = document.getElementById('selectFemale');
-            const saveGenderBtn = document.getElementById('saveGenderBtn');
-            const genderMessage = document.getElementById('genderMessage');
-            const detailGender = document.getElementById('detailGender');
-            const idGender = document.getElementById('idGender');
-            const letterGender = document.getElementById('letterGender');
-            const idPhotoIcon = document.getElementById('idPhotoIcon');
-            
-            // Student details
-            const detailName = document.getElementById('detailName');
-            const detailId = document.getElementById('detailId');
-            const detailEmail = document.getElementById('detailEmail');
-            const detailDept = document.getElementById('detailDept');
-            const detailPhone = document.getElementById('detailPhone');
-            const detailInstitution = document.getElementById('detailInstitution');
-            
-            const studentNameLetter = document.getElementById('studentNameLetter');
-            const letterDept = document.getElementById('letterDept');
-            const letterId = document.getElementById('letterId');
-            const letterCourses = document.getElementById('letterCourses');
-            const letterInstitution = document.getElementById('letterInstitution');
-            const letterPhone = document.getElementById('letterPhone');
-            const letterCourse = document.getElementById('letterCourse');
-            
-            // ID Card
-            const idName = document.getElementById('idName');
-            const idNumber = document.getElementById('idNumber');
-            const idDept = document.getElementById('idDept');
-            const downloadIdCardBtn = document.getElementById('downloadIdCardBtn');
-            
-            const saveDeptBtn = document.getElementById('saveDeptBtn');
-            const deptMessage = document.getElementById('deptMessage');
-            const departmentGrid = document.getElementById('departmentGrid');
-            const availableCourses = document.getElementById('availableCourses');
-            const requestRegistrationBtn = document.getElementById('requestRegistrationBtn');
-            const registrationRequestMessage = document.getElementById('registrationRequestMessage');
-            const regMsg = document.getElementById('regMsg');
-            const registrationToast = document.getElementById('registrationToast');
+        // ===== DOM Elements =====
+        const loginContainer = document.getElementById('loginContainer');
+        const dashboardContainer = document.getElementById('dashboardContainer');
+        const roleTabs = document.querySelectorAll('.role-tab');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const username = document.getElementById('username');
+        const password = document.getElementById('password');
+        const loginError = document.getElementById('loginError');
+        const loginLabel = document.getElementById('loginLabel');
+        const roleDisplay = document.getElementById('roleDisplay');
+        const userNameDisplay = document.getElementById('userNameDisplay');
+        
+        // Student info elements
+        const displayName = document.getElementById('displayName');
+        const displayId = document.getElementById('displayId');
+        const displayEmail = document.getElementById('displayEmail');
+        const displayPhone = document.getElementById('displayPhone');
+        const displayInstitution = document.getElementById('displayInstitution');
+        const displayDepartment = document.getElementById('displayDepartment');
+        
+        // ID card elements
+        const idName = document.getElementById('idName');
+        const idNumber = document.getElementById('idNumber');
+        
+        // Letter elements
+        const letterName = document.getElementById('letterName');
+        const letterId = document.getElementById('letterId');
+        const letterDept = document.getElementById('letterDept');
+        const letterInstitution = document.getElementById('letterInstitution');
+        
+        // Action buttons
+        const downloadIdBtn = document.getElementById('downloadIdBtn');
+        const downloadLetterBtn = document.getElementById('downloadLetterBtn');
+        const printLetterBtn = document.getElementById('printLetterBtn');
+        const forgotPassword = document.getElementById('forgotPassword');
 
-            const toggleLoginPass = document.getElementById('toggleLoginPass');
-            const toggleReset = document.getElementById('toggleResetPass');
-            
-            // Reset modal
-            const resetModal = document.getElementById('resetModal');
-            const closeResetModal = document.getElementById('closeResetModal');
-            const resetPasswordLink = document.getElementById('resetPasswordLink');
-            const resetEmail = document.getElementById('resetEmail');
-            const newResetPassword = document.getElementById('newResetPassword');
-            const confirmResetPassword = document.getElementById('confirmResetPassword');
-            const resetPasswordBtn = document.getElementById('resetPasswordBtn');
-            const resetMessage = document.getElementById('resetMessage');
+        // ===== State =====
+        let currentRole = 'student';
+        let currentUser = null;
 
-            function addActivity(studentName, action, type = 'info') {
-                activityLog.unshift({ time: new Date().toLocaleString(), timestamp: Date.now(), student: studentName, action, type });
-                if (activityLog.length > 50) activityLog.pop();
-                refreshActivityDisplays();
-            }
-
-            function refreshActivityDisplays() {
-                document.querySelectorAll('.activity-log').forEach(display => {
-                    if (display) display.innerHTML = activityLog.map(log => 
-                        `<div class="activity-item"><div class="activity-time">${log.time}</div><div class="activity-text"><span class="activity-student">${log.student}</span> ${log.action}</div></div>`
-                    ).join('');
-                });
-            }
-
-            function refreshAdminPanel() {
-                if (currentRole !== 'admin') return;
-                const pendingDiv = document.getElementById('pendingApprovals');
-                if (pendingDiv) {
-                    const pendingStudents = students.filter(s => s.courseRequests?.some(r => r.status === 'pending'));
-                    pendingDiv.innerHTML = pendingStudents.length ? pendingStudents.map(s => 
-                        `<div style="padding:0.5rem; border-bottom:1px solid #ccc;"><strong>${s.name}</strong> (${s.email}) requests: ${s.courseRequests.filter(r => r.status === 'pending').map(r => r.courseName).join(', ')} <button class="btn-small" onclick="approveCourses('${s.email}')">Approve</button></div>`
-                    ).join('') : '<p>No pending registrations</p>';
-                }
-                const studentListDiv = document.getElementById('adminStudentList');
-                if (studentListDiv) {
-                    studentListDiv.innerHTML = students.map(s => 
-                        `<div class="student-list-item ${selectedStudentForAdmin === s.email ? 'selected' : ''}" onclick="selectStudentForAdmin('${s.email}')"><div><strong>${s.name}</strong><br><small>${s.email}</small></div><div><i class="fas fa-chevron-right"></i></div></div>`
-                    ).join('');
-                }
-            }
-
-            window.selectStudentForAdmin = function(email) {
-                selectedStudentForAdmin = email;
-                const student = students.find(s => s.email === email);
-                if (student) { updateStudentUI(student); refreshAdminPanel(); showToast(`Viewing ${student.name}'s record`); }
-            };
-
-            window.approveCourses = function(studentEmail) {
-                const student = students.find(s => s.email === studentEmail);
-                if (student?.courseRequests) {
-                    student.courseRequests.filter(r => r.status === 'pending').forEach(r => { r.status = 'approved'; addActivity(student.name, `course approved: ${r.courseName}`, 'approval'); });
-                    alert(`Courses approved for ${student.name}`); refreshAdminPanel();
-                    if (selectedStudentForAdmin === studentEmail) updateStudentUI(student);
-                }
-            };
-
-            function showToast(msg, isWarning = false) {
-                regMsg.innerText = msg;
-                registrationToast.classList.remove('hidden', 'warning');
-                if (isWarning) registrationToast.classList.add('warning');
-                setTimeout(() => registrationToast.classList.add('hidden'), 3000);
-            }
-
-            // Role selection
-            let selectedRole = 'student';
-            selectStudent.classList.add('selected');
-            selectStudent.addEventListener('click', () => { selectStudent.classList.add('selected'); selectStaff.classList.remove('selected'); selectAdmin.classList.remove('selected'); selectedRole = 'student'; document.getElementById('loginLabel').innerText = 'Email'; loginUsername.placeholder = 'student@example.com'; });
-            selectStaff.addEventListener('click', () => { selectStaff.classList.add('selected'); selectStudent.classList.remove('selected'); selectAdmin.classList.remove('selected'); selectedRole = 'staff'; document.getElementById('loginLabel').innerText = 'Staff Name'; loginUsername.placeholder = 'Enter your full name'; });
-            selectAdmin.addEventListener('click', () => { selectAdmin.classList.add('selected'); selectStudent.classList.remove('selected'); selectStaff.classList.remove('selected'); selectedRole = 'admin'; document.getElementById('loginLabel').innerText = 'Admin Username'; loginUsername.placeholder = 'username'; });
-
-            toggleLoginPass.addEventListener('click', function() { loginPassword.type = loginPassword.type === 'password' ? 'text' : 'password'; this.classList.toggle('fa-eye-slash'); });
-            selectMale.addEventListener('click', () => { selectMale.classList.add('selected'); selectFemale.classList.remove('selected'); selectedGender = 'male'; });
-            selectFemale.addEventListener('click', () => { selectFemale.classList.add('selected'); selectMale.classList.remove('selected'); selectedGender = 'female'; });
-
-            function renderDepartmentGrid(selected = '') {
-                if (!departmentGrid) return;
-                departmentGrid.innerHTML = '';
-                [...new Set(departments)].forEach(dept => {
-                    const div = document.createElement('div');
-                    div.className = `dept-card ${dept === selected ? 'selected' : ''}`;
-                    div.textContent = dept;
-                    div.addEventListener('click', () => {
-                        document.querySelectorAll('.dept-card').forEach(c => c.classList.remove('selected'));
-                        div.classList.add('selected');
-                        selectedDepartment = dept;
-                    });
-                    departmentGrid.appendChild(div);
-                });
-            }
-
-            function renderAvailableCourses() {
-                if (!availableCourses) return;
-                availableCourses.innerHTML = '';
-                courseCatalog.forEach(course => {
-                    const div = document.createElement('div');
-                    div.className = 'course-item';
-                    div.innerHTML = `<div><input type="checkbox" class="course-checkbox" value="${course}"> <strong>${course}</strong></div>`;
-                    availableCourses.appendChild(div);
-                });
-            }
-
-            function updateStudentUI(student) {
-                detailName.innerText = student.name;
-                detailId.innerText = student.id;
-                detailEmail.innerText = student.email;
-                detailGender.innerText = student.gender === 'male' ? 'Male' : student.gender === 'female' ? 'Female' : 'Not set';
-                detailDept.innerText = student.department || 'Not selected';
-                detailPhone.innerText = student.phone || 'Not provided';
-                detailInstitution.innerText = student.institution || 'Not provided';
+        // ===== Role Tab Switching =====
+        roleTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                roleTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentRole = tab.dataset.role;
                 
-                idName.innerText = student.name;
-                idNumber.innerText = student.id;
-                idGender.innerText = student.gender === 'male' ? 'Male' : student.gender === 'female' ? 'Female' : 'Not set';
-                idDept.innerText = student.department || 'Not selected';
-                
-                studentNameLetter.innerText = student.name;
-                letterGender.innerText = student.gender === 'male' ? 'Male' : student.gender === 'female' ? 'Female' : 'Not specified';
-                letterDept.innerText = student.department || 'Not selected';
-                letterId.innerText = student.id;
-                letterInstitution.innerText = student.institution || 'Not provided';
-                letterPhone.innerText = student.phone || 'Not provided';
-                letterCourse.innerText = student.interestedCourse || 'Not specified';
-                
-                idPhotoIcon.className = 'fas fa-user-graduate';
-                
-                letterCourses.innerText = student.courseRequests?.filter(r => r.status === 'approved').map(r => r.courseName).join(', ') || 'None';
-                renderDepartmentGrid(student.department);
+                // Update login label
+                if (currentRole === 'student') {
+                    loginLabel.textContent = 'Email Address';
+                    username.placeholder = 'student@example.com';
+                } else if (currentRole === 'staff') {
+                    loginLabel.textContent = 'Staff Name';
+                    username.placeholder = 'Enter your full name';
+                } else {
+                    loginLabel.textContent = 'Admin Username';
+                    username.placeholder = 'username';
+                }
+            });
+        });
+
+        // ===== Login Function =====
+        loginBtn.addEventListener('click', () => {
+            const userInput = username.value.trim();
+            const pass = password.value.trim();
+            
+            loginError.textContent = '';
+            
+            if (!userInput || !pass) {
+                loginError.textContent = 'Please enter both username and password';
+                return;
             }
 
-            unifiedLoginBtn.addEventListener('click', () => {
-                const username = loginUsername.value.trim();
-                const password = loginPassword.value.trim();
-                loginError.innerText = '';
-                if (!username || !password) { loginError.innerText = 'Please enter credentials'; return; }
-
-                if (selectedRole === 'student') {
-                    const student = students.find(s => s.email === username && s.password === password);
-                    if (!student) { loginError.innerText = 'Invalid student credentials'; return; }
-                    currentUser = 'student'; currentRole = 'student'; loggedInEmail = username;
-                    roleBadge.innerText = 'Student'; displayName.innerText = student.name;
-                    updateStudentUI(student);
-                    document.getElementById('genderSection').style.display = 'block';
-                    downloadButtonContainer.innerHTML = '<div class="toast-message warning"><i class="fas fa-info-circle"></i> Only Admin can download admission letters (A4 format)</div>';
-                    dynamicPanel.innerHTML = '';
-                    addActivity(student.name, 'logged in', 'login');
-                } 
-                else if (selectedRole === 'staff') {
-                    const staff = staffAccounts.find(s => s.email === username && s.password === password);
-                    if (!staff) { loginError.innerText = 'Invalid staff credentials'; return; }
-                    currentUser = 'staff'; currentRole = 'staff'; loggedInEmail = username;
-                    roleBadge.innerText = 'Staff'; displayName.innerText = staff.name;
-                    if (students.length) updateStudentUI(students[0]);
-                    document.getElementById('genderSection').style.display = 'none';
-                    downloadButtonContainer.innerHTML = '';
-                    dynamicPanel.innerHTML = `
-                        <div class="staff-zone">
-                            <div class="section-title"><i class="fas fa-users"></i> Staff Portal</div>
-                            <div class="email-indicator"><i class="fas fa-envelope"></i> teamwebforge@gmail.com</div>
-                            <div style="background:#e9f0f9; border-radius:24px; padding:1.2rem; margin-bottom:1.5rem;">
-                                <h3><i class="fas fa-list"></i> Student Roster</h3>
-                                <div style="max-height:300px; overflow-y:auto;">${students.map(s => `<div style="padding:4px 0;"><i class="fas fa-user"></i> ${s.name} - ${s.email} - ${s.interestedCourse}</div>`).join('')}</div>
-                            </div>
-                            <div class="activity-monitor"><h3><i class="fas fa-history"></i> Recent Activity</h3><div class="activity-log" id="activityLogDisplay">${activityLog.slice(0,10).map(log => `<div class="activity-item"><div class="activity-time">${log.time}</div><div class="activity-text"><span class="activity-student">${log.student}</span> ${log.action}</div></div>`).join('')}</div></div>
-                            <div><h3><i class="fas fa-bullhorn"></i> Send Announcement</h3><div class="flex-row"><input type="text" id="shareUpdateText" class="input-field" placeholder="news..."><button class="btn btn-warning" id="shareUpdateBtn"><i class="fas fa-share"></i> send</button></div><p id="shareFeedback"></p></div>
-                            <div style="margin-top:1rem; padding:1rem; background:#fff3cd; border-radius:16px;"><i class="fas fa-info-circle"></i> Staff can view but cannot print admission letters.</div>
-                        </div>`;
-                    document.getElementById('shareUpdateBtn')?.addEventListener('click', function() {
-                        const update = document.getElementById('shareUpdateText').value.trim();
-                        if (!update) return;
-                        document.getElementById('shareFeedback').innerText = `📢 Update sent: "${update}"`;
-                        document.getElementById('shareUpdateText').value = '';
-                        addActivity('Staff', `sent announcement: "${update}"`, 'staff');
-                    });
-                } 
-                else if (selectedRole === 'admin') {
-                    const admin = adminAccounts.find(a => a.username === username && a.password === password);
-                    if (!admin) { loginError.innerText = 'Invalid admin credentials'; return; }
-                    currentUser = 'admin'; currentRole = 'admin'; loggedInEmail = username;
-                    roleBadge.innerText = 'Admin'; displayName.innerText = admin.name;
-                    if (students.length) { selectedStudentForAdmin = students[0].email; updateStudentUI(students[0]); }
-                    document.getElementById('genderSection').style.display = 'none';
-                    downloadButtonContainer.innerHTML = `<button class="btn btn-warning" id="downloadPDFBtn"><i class="fas fa-file-pdf"></i> download admission letter (A4 PDF)</button>`;
-                    document.getElementById('downloadPDFBtn')?.addEventListener('click', downloadPDF);
-                    
-                    dynamicPanel.innerHTML = `
-                        <div class="admin-zone">
-                            <div class="section-title"><i class="fas fa-crown"></i> Admin Control Panel</div>
-                            <div class="activity-monitor"><h3><i class="fas fa-history"></i> Student List</h3><div class="student-list" id="adminStudentList">${students.map(s => `<div class="student-list-item ${selectedStudentForAdmin === s.email ? 'selected' : ''}" onclick="selectStudentForAdmin('${s.email}')"><div><strong>${s.name}</strong><br><small>${s.email}</small></div><div><i class="fas fa-chevron-right"></i></div></div>`).join('')}</div></div>
-                            <div class="approval-section"><h3><i class="fas fa-check-circle"></i> Pending Registrations</h3><div id="pendingApprovals">${students.filter(s => s.courseRequests?.some(r => r.status === 'pending')).length ? students.filter(s => s.courseRequests?.some(r => r.status === 'pending')).map(s => `<div style="padding:0.5rem; border-bottom:1px solid #ccc;"><strong>${s.name}</strong> (${s.email}) requests: ${s.courseRequests.filter(r => r.status === 'pending').map(r => r.courseName).join(', ')} <button class="btn-small" onclick="approveCourses('${s.email}')">Approve</button></div>`).join('') : '<p>No pending registrations</p>'}</div></div>
-                            <div class="create-student"><h3><i class="fas fa-user-plus"></i> Create Student</h3><div style="margin-bottom:0.8rem;"><input type="text" id="newFullName" class="input-field" placeholder="full name"></div><div style="margin-bottom:0.8rem;"><input type="email" id="newEmail" class="input-field" placeholder="email"></div><div style="margin-bottom:0.8rem;"><input type="text" id="newPhone" class="input-field" placeholder="phone"></div><div style="margin-bottom:0.8rem;"><input type="text" id="newInstitution" class="input-field" placeholder="institution"></div><div style="margin-bottom:0.8rem;"><input type="text" id="newStudentId" class="input-field" placeholder="student ID"></div><div class="password-wrapper" style="margin-bottom:0.8rem;"><input type="password" id="newStudentPassword" class="input-field" placeholder="password" value="1234"><i class="far fa-eye toggle-password" id="toggleNewPass"></i></div><select id="newStudentGender" class="input-field" style="margin-bottom:0.8rem;"><option value="">Select Gender</option><option value="male">Male</option><option value="female">Female</option></select><select id="newStudentDept" class="input-field" style="margin-bottom:0.8rem;"><option value="">Select Department</option>${[...new Set(departments)].map(d => `<option value="${d}">${d}</option>`).join('')}</select><select id="newStudentCourse" class="input-field" style="margin-bottom:0.8rem;"><option value="Frontend">Frontend</option><option value="Backend">Backend</option><option value="Full Stack">Full Stack</option></select><button class="btn" id="createStudentBtn"><i class="fas fa-save"></i> create</button><p id="accountCreatedMsg" style="margin-top:8px;"></p></div>
-                            <div style="margin-top:1.5rem; background:#f0e6ff; padding:1rem; border-radius:20px;"><h3><i class="fas fa-database"></i> System Stats</h3><p>Total students: ${students.length}</p><p>Total staff: ${staffAccounts.length}</p><p>Total activities: ${activityLog.length}</p><p><i class="fas fa-print"></i> A4 format - Centered</p></div>
-                        </div>`;
-                    
-                    document.getElementById('toggleNewPass')?.addEventListener('click', function() { 
-                        const f = document.getElementById('newStudentPassword'); 
-                        f.type = f.type === 'password' ? 'text' : 'password'; 
-                        this.classList.toggle('fa-eye-slash'); 
-                    });
-                    
-                    document.getElementById('createStudentBtn')?.addEventListener('click', function() {
-                        const name = document.getElementById('newFullName')?.value.trim();
-                        const email = document.getElementById('newEmail')?.value.trim();
-                        const phone = document.getElementById('newPhone')?.value.trim();
-                        const institution = document.getElementById('newInstitution')?.value.trim();
-                        const id = document.getElementById('newStudentId')?.value.trim();
-                        const pass = document.getElementById('newStudentPassword')?.value.trim() || '1234';
-                        const gender = document.getElementById('newStudentGender')?.value;
-                        const dept = document.getElementById('newStudentDept')?.value;
-                        const course = document.getElementById('newStudentCourse')?.value;
-                        const msg = document.getElementById('accountCreatedMsg');
-                        if (!name || !email || !id) { msg.innerText = '❌ Name, Email and ID required'; msg.style.color = 'red'; return; }
-                        if (students.some(s => s.email === email)) { msg.innerText = '❌ Email exists'; msg.style.color = 'red'; return; }
-                        students.push({ name, email, phone, institution, id, password: pass, gender, department: dept, interestedCourse: course, hasExperience: 'No', courseRequests: [] });
-                        addActivity('Admin', `created student: ${name}`, 'admin');
-                        msg.innerText = `✅ ${name} created with password: ${pass}`;
-                        msg.style.color = 'green';
-                        document.getElementById('newFullName').value = ''; document.getElementById('newEmail').value = ''; document.getElementById('newPhone').value = ''; document.getElementById('newInstitution').value = ''; document.getElementById('newStudentId').value = ''; document.getElementById('newStudentPassword').value = '1234'; document.getElementById('newStudentGender').value = ''; document.getElementById('newStudentDept').value = '';
-                        refreshAdminPanel();
-                    });
+            if (currentRole === 'student') {
+                const student = students.find(s => s.email === userInput && s.password === pass);
+                if (student) {
+                    currentUser = student;
+                    showDashboard('student', student);
+                } else {
+                    loginError.textContent = 'Invalid email or password';
                 }
-                loginSection.classList.add('hidden');
-                dashboardSection.classList.remove('hidden');
-            });
-
-            function downloadPDF() {
-                if (currentRole !== 'admin') { alert('Only Admin can download admission letters'); return; }
-                const { jsPDF } = window.jspdf;
-                html2canvas(document.getElementById('admissionLetterDiv'), { scale: 2 }).then(canvas => {
-                    const imgData = canvas.toDataURL('image/png');
-                    const pdf = new jsPDF({
-                        orientation: 'portrait',
-                        unit: 'px',
-                        format: 'a4'
-                    });
-                    const pageWidth = pdf.internal.pageSize.getWidth();
-                    const pageHeight = pdf.internal.pageSize.getHeight();
-                    const imgWidth = canvas.width;
-                    const imgHeight = canvas.height;
-                    const ratio = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
-                    const width = imgWidth * ratio;
-                    const height = imgHeight * ratio;
-                    const x = (pageWidth - width) / 2;
-                    const y = (pageHeight - height) / 2;
-                    
-                    pdf.addImage(imgData, 'PNG', x, y, width, height);
-                    pdf.save(`WebForge_Admission_${studentNameLetter.innerText}.pdf`);
-                    addActivity('Admin', `downloaded A4 admission letter for ${studentNameLetter.innerText}`, 'download');
-                });
+            } 
+            else if (currentRole === 'staff') {
+                const staff = staffAccounts.find(s => s.email === userInput && s.password === pass);
+                if (staff) {
+                    currentUser = staff;
+                    showDashboard('staff', staff);
+                } else {
+                    loginError.textContent = 'Invalid staff credentials';
+                }
+            } 
+            else {
+                const admin = adminAccounts.find(a => a.username === userInput && a.password === pass);
+                if (admin) {
+                    currentUser = admin;
+                    showDashboard('admin', admin);
+                } else {
+                    loginError.textContent = 'Invalid admin credentials';
+                }
             }
+        });
 
-            saveGenderBtn.addEventListener('click', () => {
-                if (!selectedGender) { genderMessage.innerText = 'Please select a gender'; return; }
-                if (currentUser === 'student' && loggedInEmail) {
-                    const student = students.find(s => s.email === loggedInEmail);
-                    if (student) {
-                        const old = student.gender;
-                        student.gender = selectedGender;
-                        detailGender.innerText = selectedGender === 'male' ? 'Male' : 'Female';
-                        idGender.innerText = selectedGender === 'male' ? 'Male' : 'Female';
-                        letterGender.innerText = selectedGender === 'male' ? 'Male' : 'Female';
-                        genderMessage.innerText = `✅ Gender updated to ${selectedGender}`;
-                        genderMessage.style.color = 'green';
-                        addActivity(student.name, `updated gender from ${old} to ${selectedGender}`, 'update');
-                    }
-                }
-            });
+        // ===== Show Dashboard =====
+        function showDashboard(role, user) {
+            // Update UI
+            roleDisplay.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+            userNameDisplay.textContent = user.name || user.email || user.username;
+            
+            // Update student info if applicable
+            if (role === 'student') {
+                updateStudentInfo(user);
+            } else {
+                // Show demo student for staff/admin
+                updateStudentInfo(students[0]);
+            }
+            
+            // Update actions based on role
+            updateActions(role);
+            
+            // Switch views
+            loginContainer.classList.add('hidden');
+            dashboardContainer.classList.remove('hidden');
+        }
 
-            saveDeptBtn.addEventListener('click', () => {
-                if (!selectedDepartment) { deptMessage.innerText = 'Please select a department'; return; }
-                if (currentUser === 'student' && loggedInEmail) {
-                    const student = students.find(s => s.email === loggedInEmail);
-                    if (student) {
-                        const old = student.department;
-                        student.department = selectedDepartment;
-                        detailDept.innerText = selectedDepartment;
-                        letterDept.innerText = selectedDepartment;
-                        idDept.innerText = selectedDepartment;
-                        deptMessage.innerText = `✅ Department updated to ${selectedDepartment}`;
-                        addActivity(student.name, `changed department from ${old} to ${selectedDepartment}`, 'update');
-                    }
-                } else if (currentRole === 'admin' && selectedStudentForAdmin) {
-                    const student = students.find(s => s.email === selectedStudentForAdmin);
-                    if (student) {
-                        student.department = selectedDepartment;
-                        detailDept.innerText = selectedDepartment;
-                        letterDept.innerText = selectedDepartment;
-                        idDept.innerText = selectedDepartment;
-                        deptMessage.innerText = `✅ Department updated for ${student.name}`;
-                        addActivity('Admin', `updated department for ${student.name} to ${selectedDepartment}`, 'admin');
-                    }
-                }
-            });
+        // ===== Update Student Info =====
+        function updateStudentInfo(student) {
+            // Student info
+            displayName.textContent = student.name;
+            displayId.textContent = student.id;
+            displayEmail.textContent = student.email;
+            displayPhone.textContent = student.phone;
+            displayInstitution.textContent = student.institution;
+            displayDepartment.textContent = student.department;
+            
+            // ID card
+            idName.textContent = student.name;
+            idNumber.textContent = student.id;
+            
+            // Admission letter
+            letterName.textContent = student.name.split(' ')[0];
+            letterId.textContent = student.id;
+            letterDept.textContent = student.department;
+            letterInstitution.textContent = student.institution;
+        }
 
-            requestRegistrationBtn.addEventListener('click', () => {
-                if (currentUser !== 'student' || !loggedInEmail) {
-                    if (currentRole === 'admin' && selectedStudentForAdmin) {
-                        const checkboxes = document.querySelectorAll('.course-checkbox:checked');
-                        if (!checkboxes.length) { registrationRequestMessage.innerText = 'Select at least one course'; return; }
-                        const student = students.find(s => s.email === selectedStudentForAdmin);
-                        if (!student) return;
-                        if (!student.courseRequests) student.courseRequests = [];
-                        const requested = [];
-                        checkboxes.forEach(cb => {
-                            const course = cb.value;
-                            if (!student.courseRequests.some(r => r.courseName === course)) {
-                                student.courseRequests.push({ courseName: course, status: 'pending', requestDate: new Date().toLocaleString() });
-                                requested.push(course);
-                            }
-                        });
-                        if (requested.length) {
-                            addActivity('Admin', `registered courses for ${student.name}: ${requested.join(', ')}`, 'admin');
-                            registrationRequestMessage.innerText = `✅ Courses registered for ${student.name}`;
-                        } else registrationRequestMessage.innerText = 'Courses already requested';
-                        registrationRequestMessage.style.color = 'green';
-                        checkboxes.forEach(cb => cb.checked = false);
-                        return;
-                    }
-                    registrationRequestMessage.innerText = 'Please login as student'; return;
-                }
-                const checkboxes = document.querySelectorAll('.course-checkbox:checked');
-                if (!checkboxes.length) { registrationRequestMessage.innerText = 'Select at least one course'; return; }
-                const student = students.find(s => s.email === loggedInEmail);
-                if (!student) return;
-                if (!student.courseRequests) student.courseRequests = [];
-                const requested = [];
-                checkboxes.forEach(cb => {
-                    const course = cb.value;
-                    if (!student.courseRequests.some(r => r.courseName === course)) {
-                        student.courseRequests.push({ courseName: course, status: 'pending', requestDate: new Date().toLocaleString() });
-                        requested.push(course);
-                    }
+        // ===== Update Actions Based on Role =====
+        function updateActions(role) {
+            const actionsContent = document.getElementById('actionsContent');
+            
+            if (role === 'student') {
+                actionsContent.innerHTML = `
+                    <p><i class="fas fa-check-circle" style="color: var(--success);"></i> You can view and download your documents.</p>
+                `;
+            } else if (role === 'staff') {
+                actionsContent.innerHTML = `
+                    <p><i class="fas fa-users"></i> Total Students: ${students.length}</p>
+                    <button class="btn btn-block mt-4" onclick="alert('Staff features coming soon')">
+                        <i class="fas fa-bullhorn"></i> Send Announcement
+                    </button>
+                `;
+            } else {
+                actionsContent.innerHTML = `
+                    <p><i class="fas fa-database"></i> System Stats</p>
+                    <p>Students: ${students.length}</p>
+                    <p>Staff: ${staffAccounts.length}</p>
+                `;
+            }
+        }
+
+        // ===== Download ID Card =====
+        downloadIdBtn.addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+            
+            html2canvas(document.getElementById('idCard'), {
+                scale: 2,
+                backgroundColor: '#ffffff'
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF({
+                    orientation: 'landscape',
+                    unit: 'px',
+                    format: [canvas.width * 0.75, canvas.height * 0.75]
                 });
-                if (requested.length) {
-                    addActivity(student.name, `requested ${requested.length} courses: ${requested.join(', ')}`, 'request');
-                    registrationRequestMessage.innerText = `✅ Request sent to admin for ${requested.length} courses`;
-                } else registrationRequestMessage.innerText = 'Courses already requested';
-                registrationRequestMessage.style.color = 'green';
-                checkboxes.forEach(cb => cb.checked = false);
+                
+                pdf.addImage(imgData, 'PNG', 0, 0, canvas.width * 0.75, canvas.height * 0.75);
+                pdf.save(`WebForge_ID_${idName.textContent}.pdf`);
             });
+        });
 
-            downloadIdCardBtn.addEventListener('click', function() {
-                const { jsPDF } = window.jspdf;
-                html2canvas(document.getElementById('studentIdCard'), { scale: 2 }).then(canvas => {
-                    const imgData = canvas.toDataURL('image/png');
-                    const pdf = new jsPDF({
-                        orientation: 'landscape',
-                        unit: 'px',
-                        format: [canvas.width * 0.75, canvas.height * 0.75]
-                    });
-                    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width * 0.75, canvas.height * 0.75);
-                    pdf.save(`WebForge_ID_${idName.innerText}.pdf`);
-                    if (currentUser === 'student' && loggedInEmail) {
-                        const student = students.find(s => s.email === loggedInEmail);
-                        if (student) addActivity(student.name, 'downloaded ID card PDF', 'download');
-                    } else if (currentRole === 'admin' && selectedStudentForAdmin) {
-                        const student = students.find(s => s.email === selectedStudentForAdmin);
-                        if (student) addActivity('Admin', `downloaded ID card for ${student.name}`, 'admin');
-                    }
+        // ===== Download Admission Letter =====
+        downloadLetterBtn.addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+            
+            html2canvas(document.getElementById('admissionLetter'), {
+                scale: 2,
+                backgroundColor: '#ffffff'
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'px',
+                    format: 'a4'
                 });
+                
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
+                const ratio = pageWidth / imgWidth;
+                const height = imgHeight * ratio;
+                
+                pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, height);
+                pdf.save(`WebForge_Admission_${letterName.textContent}.pdf`);
             });
+        });
 
-            resetPasswordLink.addEventListener('click', (e) => { e.preventDefault(); resetModal.classList.remove('hidden'); resetEmail.value = ''; newResetPassword.value = ''; confirmResetPassword.value = ''; resetMessage.innerText = ''; });
-            closeResetModal.addEventListener('click', () => resetModal.classList.add('hidden'));
-            toggleReset?.addEventListener('click', function() { newResetPassword.type = newResetPassword.type === 'password' ? 'text' : 'password'; this.classList.toggle('fa-eye-slash'); });
-            resetPasswordBtn.addEventListener('click', () => {
-                const email = resetEmail.value.trim(), newPass = newResetPassword.value.trim(), confirm = confirmResetPassword.value.trim();
-                if (!email || !newPass || !confirm) { resetMessage.innerText = 'All fields required'; resetMessage.style.color = 'red'; return; }
-                if (newPass !== confirm) { resetMessage.innerText = 'Passwords do not match'; resetMessage.style.color = 'red'; return; }
-                let found = false, userName = '';
-                const student = students.find(s => s.email === email);
-                if (student) { student.password = newPass; found = true; userName = student.name; }
-                else {
-                    const staff = staffAccounts.find(s => s.email === email);
-                    if (staff) { staff.password = newPass; found = true; userName = staff.name; }
-                    else {
-                        const admin = adminAccounts.find(a => a.username === email);
-                        if (admin) { admin.password = newPass; found = true; userName = admin.name; }
-                    }
-                }
-                if (found) {
-                    addActivity('System', `password reset for ${userName}`, 'security');
-                    resetMessage.innerText = '✅ Password reset successful!';
-                    resetMessage.style.color = 'green';
-                    setTimeout(() => resetModal.classList.add('hidden'), 1500);
-                } else { resetMessage.innerText = '❌ Account not found'; resetMessage.style.color = 'red'; }
-            });
+        // ===== Print Admission Letter =====
+        printLetterBtn.addEventListener('click', () => {
+            window.print();
+        });
 
-            logoutBtn.addEventListener('click', () => {
-                if (currentUser === 'student' && loggedInEmail) {
-                    const student = students.find(s => s.email === loggedInEmail);
-                    if (student) addActivity(student.name, 'logged out', 'logout');
-                }
-                dashboardSection.classList.add('hidden');
-                loginSection.classList.remove('hidden');
-                currentUser = null; currentRole = null; loggedInEmail = null; selectedStudentForAdmin = null;
-                loginUsername.value = ''; loginPassword.value = ''; loginPassword.type = 'password';
-            });
+        // ===== Logout =====
+        logoutBtn.addEventListener('click', () => {
+            dashboardContainer.classList.add('hidden');
+            loginContainer.classList.remove('hidden');
+            username.value = '';
+            password.value = '';
+        });
 
-            // Initialize
-            renderDepartmentGrid();
-            renderAvailableCourses();
-        })();
+        // ===== Forgot Password =====
+        forgotPassword.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Please contact the administrator at teamwebforge@gmail.com to reset your password.');
+        });
     </script>
 </body>
 </html>
